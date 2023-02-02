@@ -1,4 +1,4 @@
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { useRef } from "react";
 import {
   motion,
@@ -11,7 +11,11 @@ import {
 } from "framer-motion";
 import { wrap } from "@motionone/utils";
 import Image from "next/image";
-import { services } from "../../assets";
+import { movie01, movie02, movie03, movie04 } from "../../assets";
+
+
+
+
 
 
 
@@ -36,7 +40,7 @@ function ParallaxText({ children, baseVelocity = 100 }) {
 
   const directionFactor = useRef(1);
   useAnimationFrame((t, delta) => {
-    let moveBy = directionFactor.current * baseVelocity * (delta / 3000);
+    let moveBy = directionFactor.current * baseVelocity * (delta / 5000);
 
     /**
      * This is what changes the direction of the scroll once we
@@ -67,6 +71,20 @@ function ParallaxText({ children, baseVelocity = 100 }) {
         <span>{children} </span>
         <span>{children} </span>
         <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
+        <span>{children} </span>
       </motion.div>
     </div>
   );
@@ -74,14 +92,12 @@ function ParallaxText({ children, baseVelocity = 100 }) {
 
 export default function Framer() {
   return (
-    <section>
+    <section className="carousel">
       <ParallaxText baseVelocity={-5}>
-        <Image src={services} />
-        <Image src={services} />
+        <Image src={movie01} />
       </ParallaxText>
       <ParallaxText baseVelocity={5}>
-      <Image src={services} />
-        <Image src={services} />
+        <Image src={movie02} />
       </ParallaxText>
     </section>
   );

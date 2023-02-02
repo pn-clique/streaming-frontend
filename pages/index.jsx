@@ -3,9 +3,10 @@ import Framer from "../components/Carousel";
 import { motion } from 'framer-motion' 
 
 import Image from "next/image";
+import Link from "next/link";
 
 import styles from '../styles/index.module.scss';
-import Link from "next/link";
+import { Ours_service } from "../components/Ours_services";
 
 
 export default function HomePage() {
@@ -23,8 +24,8 @@ export default function HomePage() {
           </Link>
           <nav>
             <div className="buttons_auth">
-              <Link href={"#"}>Entrar</Link>
-              <Link href={"#"}>Registrar</Link>
+              <Link href={"./Login"}>Entrar</Link>
+              <Link href={"/Register"}>Registrar</Link>
             </div>
           </nav>
         </div>
@@ -80,10 +81,9 @@ export default function HomePage() {
       </section>
 
       {/*  CAROUSEL INFINITY */}
-      {/* <section className="carousel_infinity">
-        <h1>CAROUSEL INFINITY</h1>
-      </section> */}
-      <Framer />
+      <section className={styles.carousel_infinity}>
+        <Framer />
+      </section>
 
       {/*  FOOTER */}
       <footer className={styles.footer}>

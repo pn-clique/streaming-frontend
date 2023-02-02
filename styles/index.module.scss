@@ -120,7 +120,7 @@
         }
 
         span {
-          color: #998879;
+          color: var(--gray-700);
         }
 
         .form_group {
@@ -185,12 +185,33 @@
         }
     }
 
-    &> img {
+    &> div img {
       display: block;
-      max-width: 400px;
-      width: 100%;
+      // max-width: 400px;
+      // width: 100%;
+      transform: translateY(0px);
+      animation: float 5s ease-in-out infinite;
     }
   }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+
+// CAROUSEL INFINITY
+.carousel_infinity {
+  padding: 40px 0;
+
 }
 
 // FOOTER
@@ -213,7 +234,7 @@
   }
 
   &> span {
-    color: #2c2c22;
+    color: var(--secondary-color);
   }
 
   &> div {
@@ -224,12 +245,12 @@
     gap: 1rem;
 
     a {
-      color: #2c2c22;
+      color: var(--secondary-color);
       font-weight: 600;
     }
 
     span {
-      background-color: #2c2c22;
+      background-color: var(--secondary-color);
       width: 4px;
       height: 4px;
       border-radius: 50%;

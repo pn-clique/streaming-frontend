@@ -65,7 +65,7 @@ export const options2 = {
         1: { color: "transparent" },
     },
 };
-const Dashboard = ({ switchTheme, theme }) => {
+const dashboard = ({ switchTheme, theme }) => {
     const navigate = useRouter();
     const [modallIsOpen, setModalIsOpen] = useState(false);
     const [accountServicesLength, setAccountServicesLength] = useState('');

@@ -1,0 +1,270 @@
+
+
+.header_nav {
+  background-color: var(--primary-color);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 2rem;
+
+  &> div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px auto;
+
+    width: 100%;
+    max-width: 975px;
+
+  &> nav {
+    button {
+      padding: 0.8rem 1.5rem;
+        border-radius: 0.25rem;
+        background-color: var(--bg-color);
+        color: var(--secondary-color);
+        font-weight: 700;
+        border: 0;
+    }
+  }
+
+  .logo {
+    display: block;
+    max-width: 80px;
+    width: 100%;
+    height: auto;
+  }
+  }
+}
+
+
+// STATISTICS
+.statistics {
+  padding: 4rem 2rem;
+
+  &> div {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 10px auto;
+
+    width: 100%;
+    max-width: 945px;
+
+    div {
+      display: block;
+      background-color: var(--bg-color);
+      padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.25rem;
+      border-radius: 0.25rem;
+
+      h4 {
+        color: var(--secondary-color);
+      }
+
+      span {
+        font-weight: 700;
+        font-size: 24px;
+        color: var(--primary-color);
+      }
+    }
+  }
+}
+
+// SERVICES
+.services {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 2rem;
+
+  &> div {
+    width: 100%;
+    max-width: 975px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+
+      &>div {
+
+        h2 {
+          color: var(--secondary-color);
+          font-weight: 600;
+          line-height: 40px;
+        }
+    
+        &>div {
+          background-color: var(--primary-color);
+          height: 2px;
+          border-radius: 0.25rem;
+          max-width: 250px;
+          width: 100%;
+        }
+      }
+
+      button {
+          padding: 0.8rem 1.5rem;
+          border-radius: 0.25rem;
+          background-color: var(--primary-color);
+          color: var(--secondary-color);
+          font-weight: 700;
+          border: 0;
+      }
+  
+    }
+
+    &>div {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .card {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--bg-color);
+        padding: 1rem;
+        border-radius: 0.25rem;
+        gap: 1rem;
+
+        &>div {
+
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          img {
+            display: block;
+            max-width: 50px;
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+          }
+
+          span {
+            color: var(--secondary-color);
+            font-weight: 600;
+          }
+        }
+
+        .button_group {
+          display: flex;
+          gap: 10px;
+
+          button {
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.25rem;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            font-weight: 700;
+            border: 0;
+          }
+        }
+
+      }
+    }
+
+    &> button {
+      padding: 0.8rem 1.5rem;
+          border-radius: 0.25rem;
+          background-color: var(--primary-color);
+          color: var(--secondary-color);
+          font-weight: 700;
+          border: 0;
+
+          max-width: 310px;
+          margin: 0 auto;
+    }
+  }
+}
+
+
+
+// MEDIA QUERIES TABLET (820px)
+
+@media screen and (max-width: 820px) {  
+  .statistics {
+
+    &>div {
+
+      max-width: 725px;
+      width: 100%;
+
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  
+}
+
+// MEDIA QUERIES MOBILE (393px and 420px)
+
+@media screen and (max-width: 420px) {
+  .services {
+
+    header {
+      width: 100%;
+      gap: 1rem;
+      justify-content: center !important;
+      align-items: center !important;
+      flex-direction: column;
+  
+      &>div {
+        width: 100%;
+      }
+  
+  
+  
+    }
+
+    &>div > button {
+      max-width: 100% !important;
+      width: 100%;
+    }
+
+    .button_group {
+      display: flex;
+      gap: 10px !important;
+
+      button {
+        padding: 0.8rem 0.5rem !important;
+        border-radius: 0.25rem;
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        font-weight: 700;
+        border: 0;
+      }
+    }
+  } 
+}
+
+@media screen and (max-width: 393px) { 
+  .statistics {
+    padding: 4rem 0.5rem;
+  }
+
+  .services {
+
+    &>div {
+      header {
+
+        button {
+          width: 100% !important;
+        }
+      }
+    }
+  }
+ }

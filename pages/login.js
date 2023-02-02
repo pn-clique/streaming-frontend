@@ -13,7 +13,7 @@ import { HiOutlineMail } from 'react-icons/hi'
 import { TbLock } from 'react-icons/tb'
 
 // imgs
-import logo from '../assets/logostreaming.png';
+import logo from '../assets/logo.png';
 import ManLogin from '../assets/man_login.png';
 import WomanLogin from '../assets/woman_login.png';
 

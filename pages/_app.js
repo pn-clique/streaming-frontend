@@ -12,6 +12,7 @@ import SEO from "../next-seo-config";
 // STYLES
 import '../styles/globalStyles.css';
 
+
 function MyApp({ Component, pageProps }) {
     return (
         <>
