@@ -5,7 +5,6 @@ import { logo, netflix } from '../../assets'
 import styles from './styles.module.scss'
 
 import { useState } from 'react'
-import { ModalNewService } from './ModalNewService'
 
 
 
@@ -71,7 +70,7 @@ export default function Dashboard() {
               <div></div>
             </div>
             <button onClick={openModal}>Adicionar serviço</button>
-            <ModalNewService isOpen={isOpen} closeModal={closeModal} />
+            
           </header>
           <div>
             <div className={styles.card}>

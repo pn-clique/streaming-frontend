@@ -94,10 +94,10 @@ export default function Framer() {
   return (
     <section className="carousel">
       <ParallaxText baseVelocity={-5}>
-        <Image src={movie01} />
+        <Image src={movie01} alt="Movie" />
       </ParallaxText>
       <ParallaxText baseVelocity={5}>
-        <Image src={movie02} />
+        <Image src={movie02} alt="Movie" />
       </ParallaxText>
     </section>
   );
