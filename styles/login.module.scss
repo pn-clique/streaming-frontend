@@ -24,6 +24,9 @@
 
     &> a {
       color: var(--secondary-color);
+      background-color: var(--bg-color);
+      padding: 0.8rem 1.5rem;
+      border-radius: 0.25rem;
     }
     
     
@@ -71,6 +74,21 @@
 
         line-height: 28px;
 
+        // Classe para alerta de erro
+        .message_error {
+          border: 1px solid var(--primary-color);
+          padding: 0.8rem 1.5rem;
+          border-radius: 0.25rem;
+          margin-bottom: 2rem;
+
+          animation: animate 1.5s linear infinite;
+
+          p {
+            color: var(--primary-color);
+            text-align: center;
+          } 
+        }
+
         h2 {
           color: var(--primary-color);
           font-weight: 700;
@@ -87,7 +105,6 @@
 
         input {
           width: 100%;
-          padding: 1rem;
           background-color: var(--main-color);
           border: none;
           color: var(--secondary-color);
@@ -95,7 +112,7 @@
           border-radius: 0.25rem;
         }
 
-        button {
+        &>button {
           width: 100%;
           padding: 0.8rem 1.5rem;
           border-radius: 0.25rem;
@@ -126,6 +143,36 @@
         }
       }
     }
+
+  }
+}
+
+
+@keyframes animate{
+  0%{
+     opacity: 0; 
+    border: 1px solid var(--primary-color);
+    box-shadow: 1px 0px 1px 1px var(--primary-color);
+
+  }
+  25% {
+    opacity: 0.9; 
+    border: 1px solid var(--primary-color);
+    
+  }
+  50%{
+    opacity: 0.1; 
+    border: 1px solid var(--primary-color);
+    box-shadow: 1px 1px 1px var(--primary-color);
+  }
+  75% {
+    opacity: 0.9; 
+    border: 1px solid var(--primary-color);
+  }
+  100%{
+    opacity: 0.1; 
+    border: 1px solid var(--primary-color);
+    box-shadow: 1px 1px 1px var(--primary-color);
 
   }
 }

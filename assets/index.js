@@ -9,6 +9,11 @@ import movie03 from './movie03.jpg'
 import movie04 from './movie04.jpg'
 import movie05 from './movie05.jpg'
 import netflix from './netflix.png'
+import UserCircle from './UserCircle.png'
+import sozinho from './sozinho.png'
+import acompanhado from './acompanhado.png'
+import familia from './Familia.png'
+import amigos from './amigos4.gif'
 
 
 export {
@@ -21,5 +26,11 @@ export {
   movie03,
   movie04,
   movie05,
-  netflix
+  netflix,
+  UserCircle,
+
+  sozinho,
+  acompanhado,
+  familia,
+  amigos
 }

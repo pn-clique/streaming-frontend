@@ -17,7 +17,7 @@
     max-width: 975px;
 
   &> nav {
-    button {
+    &>a {
       padding: 0.8rem 1.5rem;
         border-radius: 0.25rem;
         background-color: var(--bg-color);
@@ -83,6 +83,8 @@
 
   padding: 2rem;
 
+ 
+
   &> div {
     width: 100%;
     max-width: 975px;
@@ -122,6 +124,8 @@
           font-weight: 700;
           border: 0;
       }
+
+      
   
     }
 

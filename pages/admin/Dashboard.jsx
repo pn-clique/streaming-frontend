@@ -1,22 +1,36 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+
+import { motion } from 'framer-motion'
+
 import { logo, netflix } from '../../assets'
 import styles from './styles.module.scss'
 
 import { useState } from 'react'
 
+import ModalNewService from './ModalNewService'
+import ModalAddAccountService from './ModalAddAccountService'
+
 
 
 export default function Dashboard() {
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [ModalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpenAccount, setModalIsOpenAccount] = useState(false);
 
   function openModal() {
-    setIsOpen(true)
+    setModalIsOpen(true)
   }
   function closeModal() {
-    setIsOpen(false)
+    setModalIsOpen(false)
+  }
+
+  function openModalAccount() {
+    setModalIsOpenAccount(true)
+  }
+  function closeModalAccount() {
+    setModalIsOpenAccount(false)
   }
 
 
@@ -24,7 +38,7 @@ export default function Dashboard() {
     <>
     <header className={styles.header_nav}>
         <div>
-          <Link href="#">
+          <Link href={'/'}>
             <Image 
               src={logo}
               alt="PN Clique logo"
@@ -32,7 +46,7 @@ export default function Dashboard() {
             />
           </Link>
           <nav>
-            <button type='button'>Terminar sessão</button>
+            <Link href={'/'} type='button'>Terminar sessão</Link>
           </nav>
         </div>
       </header>
@@ -40,22 +54,38 @@ export default function Dashboard() {
       {/* ESTATISTIC */}
       <section className={styles.statistics}>
         <div>
-          <div>
+          <motion.div
+            initial={{x: -100, opacity: 0, scale: 0, rotate: '160deg'}}
+            animate={{x: 0, opacity: 1, scale: 1, rotate: '0deg'}}
+            transition={{duration: 1, delay: 0.5}}
+          >
             <h4>Serviços</h4>
             <span>38</span>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+            initial={{x: -100, opacity: 0, scale: 0, rotate: '160deg'}}
+            animate={{x: 0, opacity: 1, scale: 1, rotate: '0deg'}}
+            transition={{duration: 1, delay: 1}}
+          >
             <h4>Contas de serviços</h4>
             <span>25</span>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+            initial={{x: -100, opacity: 0, scale: 0, rotate: '160deg'}}
+            animate={{x: 0, opacity: 1, scale: 1, rotate: '0deg'}}
+            transition={{duration: 1, delay: 1.5}}
+          >
             <h4>Clientes</h4>
             <span>24.590</span>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+            initial={{x: -100, opacity: 0, scale: 0, rotate: '160deg'}}
+            animate={{x: 0, opacity: 1, scale: 1, rotate: '0deg'}}
+            transition={{duration: 1, delay: 2}}
+          >
             <h4>Parceiros</h4>
             <span>8.129</span>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -69,7 +99,8 @@ export default function Dashboard() {
               <h2>Nossos serviços</h2>
               <div></div>
             </div>
-            <button onClick={openModal}>Adicionar serviço</button>
+            <ModalNewService ModalIsOpen={ModalIsOpen} closeModal={closeModal} />
+            <button onClick={openModal} className="btn_default">Adicionar serviço</button>
             
           </header>
           <div>
@@ -79,8 +110,8 @@ export default function Dashboard() {
                 <span>Netflix</span>
               </div>
               <div className={styles.button_group}>
-                <button type='button'>Editar</button>
-                <button type='button'>Apagar</button>
+                <button type='button' className="btn_default">Editar</button>
+                <button type='button' className="btn_default">Apagar</button>
               </div>
             </div>
             <div className={styles.card}>
@@ -89,8 +120,8 @@ export default function Dashboard() {
                 <span>Netflix</span>
               </div>
               <div className={styles.button_group}>
-                <button type='button'>Editar</button>
-                <button type='button'>Apagar</button>
+                <button type='button' className="btn_default">Editar</button>
+                <button type='button' className="btn_default">Apagar</button>
               </div>
             </div>
             <div className={styles.card}>
@@ -99,8 +130,8 @@ export default function Dashboard() {
                 <span>Netflix</span>
               </div>
               <div className={styles.button_group}>
-                <button type='button'>Editar</button>
-                <button type='button'>Apagar</button>
+                <button type='button' className="btn_default">Editar</button>
+                <button type='button' className="btn_default">Apagar</button>
               </div>
             </div>
             <div className={styles.card}>
@@ -109,12 +140,12 @@ export default function Dashboard() {
                 <span>Netflix</span>
               </div>
               <div className={styles.button_group}>
-                <button type='button'>Editar</button>
-                <button type='button'>Apagar</button>
+                <button type='button' className="btn_default">Editar</button>
+                <button type='button' className="btn_default">Apagar</button>
               </div>
             </div>
           </div>
-          <button>Mostrar mais serviços</button>
+          <button className="btn_default">Mostrar mais serviços</button>
         </div>
       </section>
 
@@ -126,7 +157,8 @@ export default function Dashboard() {
               <h2>Conta de serviços</h2>
               <div></div>
             </div>
-            <button>Adicionar conta de serviço</button>
+            <ModalAddAccountService ModalIsOpen={modalIsOpenAccount} closeModal={closeModalAccount} />
+            <button onClick={openModalAccount}>Adicionar conta de serviço</button>
           </header>
           <div>
             <div className={styles.card}>
@@ -135,8 +167,8 @@ export default function Dashboard() {
                 <span>Netflix</span>
               </div>
               <div className={styles.button_group}>
-                <button type='button'>Editar</button>
-                <button type='button'>Apagar</button>
+                <button type='button' className="btn_default">Editar</button>
+                <button type='button' className="btn_default">Apagar</button>
               </div>
             </div>
             <div className={styles.card}>
@@ -145,8 +177,8 @@ export default function Dashboard() {
                 <span>Netflix</span>
               </div>
               <div className={styles.button_group}>
-                <button type='button'>Editar</button>
-                <button type='button'>Apagar</button>
+                <button type='button' className="btn_default">Editar</button>
+                <button type='button' className="btn_default">Apagar</button>
               </div>
             </div>
             <div className={styles.card}>
@@ -155,8 +187,8 @@ export default function Dashboard() {
                 <span>Netflix</span>
               </div>
               <div className={styles.button_group}>
-                <button type='button'>Editar</button>
-                <button type='button'>Apagar</button>
+                <button type='button' className="btn_default">Editar</button>
+                <button type='button' className="btn_default">Apagar</button>
               </div>
             </div>
             <div className={styles.card}>
@@ -165,18 +197,14 @@ export default function Dashboard() {
                 <span>Netflix</span>
               </div>
               <div className={styles.button_group}>
-                <button type='button'>Editar</button>
-                <button type='button'>Apagar</button>
+                <button type='button' className="btn_default">Editar</button>
+                <button type='button' className="btn_default">Apagar</button>
               </div>
             </div>
           </div>
-          <button>Mostrar mais conta de serviços</button>
+          <button className="btn_default">Mostrar mais conta de serviços</button>
         </div>
-      </section>
-
-
-
-      
+      </section> 
     </>
   )
 }

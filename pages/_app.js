@@ -1,5 +1,7 @@
 import React from "react";
 
+
+
 // SEO
 import { DefaultSeo } from "next-seo";
 import SEO from "../next-seo-config";
@@ -12,10 +14,11 @@ import SEO from "../next-seo-config";
 // STYLES
 import '../styles/globalStyles.css';
 
+// Modal.setAppElements("#root");
 
 function MyApp({ Component, pageProps }) {
-    return (
-        <>
+  return (
+    <>
         <DefaultSeo {...SEO} />
         <Component {...pageProps} />
         </>

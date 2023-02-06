@@ -42,9 +42,10 @@
   justify-content: center;
 
 
-  &> div {
+    &> div {
     width: 100%;
     max-width: 975px;
+    width: 100%;
 
     .welcome {
 
@@ -86,6 +87,11 @@
             line-height: 45px;
             text-align: center;
           }
+        }
+
+        &>span {
+          color: var(--secondary-color);
+          text-align: center;
         }
 
 
@@ -138,6 +144,8 @@
           box-sizing: border-box;
           border-radius: 0.25rem;
 
+          cursor: pointer;
+
           width: 140px;
           height: 201px;
 
@@ -147,36 +155,11 @@
             height: 200px;
             border-radius: 0.25rem;
           }
-
-
-          header {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            border-start-end-radius: 1rem;
-            border-start-start-radius: 1rem;
-
-            background: rgba(54, 52, 52, 0.8);
-            width: 100%;
-            padding: 10px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            h4 {
-              color: var(--primary-color);
-            }
-
-            span {
-              color: var(--secondary-color);
-            }
-          }
         }
       }
     }
   }
+  
 }
 
 .ours_services {

@@ -35,6 +35,95 @@ body {
   color: var(--accent);
 }
 
+button, a {
+  cursor: pointer;
+}
+
+// Classe para alerta de erro
+.message_error {
+  border: 1px solid red;
+}
+
+    
+.input_icons,
+.input_icon {
+    position: relative;
+    width: 100%;
+    
+    background-color: var(--main-color);
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    border-radius: 0.25rem;
+    margin-bottom: 10px;
+}
+
+.input_icons input,
+.input_icon input {
+    background-color: var(--main-color) !important;
+    color: var(--secondary-color) !important;
+    border: 1px solid var(--bg-primary);
+    width: 100%;
+    height: 50px;
+    font-size: 12pt;
+    border-radius: 4px;
+    outline: var(--bg-primary);
+
+    display: block;
+    padding: 5px 50px 5px 50px;
+}
+
+.input_icons svg,
+.input_icon svg {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 30px;
+
+    left: 10px;
+    color: var(--primary-color);
+}
+
+
+
+.input_icons button,
+.input_icon button {
+    position: absolute;
+    right: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+    width: 35px;
+    height: 35px;
+    color: var(--primary-color);
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    opacity: 0;
+}
+
+.input_icons input:focus-within ~ button,
+.input_icon input:focus-within ~ button {
+    opacity: 1;
+}
+
+.input_icons button svg,
+.input_icon button svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    color: var(--gray-700);
+    cursor: pointer;
+}
+
+
 h1 {
   color: var(--primary-color);
 }
@@ -43,35 +132,50 @@ a {
   text-decoration: none;
 }
 
-button {
+.btn_default {
   cursor: pointer;
   border: none;
   position: relative;
-  overlay: hidden;
+  overflow: hidden;
   background: #3f3f3f;
   z-index: 0;
+  border: 1px solid var(--primary-color) !important;
+  transition: all .3s cubic-bezier(0.47, 0, 0.745, 0.715);
 
 }
-/* 
-button:hover::before {
+
+.btn_default:hover::before {
   transform: translateX(300px) skew(-20deg);
 }
 
-button:hover {
-  background: #00f7ff;
+.btn_default:hover {
+  background: var(--main-color) !important;
+  border: 1px solid var(--primary-color) !important;
 }
-button:before {
+.btn_default:before {
   content: '';
   position: absolute;
   top: 0;
-  left: -50px;
+  left: -40px;
   width: 70%;
   height: 100%;
   background: linear-gradient(90deg, transparent, #ffffff75, transparent);
   transition: all 1s;
   z-index: -1;
-  transform: translateX(-120px) skew(-20deg);
-} */
+  transform: translateX(-550px) skew(-20deg);
+} 
 
 
 
+
+
+// Modal
+
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba($color: #000000, $alpha: 1);
+  width: 100%;
+  height: 100vh;
+}

@@ -5,6 +5,9 @@ if (typeof window !== 'undefined') {
     // Perform localStorage action
     token = localStorage.getItem('token');
 }
+
+export const app = axios();
+
 const instance = axios.create({
     baseURL: 'https://api-streaming.onrender.com/',
    // baseURL: 'http://localhost:4000/',
@@ -15,6 +18,8 @@ const instance = axios.create({
         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         Authorization: `Bearer ${token}`
     }
+
+    
 })
 
 
