@@ -9,6 +9,7 @@
   display: flex;
   justify-content: center;
   padding: 0 2rem;
+  margin-bottom: 2rem;
 
   &> div {
     display: flex;
@@ -97,7 +98,7 @@
 
     main {
       max-width: 735px;
-      height: 100vh;
+      height: 100%;
 
       margin: 0 auto;
 
@@ -108,9 +109,10 @@
 
       img {
         display: block;
-        max-width: 761px;
-        width: 100%;
-        margin-bottom: 2rem;
+      max-width: 90%;
+      height: auto;
+      margin: 0 auto;
+      margin-bottom: 2rem;
 
        
       }
@@ -235,7 +237,7 @@
 
 // CAROUSEL INFINITY
 .carousel_infinity {
-  padding: 40px 0;
+  padding: 10px 0;
 
 }
 
@@ -310,14 +312,6 @@
   
   // HERO
   .hero main {
-    
-    .banner {
-      display: block;
-      max-width: 300px;
-      height: 180px;
-      margin: 0 auto;
-      margin-bottom: 1rem;
-    }
 
     .form_login {
       margin: 0 auto;

@@ -1,5 +1,11 @@
 
 
+.carousel {
+  display: flex;
+  flex-direction: column;
+  // gap: -20px;
+}
+
 .progress {
   position: fixed;
   left: 0;
@@ -28,7 +34,7 @@
 
 .parallax span {
   display: block;
-  margin: 1rem 0.25rem;
+  margin: 1px 0.25rem;
 
   img {
     // display: block;

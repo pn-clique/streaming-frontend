@@ -80,10 +80,10 @@ export default function SuggestGame({ isOpen, closeModal }) {
         <div className={styles.form_container}>{currentComponents}</div>
 
         <div className={styles.actions}>
-          {!isFirstStep && (
-            <button className="btn_default" type="button" onClick={() => changeStep(currentStep - 1)}>
-              Voltar
-            </button>
+          {!isFirstStep ? ('') : (
+              <button className="btn_default" type="button" onClick={() => changeStep(currentStep - 1)}>
+                Voltar
+              </button>
           )}
 
           {isLastStep ? (

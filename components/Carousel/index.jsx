@@ -92,7 +92,7 @@ function ParallaxText({ children, baseVelocity = 100 }) {
 
 export default function Framer() {
   return (
-    <section className="carousel">
+    <section className={styles.carousel}>
       <ParallaxText baseVelocity={-5}>
         <Image src={movie01} alt="Movie" />
       </ParallaxText>

@@ -17,7 +17,7 @@ export function suggestGameHook(steps) {
     currentStep,
     currentComponents: steps[currentStep],
     changeStep,
-    isFirstStep: currentStep === 0 ? true : false,
+    isFirstStep: (currentStep > 1 || currentStep < 0) ? true : false,
     isLastStep: currentStep + 1 === steps.length ? true : false,
     setCurrentSte
   }
