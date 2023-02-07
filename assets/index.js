@@ -14,6 +14,7 @@ import sozinho from './sozinho.png'
 import acompanhado from './acompanhado.png'
 import familia from './Familia.png'
 import amigos from './amigos4.gif'
+import loader from './loader02.gif'
 
 
 export {
@@ -32,5 +33,6 @@ export {
   sozinho,
   acompanhado,
   familia,
-  amigos
+  amigos,
+  loader,
 }

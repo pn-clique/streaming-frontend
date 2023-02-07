@@ -1,6 +1,6 @@
 
 
-import { logo, movie05, netflix } from '../../assets';
+import { logo, movie01, movie02, movie03, movie04, movie05, netflix } from '../../assets';
 
 const statistics = [
   {
@@ -38,18 +38,51 @@ const services = [
     name: 'HBO'
   },
   {
-    id: 1,
+    id: 3,
     image: netflix,
     name: 'Disney Plus'
   },
   {
-    id: 1,
+    id: 4,
     image: netflix,
     name: 'Amazon'
   },
 ]
 
+
+const newReleases = [
+  {
+    id: 1,
+    image: movie01,
+  },
+  {
+    id: 2,
+    image: movie02,
+  },
+  {
+    id: 3,
+    image: movie03,
+  },
+  {
+    id: 4,
+    image: movie04,
+  },
+  {
+    id: 5,
+    image: movie05,
+  },
+  {
+    id: 6,
+    image: movie03,
+  },
+  {
+    id: 7,
+    image: movie04,
+  },
+]
+
 export {
   statistics,
-  services
+  services,
+  newReleases
 }

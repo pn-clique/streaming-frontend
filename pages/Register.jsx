@@ -22,6 +22,7 @@ import { logo, UserCircle } from "../assets/";
 import styles from "../styles/register.module.scss";
 import axios from "axios";
 import { Loader } from "../components/Loader";
+import { Api } from "../api/axios";
 
 export default function Register() {
 
@@ -45,12 +46,13 @@ export default function Register() {
 
   const [name, setName] = useState("");
   const [sex, setSex] = useState("H");
-  const [whatsapp, setWhatsapp] = useState("");
-  const [dateBirth, setDateBirth] = useState("");
+  const [whatsApp, setWhatsApp] = useState("");
+  const [email, setEmail] = useState('')
+  const [date_birth, setDateBirth] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [codePin, setCodePin] = useState("");
+  const [code_pin, setCodePin] = useState("");
   const [password, setPassword] = useState("");
-  const [photoProfile, setPhotoProfile] = useState('')
+  const [photo_profile, setPhotoProfile] = useState('')
 
       // Mudar o estado da palavra-passe
 const [toggle, setToggle] = useState(true);
@@ -58,35 +60,89 @@ const [toggle, setToggle] = useState(true);
 const [smsError, setSmsError] = useState(false);
 
 
-function handleSubmit(e) {
+// function handlerSubmit(e) {
+//   e.preventDefault();
+//   setModalIsOpen(false);
+//   setToggle(!toggle);
+
+//   if(name == '' && whatsApp == '' && date_birth == '' && code_pin == '' && confirmPassword == '' && password == '') {
+//     setSmsError(true)
+//   }else {
+//     setSmsError(false)
+
+//     const data = {
+//       name,
+//       email,
+//       password,
+//       whatsApp,
+//       sex,
+//       code_pin,
+//       photo_profile,
+//       date_birth,
+//     };
+//     Api.post('register', data)
+//     .then(() => console.log('Enviados com sucesso', postData))
+//     .catch(error => console.log('Erro ao enviar dados', error))
+
+//     console.log(data);
+//   }
+
+
+//   }
+
+const handlerSubmit = (e) => {
   e.preventDefault();
-  setModalIsOpen(false);
-  setToggle(!toggle);
 
-  if(name == '' && whatsapp == '' && dateBirth == '' && codePin == '' && confirmPassword == '' && password == '') {
-    setSmsError(true)
-  }else {
-    setSmsError(false)
-  }
-
-    
-    const data = {
+      const data = {
       name,
-      sex,
-      whatsapp,
-      dateBirth,
-      codePin,
-      confirmPassword,
+      email,
       password,
-      photoProfile,
-      permission: 3,
+      whatsApp,
+      sex,
+      code_pin,
+      photo_profile,
+      date_birth,
     };
-    
-    const postData = axios.post("https://api-streaming.onrender.com/register", data)
-    .then(() => console.log('Enviados com sucesso', postData))
-    .catch(error => console.log('Erro ao enviar dados', error))
 
+  const config = {
+    headers: { 'Content-Type': 'multipart/form-data' }
   }
+
+  if (photo_profile == '') {
+    setSmsError(true);
+  }
+  if (password <= 7) { setSmsError(true)}
+    if (password != confirmPassword) { setSmsError(true)}
+
+    // var bForm = new FormData();
+    // bForm.append('name', name)
+    // bForm.append('email', email)
+    // bForm.append('password', password)
+    // bForm.append('whatsApp', whatsApp)
+    // bForm.append('date_birth', date_birth)
+    // bForm.append('code_pin', code_pin)
+    // bForm.append('photo_profile', photo_profile)
+
+  Api.post('/register', bForm, config)
+    .then((res) => {
+      console.log('data res signup register : ', res.data);
+      const id = res.data.user.id;
+      localStorage.setItem('userId', id);
+      const token = res.data.token;
+      const permission = res.data.user.permission;
+      localStorage.setItem('token', token);
+      localStorage.setItem('permission', permission);
+      localStorage.setItem('modalSuggestion', false);
+      Api.defaults.headers.Authorization = `Bearer ${token}`;
+      Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      navigate.push('/client/Dashboard');
+    })
+    .catch((err) => console.log('erro na promise signup register : ', err))
+    .finally();
+
+    console.log(data)
+
+}
   return (
     <>
       {isLoader ? (<Loader />) : (
@@ -118,7 +174,7 @@ function handleSubmit(e) {
           animate={{y: 0, opacity: 1, scale: 1}}
           transition={{duration: .5, delay: 0.5}}
           >
-            <form encType="multipart/form-data"  action="POST" onSubmit={handleSubmit}>
+            <form encType="multipart/form-data"  action="POST" onSubmit={handlerSubmit}>
               <div className={styles.person_datas}>
                 <header>
                   {
@@ -159,9 +215,9 @@ function handleSubmit(e) {
                     <HiOutlineMail />
                     <input 
                     type="text" 
-                    placeholder="Whatsapp:" 
-                    value={whatsapp} 
-                    onChange={(e) => setWhatsapp(e.target.value)}
+                    placeholder="WhatsApp:" 
+                    value={whatsApp} 
+                    onChange={(e) => setWhatsApp(e.target.value)}
                     required
                       />
                   </div>
@@ -170,12 +226,25 @@ function handleSubmit(e) {
                     <input 
                     type="date" 
                     placeholder="Data de nascimento:" 
-                    value={dateBirth} 
+                    value={date_birth} 
                     onChange={(e) => setDateBirth(e.target.value)}
                     required
                       />
                   </div>
   
+                </div>
+
+                <div className={styles.form_group}>
+                <div className={'input_icon'}>
+                    <HiOutlineMail />
+                    <input 
+                    type="email"
+                      placeholder="Digite seu email:"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      />
+                  </div>
                 </div>
               </div>
               <div className={styles.security_datas}>
@@ -191,7 +260,7 @@ function handleSubmit(e) {
                     <input 
                     type="text" 
                     placeholder="Digite seu PIN:" 
-                    value={codePin} 
+                    value={code_pin} 
                     onChange={(e) => setCodePin(e.target.value)}
                     required
                       />
@@ -212,7 +281,7 @@ function handleSubmit(e) {
                       type={toggle ? 'text' : 'password'} 
                       />
                       <button
-                        onClick={handleSubmit}
+                        onClick={handlerSubmit}
                       >
                         {toggle ? (<AiOutlineEye />) : (<AiOutlineEyeInvisible />)} 
                       </button>
@@ -230,7 +299,7 @@ function handleSubmit(e) {
                       type={toggle ? 'text' : 'password'} 
                       />
                       <button
-                        onClick={handleSubmit}
+                        onClick={handlerSubmit}
                       >
                         {toggle ? (<AiOutlineEye />) : (<AiOutlineEyeInvisible />)} 
                       </button>
@@ -261,7 +330,7 @@ function handleSubmit(e) {
                         {/* <Image src={UserCircle} alt="Foto de perfil" /> */}
                         <FaUserAlt />
                         <input type="file" id="imgService"
-                          value={photoProfile}
+                          value={photo_profile}
                           onChange={(e) => setPhotoProfile(e.target.value)}
                         />
                       </label>
@@ -271,7 +340,7 @@ function handleSubmit(e) {
                     </div>
   
                     <div>
-                      <button onClick={handleSubmit} type="submit">
+                      <button onClick={handlerSubmit} type="submit">
                         Adicionar
                       </button>
                     </div>

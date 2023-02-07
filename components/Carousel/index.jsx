@@ -1,104 +1,61 @@
-import styles from "./styles.module.scss";
-import { useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-  useMotionValue,
-  useVelocity,
-  useAnimationFrame
-} from "framer-motion";
-import { wrap } from "@motionone/utils";
-import Image from "next/image";
-import { movie01, movie02, movie03, movie04 } from "../../assets";
 
 
+import { motion } from 'framer-motion'
+
+import { useEffect, useState, useRef } from 'react';
+
+import { netflix, movie01, movie02, movie03, movie04, movie05 } from '../../assets'
+
+import Image from 'next/image';
+import styles from './styles.module.scss';
+import { newReleases } from '../../dataAPI/DataAdmin/Datas';
+
+// AXIOS API
+import { Api, ApiMovies } from "../../api/axios";
+import axios from "axios";
+
+export function Carousel() {
+
+  const [width, setWidth] = useState(0);
+  const slider_wrapper = useRef();
+
+  const [dataMovie, setDataMovie] = useState([])
+
+  useEffect(() => {
+
+    axios.get(ApiMovies)
+    .then((res) => setDataMovie(res.data.results))
+
+    setWidth(slider_wrapper.current.scrollWidth - slider_wrapper.current.offsetWidth)
+  }, [])
 
 
-
-
-
-function ParallaxText({ children, baseVelocity = 100 }) {
-  const baseX = useMotionValue(0);
-  const { scrollY } = useScroll();
-  const scrollVelocity = useVelocity(scrollY);
-  const smoothVelocity = useSpring(scrollVelocity, {
-    damping: 50,
-    stiffness: 400
-  });
-  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
-    clamp: false
-  });
-
-  /**
-   * This is a magic wrapping for the length of the text - you
-   * have to replace for wrapping that works for you or dynamically
-   * calculate
-   */
-  const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
-
-  const directionFactor = useRef(1);
-  useAnimationFrame((t, delta) => {
-    let moveBy = directionFactor.current * baseVelocity * (delta / 5000);
-
-    /**
-     * This is what changes the direction of the scroll once we
-     * switch scrolling directions.
-     */
-    if (velocityFactor.get() < 0) {
-      directionFactor.current = -1;
-    } else if (velocityFactor.get() > 0) {
-      directionFactor.current = 1;
-    }
-
-    moveBy += directionFactor.current * moveBy * velocityFactor.get();
-
-    baseX.set(baseX.get() + moveBy);
-  });
-
-  /**
-   * The number of times to repeat the child text should be dynamically calculated
-   * based on the size of the text and viewport. Likewise, the x motion value is
-   * currently wrapped between -20 and -45% - this 25% is derived from the fact
-   * we have four children (100% / 4). This would also want deriving from the
-   * dynamically generated number of children.
-   */
   return (
-    <div className={styles.parallax}>
-      <motion.div className={styles.scroller} style={{ x }}>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
+    <div className={styles.container}>
+      <motion.div className={styles.slider_wrapper} 
+        ref={slider_wrapper}
+        whileTap={{cursor: 'grabbing'}}
+        >
+        <motion.div 
+          className={styles.inner_carousel}
+          drag="x"
+          dragConstraints={{right:0, left: -width}}
+          >
+          {dataMovie.map((movie) => (
+            <motion.div 
+            className={styles.card}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{duration: 0.5}}
+            key={movie.id}
+            >
+            <div className={styles.card_image}>
+              <img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="Image" />
+            </div>
+          </motion.div>
+          ))}
+        </motion.div>
       </motion.div>
     </div>
-  );
-}
-
-export default function Framer() {
-  return (
-    <section className={styles.carousel}>
-      <ParallaxText baseVelocity={-5}>
-        <Image src={movie01} alt="Movie" />
-      </ParallaxText>
-      <ParallaxText baseVelocity={5}>
-        <Image src={movie02} alt="Movie" />
-      </ParallaxText>
-    </section>
-  );
+  )
 }

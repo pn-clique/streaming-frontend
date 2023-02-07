@@ -22,7 +22,7 @@ export default function ModalInfo({ ModalIsOpen, closeModal }) {
 
         <div className={styles.movie_info}>
           <div>
-            <Image src={movie05} />
+            <Image src={movie05} alt="Image Card" />
           </div>
           <div>
             <h4>Título:</h4>

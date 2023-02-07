@@ -1,5 +1,5 @@
 import { banner, logo, services } from "../assets/";
-import Framer from "../components/Carousel";
+import Framer from "../components/LoopInfinity";
 import { motion } from 'framer-motion' 
 
 import { useState, useEffect } from "react";
@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from 'next/router';
 
 import styles from '../styles/index.module.scss';
 
@@ -21,14 +22,27 @@ import {
 import { HiOutlineMail } from 'react-icons/hi';
 import { TbLock } from 'react-icons/tb';
 import { Loader } from "../components/Loader";
+import { Carousel } from "../components/Carousel";
 
+
+// AXIOS API
+import { Api, ApiMovies } from "../api/axios";
+import axios from "axios";
 
 
 export default function HomePage() {
 
+  const navigate = useRouter();
+
   const [isLoader, setIsLoader] = useState(true)
 
+  const [dataMovie, setDataMovie] = useState([])
+
   useEffect(() => {
+
+    axios.get(ApiMovies)
+    .then((res) => setDataMovie(res.data))
+
     setTimeout(() => {
       setIsLoader(false)
     }, 2000)
@@ -37,10 +51,42 @@ export default function HomePage() {
   // Mudar o estado da palavra-passe
 const [toggle, setToggle] = useState(true);
 
+const [email, setEmail] = useState('')
+const [password, setPassword] = useState('')
+
 function handleSubmit(e) {
   e.preventDefault();
 
   setToggle(!toggle);
+
+  const data = {
+    email,
+    password,
+  }
+
+  e.preventDefault();
+    if (email == '' || password == '') {
+      setError(true);
+    }
+    Api.post('/auth', { email: email, password: password })
+      .then((res) => {
+        // console.log('data res signin login : ', res.data.user);
+        const id = res.data.user.id;
+        localStorage.setItem('userId', id);
+
+        // console.log('usersss id : ', id);
+        const token = res.data.token;
+        const permission = res.data.user.permission;
+        localStorage.setItem('token', token);
+        localStorage.setItem('permission', permission);
+        Api.defaults.headers.Authorization = `Bearer ${token}`;
+        Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        navigate.push('/client/Dashboard');
+
+      })
+      .catch((err) => { console.log('erro na promise signin login : ', err) })
+      .finally();
+
 }
 
 
@@ -117,6 +163,8 @@ function handleSubmit(e) {
                     type="email" 
                     placeholder="Email:" 
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
                 <div className={'input_icons'}>
@@ -125,9 +173,10 @@ function handleSubmit(e) {
                     type={toggle ? 'text' : 'password'} 
                     placeholder="Palavra-passe:" 
                     required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     />
                     <button
-                      onClick={handleSubmit}
                     >
                       {toggle ? (<AiOutlineEye />) : (<AiOutlineEyeInvisible />)} 
                     </button>
@@ -163,8 +212,12 @@ function handleSubmit(e) {
       </section>
 
       
-      <section className="new_releases">
-        <h1>New releases</h1>
+      <section className={styles.new_releases}>
+        <div className={styles.heading}>
+          <h1>New releases</h1>
+        </div>
+        
+        <Carousel />
       </section>
 
       

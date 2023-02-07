@@ -18,8 +18,9 @@ import { Loader } from '../../components/Loader'
 
 export default function Dashboard() {
 
+  
   const [isLoader, setIsLoader] = useState(true)
-
+  
   useEffect(() => {
     setTimeout(() => {
       setIsLoader(false)
@@ -35,7 +36,7 @@ export default function Dashboard() {
   function closeModal() {
     setModalIsOpen(false)
   }
-
+  
   function openModalAccount() {
     setModalIsOpenAccount(true)
   }
@@ -43,7 +44,8 @@ export default function Dashboard() {
     setModalIsOpenAccount(false)
   }
 
-
+  
+  
   return (
     <>
       {isLoader ? (<Loader />) : (
@@ -62,7 +64,7 @@ export default function Dashboard() {
               </nav>
             </div>
           </header>
-    
+          
           <section className={styles.statistics}>
             <div>
               {statistics.map((stat) => (

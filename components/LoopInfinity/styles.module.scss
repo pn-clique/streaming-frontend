@@ -1,0 +1,44 @@
+
+
+.carousel {
+  display: flex;
+  flex-direction: column;
+  // gap: -20px;
+}
+
+.progress {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--accent);
+  bottom: 100px;
+}
+
+.parallax {
+  overflow: hidden;
+  margin: 0;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.parallax .scroller {
+  
+  display: flex;
+  gap: 0rem;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.parallax span {
+  display: block;
+  margin: 1px 0.25rem;
+
+  img {
+    // display: block;
+    max-width: 180px; 
+    height: 210px;
+  }
+}

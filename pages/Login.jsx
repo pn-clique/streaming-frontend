@@ -20,6 +20,7 @@ import { logo } from "../assets/";
 
 import styles from '../styles/login.module.scss';
 import { Loader } from "../components/Loader";
+import { Api } from "../api/axios";
 
 export default function Login() {
 
@@ -39,17 +40,44 @@ const [smsError, setSmsError] = useState(false)
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('')
 
-function handleSubmit(e) {
+// function handleSubmit(e) {
+//   e.preventDefault();
+
+//   if(email == '' && password == '') {
+//     setSmsError(true)
+//   }else {
+//     setSmsError(false)
+      
+//   }
+
+//   setToggle(!toggle);
+
+
+// }
+
+const handlerSubmit = (e) => {
   e.preventDefault();
-
-  if(email == '' && password == '') {
-    setSmsError(true)
-  }else {
-    setSmsError(false)
+  if (email == '' || password == '') {
+    setSmsError(true);
   }
+  Api.post('/auth', { email: email, password: password })
+    .then((res) => {
+      console.log('data res signin login : ', res.data.user);
+      const id = res.data.user.id;
+      localStorage.setItem('userId', id);
 
-  setToggle(!toggle);
+      console.log('usersss id : ', id);
+      const token = res.data.token;
+      const permission = res.data.user.permission;
+      localStorage.setItem('token', token);
+      localStorage.setItem('permission', permission);
+      Api.defaults.headers.Authorization = `Bearer ${token}`;
+      Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      navigate.push('/client/home');
 
+    })
+    .catch((err) => { console.log('erro na promise signin login : ', err); setSmsError(true) })
+    .finally();
 
 }
 
@@ -88,7 +116,7 @@ function handleSubmit(e) {
           animate={{y: 0, opacity: 1, scale: 1}}
           transition={{duration: .5, delay: 0.5}}
         >
-          <form action="" onSubmit={handleSubmit}>
+          <form action="" onSubmit={handlerSubmit}>
             <header>
             {
                   smsError ? (
@@ -124,14 +152,14 @@ function handleSubmit(e) {
                     required
                     />
                     <button
-                      onClick={handleSubmit}
+                      onClick={handlerSubmit}
                     >
                       {toggle ? (<AiOutlineEye />) : (<AiOutlineEyeInvisible />)} 
                     </button>
                 </div>
             </div>
             <div>
-              <button type="submit" onClick={handleSubmit} >Entrar</button>
+              <button type="submit" onClick={handlerSubmit} >Entrar</button>
             </div>
             <div className={styles.footer_login}>
               <span>Ainda não possui uma conta? <Link href={'/Register'} >Registre-se aqui</Link></span>

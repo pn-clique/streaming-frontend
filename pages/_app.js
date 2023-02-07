@@ -16,6 +16,7 @@ import '../styles/globalStyles.css';
 
 // Modal.setAppElements("#root");
 
+
 function MyApp({ Component, pageProps }) {
   return (
     <>

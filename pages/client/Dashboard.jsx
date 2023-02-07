@@ -7,6 +7,7 @@ import { logo, netflix } from '../../assets';
 import styles from './styles.module.scss';
 
 import { motion } from 'framer-motion'
+import { Api } from '../../api/axios'
 
 import SuggestGame from '../../components/suggestGame';
 import { useState, useEffect } from 'react';
@@ -16,6 +17,8 @@ import { suggestion, services } from '../../dataAPI/DataClient/Datas';
 
 import ModalInfo from './ModalInfo';
 import { Loader } from '../../components/Loader';
+import ModalBuyService from './ModalBuyService';
+import { Carousel } from '../../components/Carousel';
 
 export default function Dashboard() {
 
@@ -31,6 +34,7 @@ export default function Dashboard() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [suggestionIsOpen, setSuggestionIsOpen] = useState(false);
+  const [modalBuyServiceIsOpen, setModalBuyServiceIsOpen] = useState(false);
 
 
   function modalIsOpen() {
@@ -48,6 +52,31 @@ export default function Dashboard() {
   function suggestionCloseModal() {
     setSuggestionIsOpen(false);
   }
+
+  function modalBuyServicesOpen() {
+    setModalBuyServiceIsOpen(true);
+  }
+
+  function modalBuyServicesClose() {
+    setModalBuyServiceIsOpen(false);
+  }
+
+  const [accountService, setAccountService] = useState([])
+
+  const loadingAccountServices = async () => {
+    const res = await Api.get('/account-service')
+    
+    console.log('res account services : ', res.data);
+    setAccountService(res.data.accountServices)
+}
+
+useEffect(() => {
+
+  loadingAccountServices();
+
+}, [])
+
+
 
   return (
     <>
@@ -151,7 +180,7 @@ export default function Dashboard() {
                 transition={{duration: .5, delay: 1.6}}
                 key={movie.id}
               >
-                <Image src={movie.image} alt={movie.title} />
+                <Image src={movie.image} alt={'movie.title'} />
               </motion.div>
             ))}
             </div>
@@ -161,7 +190,13 @@ export default function Dashboard() {
       </section>
       )}
 
-      
+      {/* NEW RELEASES */}
+      <section className={styles.new_releases}>
+        <div className={styles.heading}>
+          <h1>Novos lançamentos</h1>
+        </div>
+        <Carousel />
+      </section>
 
       {/* OURS SERVICES */}
       <section className={styles.ours_services}>
@@ -177,19 +212,24 @@ export default function Dashboard() {
 
 
           <div>
-            {services.map((service) => (
+            {accountService.map((data, key) => (
               <motion.div 
               className={styles.card}
               initial={{y: 200, opacity: 0, scale: 0}}
               animate={{y: 0, opacity: 1, scale: 1}}
               transition={{duration: .5, delay: 5.5}}
-              key={service.id}
+              key={key}
               >
                 <div>
-                  <Image src={service.image} alt={service.title} />
-                  <span>{service.title}</span>
+              <ModalBuyService service_id={data.service_id._id}  account_id={data._id} ModalIsOpen={modalBuyServiceIsOpen} closeModal={modalBuyServicesClose} />
+                  <img src={`https://api-streaming.onrender.com/uploads/${data.service_id.image}`} alt={data.service_id.name} />
+                  <span>{data.service_id.name}</span>
                 </div>
-                <button type='button' className={'btn_default'}>Comprar</button>
+                <button 
+                  type='button' 
+                  className={'btn_default'}
+                  onClick={modalBuyServicesOpen}
+                  >Comprar</button>
               </motion.div>
             ))}
           </div>

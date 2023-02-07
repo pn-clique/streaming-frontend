@@ -162,6 +162,22 @@
   
 }
 
+
+.new_releases {
+  padding: 4rem 1rem 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .heading {
+    display: flex;
+    justify-content: flex-start;
+    max-width: 70%;
+    width: 100%;
+    margin: 1rem;
+  }
+}
+
 .ours_services {
   display: flex;
   flex-direction: column;
