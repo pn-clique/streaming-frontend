@@ -2,12 +2,15 @@ import Modal from "react-modal";
 
 import Image from "next/image";
 
+import FormData from "form-data";
+
 import { MdOutlineAddToPhotos } from 'react-icons/md'
 
 import styles from "./styles.module.scss";
 import { movie05, netflix } from "../../../assets";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Api } from "../../../api/axios";
+import axios from "axios";
 
 export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, account_id }) {
 
@@ -15,32 +18,48 @@ export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, a
 
   const [isOpen, setIsOpen] = useState(false);
 
-  function handlerFileChange(e){
-    setBoleto(e.target.files[0]);
-  }
+  const ref = useRef(null);
 
-  function handlerSubmit(e) {
+
+
+
+
+  async function handlerSubmit(e) {
     e.preventDefault();
 
-    if(boleto === ''){
-      console.log('boleto vazio')
+   
+      const user_id = localStorage.getItem('userId');
+
+      const file = ref.current.files[0];
+
+    const form = new FormData();
+    form.append('pdf_purchasing', file);
+    form.append('user_id', user_id);
+    form.append('account_service_id', account_id);
+
+   
+
+
+
+  let token = ''
+  if(typeof window !== 'undefined') {
+    token = localStorage.getItem('token');
+  }
+
+  const url = `https://api-streaming.onrender.com/purchase-account-services/${account_id}/${service_id}`
+
+  await axios.post(url, form, {
+    headers: {//...form.getHeaders,
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`
     }
     
-      console.log(boleto);
+  }).then(response => console.log('response then: ', response))
+  .catch(error => console.log('Error: ', error))
 
-      const user_id = localStorage.getItem('userId');
-    
-      const purchaseAccount = {
-        user_id: user_id,
-        account_service_id: account_id,
-        pdf_purchasing: boleto,
-      }
-
-    Api.post(`purchase-account-services/${account_id}/${service_id}`, purchaseAccount)
-    .then(res => console.log('purchase', res.data))
-
-    console.log(`purchase-account-services/${account_id}/${service_id}`)
   }
+
+
 
 
   return (
@@ -56,16 +75,28 @@ export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, a
         
 
         <div className={styles.movie_info}>
-        <div>
-          <label htmlFor="imgService">
-            <input type="file" name="" id="imgService"  
-            onChange={(e) => setBoleto(e.target.value)} />
-            <span>{boleto == '' ? 'Adicione um comprovativo' : (boleto)}</span>
-          </label>
-        </div>
+
+    {/* <label htmlFor="fileSend">
+      <input type="file" name="" id="fileSend" />
+      <span>Adic</span>
+    </label> */}
 
         <div>
-          <button type="submit" onClick={handlerSubmit}>Enviar</button>
+          <label htmlFor="imgService">
+            <MdOutlineAddToPhotos />
+          <span>
+          {boleto === ''? 'Adicione uma imagem para o serviço' : (boleto) }
+          </span>
+          </label>
+            <input
+              type="file"
+              id="imgService"
+              ref={ref}
+            />
+        </div>
+
+        <div className={styles.btn_send}>
+          <button type="submit">Enviar</button>
         </div>
           
         </div>

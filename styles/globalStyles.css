@@ -44,6 +44,15 @@ button, a {
   border: 1px solid red;
 }
 
+input {
+  outline: none;
+
+  &:hover {
+    outline: 1px solid var(--primary-color);
+
+  }
+}
+
     
 .input_icons,
 .input_icon {

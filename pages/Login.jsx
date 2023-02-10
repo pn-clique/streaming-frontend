@@ -1,6 +1,6 @@
 
 
-import axios from "axios";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,15 +16,19 @@ import { TbLock } from 'react-icons/tb';
 
 import { motion } from 'framer-motion'
 
+import { useRouter } from "next/router";
+
 import { logo } from "../assets/";
 
 import styles from '../styles/login.module.scss';
 import { Loader } from "../components/Loader";
 import { Api } from "../api/axios";
 
-export default function Login() {
 
+export default function Login() {
+  
   const [isLoader, setIsLoader] = useState(true)
+  const navigate = useRouter(); 
 
   useEffect(() => {
     setTimeout(() => {
@@ -40,40 +44,25 @@ const [smsError, setSmsError] = useState(false)
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('')
 
-// function handleSubmit(e) {
-//   e.preventDefault();
-
-//   if(email == '' && password == '') {
-//     setSmsError(true)
-//   }else {
-//     setSmsError(false)
-      
-//   }
-
-//   setToggle(!toggle);
-
-
-// }
 
 const handlerSubmit = (e) => {
   e.preventDefault();
+  
   if (email == '' || password == '') {
     setSmsError(true);
   }
   Api.post('/auth', { email: email, password: password })
     .then((res) => {
       console.log('data res signin login : ', res.data.user);
-      const id = res.data.user.id;
+      const id = res.data.user._id;
       localStorage.setItem('userId', id);
-
-      console.log('usersss id : ', id);
       const token = res.data.token;
       const permission = res.data.user.permission;
       localStorage.setItem('token', token);
       localStorage.setItem('permission', permission);
       Api.defaults.headers.Authorization = `Bearer ${token}`;
       Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      navigate.push('/client/home');
+      navigate.push('/client/Dashboard');
 
     })
     .catch((err) => { console.log('erro na promise signin login : ', err); setSmsError(true) })

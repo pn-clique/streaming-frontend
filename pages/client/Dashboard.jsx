@@ -9,6 +9,8 @@ import styles from './styles.module.scss';
 import { motion } from 'framer-motion'
 import { Api } from '../../api/axios'
 
+import { useRouter } from 'next/router';
+
 import SuggestGame from '../../components/suggestGame';
 import { useState, useEffect } from 'react';
 
@@ -19,22 +21,19 @@ import ModalInfo from './ModalInfo';
 import { Loader } from '../../components/Loader';
 import ModalBuyService from './ModalBuyService';
 import { Carousel } from '../../components/Carousel';
+import LayoutSkeleton from '../../components/Carousel/LayoutSkeleton';
 
 export default function Dashboard() {
 
-  const [isLoader, setIsLoader] = useState(true)
+  const [isLoader, setIsLoader] = useState(true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoader(false)
-    }, 2000)
-  }, [])
-
-  console.log(isLoader)
+  // console.log(isLoader)
 
   const [isOpen, setIsOpen] = useState(false);
   const [suggestionIsOpen, setSuggestionIsOpen] = useState(false);
   const [modalBuyServiceIsOpen, setModalBuyServiceIsOpen] = useState(false);
+
+  const navigate = useRouter();
 
 
   function modalIsOpen() {
@@ -61,6 +60,14 @@ export default function Dashboard() {
     setModalBuyServiceIsOpen(false);
   }
 
+   function handlerLogout(){
+     localStorage.removeItem('token');
+     localStorage.removeItem('userId');
+     localStorage.removeItem('permission');
+
+     navigate.push('/Login');
+  }
+
   const [accountService, setAccountService] = useState([])
 
   const loadingAccountServices = async () => {
@@ -71,12 +78,20 @@ export default function Dashboard() {
 }
 
 useEffect(() => {
+  setTimeout(() => {
+    setIsLoader(false)
+
+  }, 5000)
 
   loadingAccountServices();
 
 }, [])
 
-
+if(isLoader) {
+  return (
+    <Loader />
+  )
+}
 
   return (
     <>
@@ -100,13 +115,15 @@ useEffect(() => {
           animate={{x: 0, opacity: 1, scale: 1}}
           transition={{duration: .5}}
           >
-            <button type='button' className={'btn_default'}>Terminar sessão</button>
+            <button type='button' 
+              onClick={handlerLogout}
+              className={'btn_default'}>Terminar sessão</button>
           </motion.nav>
         </div>
       </header>
 
     {/* HERO */}
-      {isLoader ? (<Loader />): (
+   
         <section className={styles.hero}>
     
         <div>
@@ -188,14 +205,20 @@ useEffect(() => {
         </div>
       
       </section>
-      )}
+      
 
       {/* NEW RELEASES */}
       <section className={styles.new_releases}>
         <div className={styles.heading}>
           <h1>Novos lançamentos</h1>
         </div>
-        <Carousel />
+        {isLoader ? (
+          <h1>Ola</h1>
+          ) : (
+            // <Carousel />
+            <LayoutSkeleton />
+          // <h1>Ola01</h1>
+        )}
       </section>
 
       {/* OURS SERVICES */}

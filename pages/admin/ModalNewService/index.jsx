@@ -1,15 +1,34 @@
+import { useState, useRef } from "react";
+
+import { useRouter } from "next/router";
+
+// OTHERS
+import FormData from "form-data";
+
+
+// MODAL
 import Modal from "react-modal";
 
+
+// iCONS
 import { MdOutlineAddToPhotos } from "react-icons/md";
 
-import { useState } from "react";
 
+// AXIOS API
 import { Api } from '../../../api/axios'
 
+
+// STYLES
 import styles from "./styles.module.scss";
+import axios from "axios";
+
+
+
 
 export default function ModalNewService({ ModalIsOpen, closeModal }) {
-  const [service, setService] = useState();
+  const refImage = useRef(null);
+
+  const navigate = useRouter();
 
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
@@ -18,25 +37,49 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
   const [duracao, setDuracao] = useState("");
   const [capacidade, setCapacidade] = useState("");
   const [comissao, setComissao] = useState("");
+  const [obs, setObs] = useState("");
 
   function handlerSubmit(e) {
     e.preventDefault();
 
-    closeModal
+    // closeModal
 
-    const data = {
+
+
+    console.log({
       image,
       name,
       preco,
       pontos,
       duracao,
       capacidade,
-      comissao
-    }
-    
-    const res = Api.post('services/create', data);
+      comissao,
+      obs
+    })
 
-    console.log(data);
+
+    const form = new FormData();
+    form.append('name', name);
+    form.append('obs', obs);
+    form.append('preco', preco);
+    form.append('pontos', pontos);
+    form.append('duracao', duracao);
+    form.append('capacidade', capacidade);
+    form.append('comissao', comissao);
+    form.append('image', refImage.current.files[0]);
+
+
+    const token = localStorage.getItem('token')
+    const url = 'https://api-streaming.onrender.com/services/create/'
+    axios.post(url, form, {
+      headers: {
+        "Authorization":  `Bearer ${token}`,
+        "Content-Type": "multipart/form-data"
+      }
+    }).then(res => console.log('Success: ', res))
+    .catch(error => console.log('Error: ', error))
+
+    console.log(form);
 
 
   }
@@ -67,6 +110,7 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
               id="imgService"
               value={image}
               onChange={(e) => setImage(e.target.value)}
+              ref={refImage}
             />
           </label>
           <label htmlFor="imgService">
@@ -118,6 +162,8 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
             cols="30"
             rows="10"
             placeholder="Digite uma observação:"
+            value={obs}
+            onChange={(e) => setObs(e.target.value)}
           ></textarea>
         </div>
 

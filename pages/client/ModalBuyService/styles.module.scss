@@ -52,13 +52,57 @@
         justify-content: center;
         gap: 1rem;
 
-        &>div:nth-child(1) { 
+        &>div { 
           // height: 30px;
           
-          &>div {
-            display: grid;
-          grid-template-columns: 100px 1fr;
-          background-color: var(--main-color);
+        //   display: grid;
+        // grid-template-columns: 100px 1fr;
+        background-color: var(--main-color);
+
+            label {
+              display: grid;
+              grid-template-columns: 60px 1fr;
+              // justify-content: center;
+              align-items: center;
+              margin-right: -5px;
+              z-index: 10;
+      
+              border-radius: 0.25rem;
+              cursor: pointer;
+
+              &>div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                input {
+                      // overflow: hidden;
+                      opacity: 0;
+                      width: 0;
+                      border: 0;
+                      
+                    }
+
+                      svg {
+                color: var(--primary-color);
+                font-weight: 700;
+                font-size: 1.5rem;
+              }
+              }
+
+              span {
+                    background-color: var(--primary-color);
+                    color: var(--secondary-color);
+            
+                    display: flex;
+                    align-items: center;
+                    padding: 1rem;
+            
+                    border-top-right-radius: 0.25rem;
+                    border-bottom-right-radius: 0.25rem;
+            
+                    cursor: pointer;
+                  }
+            }
             // &> label:nth-child(1) {
             //   display: flex;
             //   justify-content: center;
@@ -96,13 +140,9 @@
             //     cursor: pointer;
             //   }
             // }
-      
-          }
-
-      
         }
 
-        &>div:nth-child(2) {
+        &> .btn_send {
           display: flex;
           justify-content: center;
           button {
