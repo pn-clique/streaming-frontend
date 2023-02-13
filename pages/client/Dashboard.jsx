@@ -210,13 +210,13 @@ if(isLoader) {
       {/* NEW RELEASES */}
       <section className={styles.new_releases}>
         <div className={styles.heading}>
-          <h1>Novos lançamentos</h1>
+          <h1>Meus serviços</h1>
         </div>
         {isLoader ? (
           <h1>Ola</h1>
           ) : (
-            // <Carousel />
-            <LayoutSkeleton />
+            <Carousel />
+            // <LayoutSkeleton />
           // <h1>Ola01</h1>
         )}
       </section>

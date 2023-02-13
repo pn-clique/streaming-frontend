@@ -21,11 +21,12 @@ import { Api } from '../../../api/axios'
 // STYLES
 import styles from "./styles.module.scss";
 import axios from "axios";
+import { useEffect } from "react";
 
 
 
 
-export default function ModalNewService({ ModalIsOpen, closeModal }) {
+export default function ModalEditionService({ ModalIsOpen, closeModal, id }) {
   const refImage = useRef(null);
 
   const navigate = useRouter();
@@ -37,11 +38,26 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
   const [duracao, setDuracao] = useState("");
   const [capacidade, setCapacidade] = useState("");
   const [comissao, setComissao] = useState("");
-  const [obs, setObs] = useState("");
+  const [recarga, setRecarga] = useState("");
+
+  const loadingServices = () => {
+    Api.get(`services/${id}`)
+    .then(res => {
+      setName(res.data.service.name);
+      setPreco(res.data.service.preco);
+      setPontos(res.data.service.pontos);
+      setDuracao(res.data.service.duracao)
+      setCapacidade(res.data.service.capacidade);
+      setComissao(res.data.service.comissao);
+      setRecarga(res.data.service.recarga)
+      setImage(res.data.service.image)
+    })
+    .catch(error => console.log('Erro: ', error));
+  }
 
   function handlerSubmit(e) {
-    e.preventDefault();
-
+    
+    e.preventDefault()
     closeModal()
 
 
@@ -55,13 +71,13 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
       duracao,
       capacidade,
       comissao,
-      obs
+      recarga
     })
 
 
     const form = new FormData();
     form.append('name', name);
-    form.append('recarga', obs);
+    form.append('recarga', recarga);
     form.append('preco', preco);
     form.append('pontos', pontos);
     form.append('duracao', duracao);
@@ -71,8 +87,8 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
 
 
     const token = localStorage.getItem('token')
-    const url = 'https://api-streaming.onrender.com/services/create/'
-    axios.post(url, form, {
+    const url = `https://api-streaming.onrender.com/services/${id}`
+    axios.put(url, form, {
       headers: {
         "Content-Type": "multipart/form-data",
         "Authorization":  `Bearer ${token}`
@@ -83,6 +99,10 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
     })
     .catch(error => console.log('Error: ', error))
   }
+
+  useEffect(() => {
+    loadingServices();
+  }, [])
 
   return (
     <Modal
@@ -95,8 +115,8 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
       <form className={styles.form} encType="multipart/form-data" onSubmit={handlerSubmit}>
         <div>
           <div>
-            <h2>Adicionar serviço</h2>
-            <span>Adicionar novo serviços</span>
+            <h2>Editar serviço</h2>
+            <span>Edite o serviço</span>
           </div>
           <button onClick={closeModal}>X</button>
         </div>
@@ -160,8 +180,8 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
             cols="30"
             rows="10"
             placeholder="Digite uma observação:"
-            value={obs}
-            onChange={(e) => setObs(e.target.value)}
+            value={recarga}
+            onChange={(e) => setRecarga(e.target.value)}
           ></textarea>
         </div>
 

@@ -23,11 +23,32 @@ import { services, statistics } from "../../dataAPI/DataAdmin/Datas";
 import ModalNewService from "./ModalNewService";
 import ModalAddAccountService from "./ModalAddAccountService";
 import { Api } from "../../api/axios";
+import {CarouselClients} from "./CarouselClients";
+import ModalEditionService from "./ModalEditionService";
 
 export default function Dashboard() {
+
+    function handlerDeleteService(id) {
+    Api.delete(`services/${id}`)
+    .then(res => {
+      console.log(res.data.message)
+
+      window.location.reload();
+    })
+    .catch(error => console.log('Erro: ', error))
+  }
+
   const [isLoader, setIsLoader] = useState(true);
+  const navigate = useRouter()
+
+  const [ourService, setOurService] = useState([])
 
   useEffect(() => {
+
+    Api.get('/services')
+    .then(res => setOurService(res.data.services))
+    .catch(error => console.log('Erro: ', error))
+
     setTimeout(() => {
       setIsLoader(false);
     }, 2000);
@@ -35,6 +56,7 @@ export default function Dashboard() {
 
   const [ModalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpenAccount, setModalIsOpenAccount] = useState(false);
+  const [modalEditionServiceIsOpen, setModalEditionServiceIsOpen] = useState(false);
 
   function openModal() {
     setModalIsOpen(true);
@@ -50,6 +72,13 @@ export default function Dashboard() {
     setModalIsOpenAccount(false);
   }
 
+  function openEditionService() {
+    setModalEditionServiceIsOpen(true);
+  }
+  function closeEditionService() {
+    setModalEditionServiceIsOpen(false);
+  }
+
   function handlerLogout() {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
@@ -57,6 +86,8 @@ export default function Dashboard() {
 
     navigate.push("/Login");
   }
+
+
 
   if (isLoader) {
     return <Loader />;
@@ -123,23 +154,32 @@ export default function Dashboard() {
             </motion.button>
           </header>
           <div>
-            {services.map((service) => (
+            {ourService.map((service) => (
               <motion.div
                 className={styles.card}
                 initial={{ y: 200, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 1 }}
-                key={service.id}
+                key={service.name}
               >
                 <div>
-                  <Image src={service.image} alt={service.name} />
+                <img src={`https://api-streaming.onrender.com/uploads/${service.image}`} alt={service.name} />
                   <span>{service.name}</span>
                 </div>
                 <div className={styles.button_group}>
-                  <button type="button" className="btn_default">
+                  <ModalEditionService 
+                    ModalIsOpen={modalEditionServiceIsOpen} 
+                    closeModal={closeEditionService}
+                    id={service._id}
+                    />
+                  <button type="button" className="btn_default"
+                    onClick={openEditionService}
+                  >
                     Editar
                   </button>
-                  <button type="button" className="btn_default">
+                  <button type="button" className="btn_default"
+                    onClick={() => handlerDeleteService(service._id)}
+                  >
                     Apagar
                   </button>
                 </div>
@@ -171,7 +211,7 @@ export default function Dashboard() {
           <div>
             <div className={styles.card}>
               <div>
-                <Image src={netflix} alt="Netflix" />
+                <Image src={netflix} alt="Netflix" width={100} height={200} />
                 <span>Netflix</span>
               </div>
               <div className={styles.button_group}>
@@ -185,7 +225,7 @@ export default function Dashboard() {
             </div>
             <div className={styles.card}>
               <div>
-                <Image src={netflix} alt="Netflix" />
+                <Image src={netflix} alt="Netflix" width={100} height={200} />
                 <span>Netflix</span>
               </div>
               <div className={styles.button_group}>
@@ -199,7 +239,7 @@ export default function Dashboard() {
             </div>
             <div className={styles.card}>
               <div>
-                <Image src={netflix} alt="Netflix" />
+                <Image src={netflix} alt="Netflix"  />
                 <span>Netflix</span>
               </div>
               <div className={styles.button_group}>
@@ -229,6 +269,27 @@ export default function Dashboard() {
           <button className="btn_default">
             Mostrar mais conta de serviços
           </button>
+        </div>
+      </section>
+
+      <section className={styles.clients}>
+        <div>
+          <header>
+            <motion.div
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <motion.h2>Nossos clientes</motion.h2>
+              <div></div> 
+            </motion.div>
+            <ModalNewService
+              ModalIsOpen={ModalIsOpen}
+              closeModal={closeModal}
+            />
+          </header>
+          <CarouselClients />
+          
         </div>
       </section>
     </>

@@ -9,7 +9,7 @@ export function Loader() {
 
   return (
     <div className={styles.loader}>
-      <Image src={loader} alt="Loader" />
+      <Image src={loader} width={350} alt="Loader" />
       <h4>Carregando...</h4>
 
     </div>

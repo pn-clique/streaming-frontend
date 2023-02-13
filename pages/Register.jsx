@@ -69,16 +69,7 @@ export default  function Register() {
     e.preventDefault();
     
     const file = ref.current.files[0];
-    // const data = {
-    //   name,
-    //   email,
-    //   password,
-    //   whatsApp,
-    //   sex,
-    //   code_pin,
-    //   photo_profile: file,
-    //   date_birth,
-    // };
+
 
     const config = {
       headers: { "Content-Type": "multipart/form-data" },
@@ -104,13 +95,6 @@ export default  function Register() {
     bForm.append("code_pin", code_pin);
     bForm.append("photo_profile", file);
 
-    console.log(bForm);
-
-    // Api.post("/register", bForm, {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   }
-    // })
     const url = 'https://api-streaming.onrender.com/register'
      axios.post(url, bForm, {
       headers: {

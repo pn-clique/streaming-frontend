@@ -107,7 +107,7 @@
       align-items: flex-start;
       justify-content: flex-end;
 
-      img {
+      &>img {
         display: block;
       max-width: 90%;
       height: auto;
@@ -127,14 +127,32 @@
         background-color: rgba(13, 13, 13, 0.8);
         padding: 35px;
 
-        h2 {
-          color: var(--primary-color);
-          font-weight: 700;
+        header {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          h2 {
+            color: var(--primary-color);
+            font-weight: 700;
+
+          }
+  
+          span {
+            color: var(--gray-700);
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+              display: block;
+            }
+            // max-width: 180px;
+          }
+
         }
 
-        span {
-          color: var(--gray-700);
-        }
 
         .form_group {
           width: 100%;
@@ -254,7 +272,8 @@
 
 // CAROUSEL INFINITY
 .carousel_infinity {
-  padding: 10px 0;
+  padding: 4rem 0;
+  margin: 4rem 0;
 
 }
 

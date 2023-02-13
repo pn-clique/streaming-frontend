@@ -1,18 +1,21 @@
-import { banner, logo, services } from "../assets/";
-import Framer from "../components/LoopInfinity";
-import { motion } from 'framer-motion' 
-
-import { useState, useEffect } from "react";
-
-
 
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from 'next/router';
 
+
+import { motion } from 'framer-motion' 
+
+import { useState, useEffect } from "react";
+
+
+// CAROUSEL INFINITY
+import Framer from "../components/LoopInfinity";
+
 import styles from '../styles/index.module.scss';
 
-
+// ASSETS
+import { banner, logo, services, giphy } from "../assets/";
 
 //icons
 import { 
@@ -89,6 +92,11 @@ function handleSubmit(e) {
 
 }
 
+if(isLoader) {
+  return (
+    <Loader />
+  )
+}
 
 
   return (
@@ -96,8 +104,7 @@ function handleSubmit(e) {
       
 
       {/* HERO */}
-      {
-        isLoader ? (<Loader />) : (
+      
           <>
           <motion.header 
           initial={{y: 200, opacity: 0, scale: 0}}
@@ -130,6 +137,7 @@ function handleSubmit(e) {
           </motion.nav>
         </div>
       </motion.header>
+
           <motion.section 
           initial={{y: 200, opacity: 0, scale: 0}}
           animate={{y: 0, opacity: 1, scale: 1}}
@@ -153,8 +161,10 @@ function handleSubmit(e) {
               transition={{duration: 1, delay: 1}}
             >
               <header>
-                <h2>Fazer login</h2>
-                <span>Faça login e desfrute dos nossos serviços</span>
+                <h2>Faça login</h2>
+                <span>E experimente a aventura  
+                  <Image src={giphy} alt="Imoje" width={24} height={24} />
+                </span>
               </header>
               <div className={styles.form_group}>
                 <div className={'input_icon'}>
@@ -244,8 +254,7 @@ function handleSubmit(e) {
         </div>
       </footer>
       </>
-        )
-      }
+        
 
    
       

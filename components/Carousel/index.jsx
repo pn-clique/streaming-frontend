@@ -26,13 +26,14 @@ export function Carousel() {
 
   const [dataMovie, setDataMovie] = useState([]);
 
+
   useEffect(() => {
     axios.get(ApiMovies).then((res) => setDataMovie(res.data.results));
 
     setWidth(
       slider_wrapper.current.scrollWidth - slider_wrapper.current.offsetWidth
     );
-  }, []);
+  }, [width]);
 
   return (
     <div className={styles.container}>
@@ -54,9 +55,9 @@ export function Carousel() {
               transition={{ duration: 0.5 }}
               key={movie.id}
             >
-              {/* <div className={styles.card_image}>
+              <div className={styles.card_image}>
               <img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="Image" />
-            </div> */}
+            </div>
             </motion.div>
           ))}
         </motion.div>
