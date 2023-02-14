@@ -244,7 +244,7 @@ if(isLoader) {
               key={key}
               >
                 <div>
-              <ModalBuyService service_id={data.service_id._id}  account_id={data._id} ModalIsOpen={modalBuyServiceIsOpen} closeModal={modalBuyServicesClose} />
+              <ModalBuyService service_id={data.service_id.id}  account_id={data._id} ModalIsOpen={modalBuyServiceIsOpen} closeModal={modalBuyServicesClose} />
                   <img src={`https://api-streaming.onrender.com/uploads/${data.service_id.image}`} alt={data.service_id.name} />
                   <span>{data.service_id.name}</span>
                 </div>

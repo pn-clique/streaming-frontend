@@ -22,41 +22,84 @@ import styles from "./styles.module.scss";
 import { services, statistics } from "../../dataAPI/DataAdmin/Datas";
 import ModalNewService from "./ModalNewService";
 import ModalAddAccountService from "./ModalAddAccountService";
+import ModalEditAccountService from "./ModalEditAccountService";
 import { Api } from "../../api/axios";
-import {CarouselClients} from "./CarouselClients";
+import { CarouselClients } from "./CarouselClients";
 import ModalEditionService from "./ModalEditionService";
 
 export default function Dashboard() {
-
-    function handlerDeleteService(id) {
+  function handlerDeleteService(id) {
     Api.delete(`services/${id}`)
-    .then(res => {
-      console.log(res.data.message)
+      .then((res) => {
+        console.log(res.data.message);
 
-      window.location.reload();
-    })
-    .catch(error => console.log('Erro: ', error))
+        window.location.reload();
+      })
+      .catch((error) => console.log("Erro: ", error));
+  }
+
+  function handlerDeleteAccountService(id) {
+    Api.delete(`account-service/${id}`)
+      .then((res) => {
+        console.log('delete account services : ', res.data.message);
+
+        window.location.reload();
+      })
+      .catch((error) => console.log("Erro in delete account: ", error));
   }
 
   const [isLoader, setIsLoader] = useState(true);
-  const navigate = useRouter()
+  const [serviceId, setServiceId] = useState("");
+  const [accountServiceId, setAccountServiceId] = useState("");
 
-  const [ourService, setOurService] = useState([])
+  const navigate = useRouter();
+
+  const [ourClientsLength, setOurClientsLength] = useState(0);
+  const [ourPartnersLength, setOurPartnersLength] = useState(0);
+  const [ourService, setOurService] = useState([]);
+  const [ourServiceLength, setOurServiceLength] = useState(0);
+  const [ourAccountServices, setAccountOurServices] = useState([]);
+  const [ourAccountServicesLength, setAccountOurServicesLength] = useState(0);
 
   useEffect(() => {
+    Api.get("/services")
+      .then((res) => {
+         setOurService(res.data.services);
+          setOurServiceLength(res.data.services.length)})
+      .catch((error) => console.log("Erro: ", error));
 
-    Api.get('/services')
-    .then(res => setOurService(res.data.services))
-    .catch(error => console.log('Erro: ', error))
+    Api.get("/account-service")
+      .then((res) => {
+        console.log("account-services : ", res.data.accountServices);
+        setAccountOurServices(res.data.accountServices);
+        setAccountOurServicesLength(res.data.accountServices.length)
+      })
+      .catch((error) => console.log("Erro: ", error));
+
+      Api.get("/clients")
+      .then((res) => {
+        console.log("clients : ", res.data.user);
+        setOurClientsLength(res.data.user.length)
+      })
+      .catch((error) => console.log("Erro: ", error));
+
+      Api.get("/partners")
+      .then((res) => {
+        console.log("partners : ", res.data.user);
+        setOurPartnersLength(res.data.user.length)
+      })
+      .catch((error) => console.log("Erro: ", error));
 
     setTimeout(() => {
       setIsLoader(false);
     }, 2000);
+
   }, []);
 
   const [ModalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpenAccount, setModalIsOpenAccount] = useState(false);
   const [modalEditionServiceIsOpen, setModalEditionServiceIsOpen] = useState(false);
+  const [modalEditionAccountServiceIsOpen, setModalEditionAccountServiceIsOpen] = useState(false)
 
   function openModal() {
     setModalIsOpen(true);
@@ -73,10 +116,12 @@ export default function Dashboard() {
   }
 
   function openEditionService() {
+    console.log("servies id : ", serviceId);
     setModalEditionServiceIsOpen(true);
   }
-  function closeEditionService() {
-    setModalEditionServiceIsOpen(false);
+
+  function openEditionAccountService() {
+    setModalEditionServiceIsOpen(true);
   }
 
   function handlerLogout() {
@@ -86,8 +131,6 @@ export default function Dashboard() {
 
     navigate.push("/Login");
   }
-
-
 
   if (isLoader) {
     return <Loader />;
@@ -114,17 +157,38 @@ export default function Dashboard() {
 
       <section className={styles.statistics}>
         <div>
-          {statistics.map((stat) => (
             <motion.div
               initial={{ y2: -100, opacity: 0, scale: 0, skewY: 5 }}
               animate={{ x: 0, opacity: 1, scale: 1, skewY: 0 }}
               transition={{ duration: 1, delay: 0.5 }}
-              key={stat.id}
             >
-              <h4>{stat.type}</h4>
-              <span>{stat.value}</span>
+              <h4>Serviços</h4>
+              <span>{ourServiceLength}</span>
             </motion.div>
-          ))}
+            <motion.div
+              initial={{ y2: -100, opacity: 0, scale: 0, skewY: 5 }}
+              animate={{ x: 0, opacity: 1, scale: 1, skewY: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+            >
+              <h4>Contas de serviço</h4>
+              <span>{ourAccountServicesLength}</span>
+            </motion.div>
+            <motion.div
+              initial={{ y2: -100, opacity: 0, scale: 0, skewY: 5 }}
+              animate={{ x: 0, opacity: 1, scale: 1, skewY: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+            >
+              <h4>Clientes</h4>
+              <span>{ourClientsLength}</span>
+            </motion.div>
+            <motion.div
+              initial={{ y2: -100, opacity: 0, scale: 0, skewY: 5 }}
+              animate={{ x: 0, opacity: 1, scale: 1, skewY: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+            >
+              <h4>Parceiros</h4>
+              <span>{ourPartnersLength}</span>
+            </motion.div>
         </div>
       </section>
 
@@ -163,21 +227,34 @@ export default function Dashboard() {
                 key={service.name}
               >
                 <div>
-                <img src={`https://api-streaming.onrender.com/uploads/${service.image}`} alt={service.name} />
+                  <img
+                    src={`https://api-streaming.onrender.com/uploads/${service.image}`}
+                    alt={service.name}
+                  />
                   <span>{service.name}</span>
                 </div>
                 <div className={styles.button_group}>
-                  <ModalEditionService 
-                    ModalIsOpen={modalEditionServiceIsOpen} 
-                    closeModal={closeEditionService}
-                    id={service._id}
-                    />
-                  <button type="button" className="btn_default"
-                    onClick={openEditionService}
+                  <ModalEditionService
+                    ModalIsOpen={modalEditionServiceIsOpen}
+                    closeModal={!modalEditionServiceIsOpen}
+                    serviceId={serviceId}
+                    setServiceId={setServiceId}
+                    modalEditionServiceIsOpen={modalEditionServiceIsOpen}
+                    setModalEditionServiceIsOpen={setModalEditionServiceIsOpen}
+                  />
+                  <button
+                    type="button"
+                    className="btn_default"
+                    onClick={() => {
+                      setServiceId(service._id);
+                      openEditionService();
+                    }}
                   >
                     Editar
                   </button>
-                  <button type="button" className="btn_default"
+                  <button
+                    type="button"
+                    className="btn_default"
                     onClick={() => handlerDeleteService(service._id)}
                   >
                     Apagar
@@ -201,70 +278,50 @@ export default function Dashboard() {
               ModalIsOpen={modalIsOpenAccount}
               closeModal={closeModalAccount}
             />
-            <button 
-              onClick={openModalAccount}
-              className={'btn_default'}
-              >
+            <button onClick={openModalAccount} className={"btn_default"}>
               Adicionar conta de serviço
             </button>
           </header>
           <div>
-            <div className={styles.card}>
-              <div>
-                <Image src={netflix} alt="Netflix" width={100} height={200} />
-                <span>Netflix</span>
-              </div>
-              <div className={styles.button_group}>
-                <button type="button" className="btn_default">
-                  Editar
-                </button>
-                <button type="button" className="btn_default">
-                  Apagar
-                </button>
-              </div>
-            </div>
-            <div className={styles.card}>
-              <div>
-                <Image src={netflix} alt="Netflix" width={100} height={200} />
-                <span>Netflix</span>
-              </div>
-              <div className={styles.button_group}>
-                <button type="button" className="btn_default">
-                  Editar
-                </button>
-                <button type="button" className="btn_default">
-                  Apagar
-                </button>
-              </div>
-            </div>
-            <div className={styles.card}>
-              <div>
-                <Image src={netflix} alt="Netflix"  />
-                <span>Netflix</span>
-              </div>
-              <div className={styles.button_group}>
-                <button type="button" className="btn_default">
-                  Editar
-                </button>
-                <button type="button" className="btn_default">
-                  Apagar
-                </button>
-              </div>
-            </div>
-            <div className={styles.card}>
-              <div>
-                <Image src={netflix} alt="Netflix" />
-                <span>Netflix</span>
-              </div>
-              <div className={styles.button_group}>
-                <button type="button" className="btn_default">
-                  Editar
-                </button>
-                <button type="button" className="btn_default">
-                  Apagar
-                </button>
-              </div>
-            </div>
+            {ourAccountServices.map((data, key) => {
+              return (
+                <div key={key} className={styles.card}>
+                  <div>
+                    <img
+                      src={`https://api-streaming.onrender.com/uploads/${data.service_id.image}`}
+                      alt={data.count_service_email}
+                      
+                    />
+                    <span>{data.count_service_email}</span>
+                  </div>
+                  <ModalEditAccountService
+                    ModalIsOpen={modalEditionAccountServiceIsOpen}
+                    closeModal={!modalEditionAccountServiceIsOpen}
+                    accountServiceId={accountServiceId}
+                    setAccountServiceId={setAccountServiceId}
+                    modalEditionAccountServiceIsOpen={modalEditionAccountServiceIsOpen}
+                    setModalEditionAccountServiceIsOpen={setModalEditionAccountServiceIsOpen}
+                  />
+                  <div className={styles.button_group}>
+                    <button
+                     type="button"
+                      className="btn_default"
+                      onClick={() => {
+                        setAccountServiceId(data._id);
+                        openEditionAccountService();
+                      }}>
+                      Editar
+                    </button>
+                    <button
+                     type="button"
+                      className="btn_default"
+                      onClick={() => handlerDeleteAccountService(data._id)}>
+                      Apagar
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
           <button className="btn_default">
             Mostrar mais conta de serviços
@@ -281,7 +338,7 @@ export default function Dashboard() {
               transition={{ duration: 0.5 }}
             >
               <motion.h2>Nossos clientes</motion.h2>
-              <div></div> 
+              <div></div>
             </motion.div>
             <ModalNewService
               ModalIsOpen={ModalIsOpen}
@@ -289,7 +346,6 @@ export default function Dashboard() {
             />
           </header>
           <CarouselClients />
-          
         </div>
       </section>
     </>

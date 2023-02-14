@@ -209,7 +209,7 @@ if(isLoader) {
               <h2>Nossos serviços</h2>
               <div></div>
             </div>
-            <p>É um fato estabelecido há muito tempo que um leitor se distrairá com o conteúdo legível de uma página ao olhar para seu layout. O ponto de usar Lorem Ipsum é que ele tem uma distribuição mais ou menos normal de letras, ao contrário de usar 'Conteúdo aqui, conteúdo aqui', fazendo com que pareça inglês legível. </p>
+            <p>Nós estamos aqui para ajudar você a acessar todos os serviços de streaming que vão entreter você e os seus. Os nossos serviços de streaming  são o lugar onde você pode assistir, ouvir e brincar, aqui você estará sempre entretido. Agora você pode assistir seus shows favoritos, ouvir suas músicas favoritas ou jogar os mais novos jogos com nossa ampla seleção de aplicativos disponíveis.</p>
           </div>
           <motion.div
             whileHover={{ scale: 1.1 }}
