@@ -54,7 +54,7 @@ export default function Dashboard() {
 
   const navigate = useRouter();
 
-  const [ourClientsLength, setOurClientsLength] = useState(0);
+  const [ourClientsLength, setOurClientsLength] = useState([]);
   const [ourPartnersLength, setOurPartnersLength] = useState(0);
   const [ourService, setOurService] = useState([]);
   const [ourServiceLength, setOurServiceLength] = useState(0);
@@ -79,7 +79,7 @@ export default function Dashboard() {
       Api.get("/clients")
       .then((res) => {
         console.log("clients : ", res.data.user);
-        setOurClientsLength(res.data.user.length)
+        setOurClientsLength([res.data.user])
       })
       .catch((error) => console.log("Erro: ", error));
 
@@ -121,7 +121,7 @@ export default function Dashboard() {
   }
 
   function openEditionAccountService() {
-    setModalEditionServiceIsOpen(true);
+    setModalEditionAccountServiceIsOpen(true);
   }
 
   function handlerLogout() {
@@ -179,7 +179,7 @@ export default function Dashboard() {
               transition={{ duration: 1, delay: 0.5 }}
             >
               <h4>Clientes</h4>
-              <span>{ourClientsLength}</span>
+              <span>{ourClientsLength.length}</span>
             </motion.div>
             <motion.div
               initial={{ y2: -100, opacity: 0, scale: 0, skewY: 5 }}

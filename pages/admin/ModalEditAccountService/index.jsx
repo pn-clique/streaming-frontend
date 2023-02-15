@@ -47,8 +47,8 @@ export default function ModalEditAccountService({
       .catch((err) => console.log(err));
   }
 
-  function closeModal() {
-    setAccountServiceId("");
+  async function closeModal() {
+    await setAccountServiceId("");
     setEmail("");
     setPassword("");
     setPoints("");
@@ -72,29 +72,30 @@ export default function ModalEditAccountService({
 
     closeModal();
     console.log("item : ", item);
-    console.log("refpoints : ", refPoints.current.value);
+    console.log("refpoints : ", refPoints.current);
 
+    
     const data = {
       count_service_email: email == "" ? item.count_service_email : email,
       date_init: dateStart == "" ? item.date_init : dateStart,
       date_finish: dateEnd == "" ? item.date_finish : dateEnd,
       capacity:
-        refCapacity.current.value == ""
+        refCapacity.current == null
           ? item.capacity
           : refCapacity.current.value,
       points:
-        refPoints.current.value == "" ? item.points : refPoints.current.value,
+        refPoints.current == null ? item.points : refPoints.current.value,
       price:
-        refPoints.current.value == "" ? item.price : refPoints.current.value,
+        refPoints.current == null ? item.price : refPoints.current.value,
       password: password == "" ? item.password : password,
-      service_id: serviceId == "" ? item.service_id : serviceId,
+      service_id: serviceId == "" ? item.service_id._id : serviceId,
       in_day: 1,
     };
 
-    // Api.put(`/account-service/${data}`)
-    // .then((res) => console.log("Success:", res))
-    // .catch((error) => console.log(error));
-    // console.log(data);
+     Api.put(`/account-service/${accountServiceId}`, data)
+     .then((res) => {console.log("Success:", res); window.location.reload()} )
+     .catch((error) => console.log(error));
+     console.log('data : ', data);
   }
 
   return (
@@ -108,14 +109,14 @@ export default function ModalEditAccountService({
       <form className={styles.form} onSubmit={handlerSubmit}>
         <div className={styles.form_group_heading}>
           <div>
-            <h2>Adicionar conta de serviço</h2>
-            <span>Adicionar nova conta de serviços</span>
+            <h2>Editar conta de serviço</h2>
+            <span>Edite a conta de serviços</span>
           </div>
           <button onClick={closeModal}>X</button>
         </div>
 
         {accountService.map((item) => {
-          //if (item._id == accountServiceId)
+          if (item._id == accountServiceId)
           return (
             <>
               <div className={styles.form_group_email}>
@@ -124,7 +125,7 @@ export default function ModalEditAccountService({
                   placeholder={item.count_service_email}
                   required
                   autoComplete="false"
-                  value={email}
+                  value={email == '' ? '' : email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -132,14 +133,14 @@ export default function ModalEditAccountService({
               <div className={styles.form_group_date}>
                 <input
                   type="date"
-                  placeholder="Digite a data do iniçio:"
-                  value={dateStart}
+                  placeholder={item.date_init}
+                  value={dateStart == '' ? item.date_init : dateStart}
                   onChange={(e) => setDateStart(e.target.value)}
                 />
                 <input
                   type="date"
-                  placeholder="Digite a data final:"
-                  value={dateEnd}
+                  placeholder={item.date_finish}
+                  value={dateEnd == '' ? item.date_finish : dateEnd}
                   autoComplete="false"
                   onChange={(e) => setDateEnd(e.target.value)}
                 />
@@ -195,7 +196,7 @@ export default function ModalEditAccountService({
                   type="password"
                   name=""
                   id=""
-                  placeholder="Palavra-passe:"
+                  placeholder={item.password}
                   value={password}
                   autoComplete="false"
                   onChange={(e) => setPassword(e.target.value)}
@@ -206,12 +207,13 @@ export default function ModalEditAccountService({
                   value={serviceId}
                   onChange={(e) => setServiceId(e.target.value)}
                 >
-                  <option value="">Escolha um serviço</option>
-                  {service.map((data, key) => (
-                    <option value={data._id} key={key}>
-                      {data.name}
-                    </option>
-                  ))}
+                  {service.map((data, key) => {
+                    return (
+                      <option value={data._id} key={key}>
+                        {data.name}
+                      </option>
+                    )
+                  })}
                 </select>
               </div>
 

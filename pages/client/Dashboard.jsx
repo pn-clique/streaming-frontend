@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 import SuggestGame from '../../components/suggestGame';
 import { useState, useEffect } from 'react';
 
-import { suggestion, services } from '../../dataAPI/DataClient/Datas';
+//import { suggestion, services } from '../../dataAPI/DataClient/Datas';
 
 
 import ModalInfo from './ModalInfo';
@@ -32,6 +32,9 @@ export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const [suggestionIsOpen, setSuggestionIsOpen] = useState(false);
   const [modalBuyServiceIsOpen, setModalBuyServiceIsOpen] = useState(false);
+  const [suggestion, setSuggestion] = useState([]);
+  const [accountService, setAccountService] = useState([])
+
 
   const navigate = useRouter();
 
@@ -68,14 +71,23 @@ export default function Dashboard() {
      navigate.push('/Login');
   }
 
-  const [accountService, setAccountService] = useState([])
-
   const loadingAccountServices = async () => {
     const res = await Api.get('/account-service')
     
     console.log('res account services : ', res.data);
     setAccountService(res.data.accountServices)
 }
+const loadMovieFromApi = () => {
+  fetch('https://api.themoviedb.org/3/trending/all/day?api_key=8c55f9e819a9e2f5b48651b3b39ca6f1')
+  .then((res) => res.json())
+  .then((data) => {
+    console.log('data Movies : ', data.results);
+    setSuggestion(data.results)
+  })
+  console.log('res account services : ', res.data);
+  setAccountService(res.data.accountServices)
+}
+
 
 useEffect(() => {
   setTimeout(() => {
@@ -84,6 +96,7 @@ useEffect(() => {
   }, 5000)
 
   loadingAccountServices();
+  loadMovieFromApi();
 
 }, [])
 
@@ -176,7 +189,7 @@ if(isLoader) {
               animate={{x: 0, opacity: 1}}
               transition={{duration: .5, delay: 1.2}}
               >Ajude-nos a encontrar o que voçê quer assistir.</motion.p>
-              <SuggestGame isOpen={isOpen} closeModal={closeModal} />
+              <SuggestGame movie={suggestion} isOpen={isOpen} closeModal={closeModal} />
               <motion.button
               className={'btn_default'} 
               type='button' 
@@ -197,9 +210,9 @@ if(isLoader) {
                 transition={{duration: .5, delay: 1.6}}
                 key={movie.id}
               >
-                <Image src={movie.image} alt={'movie.title'} />
+                <img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="Image" />
               </motion.div>
-            ))}
+            )).splice(-3)}
             </div>
           </div>
         </div>

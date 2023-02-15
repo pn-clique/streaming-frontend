@@ -13,7 +13,7 @@ import { useState } from "react";
 import styles from './styles.module.scss';
 
 
-export default function SuggestGame({ isOpen, closeModal }) {
+export default function SuggestGame({ isOpen, closeModal, movie }) {
   const formTemplate = {
     step1: "",
     step2: "",
@@ -36,7 +36,7 @@ export default function SuggestGame({ isOpen, closeModal }) {
     <Step1 data={data} updateFieldHandler={updateFieldHandler} />,
     <Step2 data={data} updateFieldHandler={updateFieldHandler} />,
     <Step3 data={data} updateFieldHandler={updateFieldHandler} />,
-    <Step4 data={data} updateFieldHandler={updateFieldHandler} />,
+    <Step4 movie={movie} data={data} updateFieldHandler={updateFieldHandler} />,
   ];
 
   let {

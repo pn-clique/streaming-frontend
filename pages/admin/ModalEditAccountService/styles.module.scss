@@ -71,6 +71,12 @@
         padding: 15px 11px;
         border-radius: 0.25rem;
         border: 0;
+        outline: none;
+
+        &:hover {
+          outline: 1px solid var(--primary-color);
+
+        }
       }
     }
 
@@ -86,7 +92,14 @@
         padding: 15px 11px;
         border-radius: 0.25rem;
         border: 0;
+        outline: none;
+
+        &:hover {
+          outline: 1px solid var(--primary-color);
+
+        }
       }
+
     }
 
     &>div.form_group_data_service { 
@@ -101,6 +114,12 @@
         padding: 15px 11px;
         border-radius: 0.25rem;
         border: 0;
+        outline: none;
+
+        &:hover {
+          outline: 1px solid var(--primary-color);
+
+        }
       }
     }
 

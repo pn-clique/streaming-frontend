@@ -36,6 +36,7 @@ export function CarouselClients() {
 
   const [ourClients, setOurClients] = useState([]);
   const [myAccountServices, setMyAccountServices] = useState([]);
+  const [services, setServices] = useState([]);
   const [ourClientId, setOurClientId] = useState('');
 
 
@@ -60,8 +61,15 @@ export function CarouselClients() {
 
       Api.get("/my-account-services")
       .then((res) => {
-        console.log("clients : ", res.data.accountServicesOfTheUser);
+        console.log("account services of the clients : ", res.data.accountServicesOfTheUser);
         setMyAccountServices(res.data.accountServicesOfTheUser);
+      })
+      .catch((error) => console.log("Erro: ", error));
+
+      Api.get("/services")
+      .then((res) => {
+        console.log("services of the clients : ", res.data.services);
+        setServices(res.data.services);
       })
       .catch((error) => console.log("Erro: ", error));
 
@@ -95,7 +103,7 @@ export function CarouselClients() {
                 >
                   <div className={styles.card_image}>
                   <img
-                    src={`https://api-streaming.onrender.com/uploads/${data.photo_profile}.jpg`}
+                    src={`https://api-streaming.onrender.com/uploads/${data.photo_profile}`}
                     alt={data.name} />
                   </div>
                 </motion.div>
@@ -116,33 +124,41 @@ export function CarouselClients() {
         {
           ourClients.map((data, key) => {
             if (data._id == ourClientId)
-            return (
-              <div key={key} className={styles.modal_clients}>
-          <Image src={sza} alt="Image client"  />
-          <div className={styles.name_clients}>
-            <h4>Nome:</h4>
-            <span>{data.name}</span>
-          </div>
-          <div className={styles.email_clients}>
-            <h4>Email:</h4>
-            <span>{data.email}</span>
-          </div>
-          <div className={styles.services_clients}>
-            <h4>Serviços:</h4>
-            <hr />
-            <div>
-              <Image src={netflix} alt="Serviços" width={160} height={160} />
-              <Image src={netflix} alt="Serviços" width={160} height={160} />
-              <Image src={netflix} alt="Serviços" width={160} height={160} />
-              <Image src={netflix} alt="Serviços" width={160} height={160} />
-              </div>
-            </div>
-            <div className={styles.btn_clients}>
-              <button className={`${styles.btn_renovar} btn_default`}>Renovar</button>
-                <button className={`${styles.btn_delete} btn_default`}>Eliminar</button>
-            </div>
-          </div>
-            )
+            return services.map((item) => {
+              return data.account_service_id.map((i) => {
+                if (i.service_id == item._id)
+                return (
+                  <div key={key} className={styles.modal_clients}>
+                      <img
+                        src={`https://api-streaming.onrender.com/uploads/${data.photo_profile}`}
+                        alt={data.name} />
+                      <div className={styles.name_clients}>
+                        <h4>Nome:</h4>
+                        <span>{data.name}</span>
+                      </div>
+                      <div className={styles.email_clients}>
+                        <h4>Email:</h4>
+                        <span>{data.email}</span>
+                      </div>
+                      <div className={styles.services_clients}>
+                        <h4>Serviços:</h4>
+                        <hr />
+                      <div>
+                    <Image src={netflix} alt="Serviços" width={160} height={160} />
+                    <Image src={netflix} alt="Serviços" width={160} height={160} />
+                    <Image src={netflix} alt="Serviços" width={160} height={160} />
+                    <Image src={netflix} alt="Serviços" width={160} height={160} />
+                    </div>
+                    </div>
+                    <div className={styles.btn_clients}>
+                      <button className={`${styles.btn_renovar} btn_default`}>Renovar</button>
+                      <button className={`${styles.btn_delete} btn_default`}>Eliminar</button>
+                    </div>
+                  </div>
+                )
+              })
+              
+            })
           })
         }
       </Modal>
