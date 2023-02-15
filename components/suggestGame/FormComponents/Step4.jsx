@@ -7,7 +7,36 @@ import { acompanhado, familia, sozinho } from "../../../assets";
 // STYLES
 import styles from '../styles.module.scss';
 
-function Step4({ data, updateFieldHandler }) {
+function Step4({ data, updateFieldHandler, movie }) {
+
+const dataMovies = Object.values(movie);
+
+    function filter_data_movies(movies) {
+
+        return movies.filter((item) => {
+
+           // if (  item.media_type = data.step1 ) {
+
+                for (var i = 0; item.genre_ids.length > i; i++ ) {
+
+                    if (data.step1 == item.genre_ids[i] || data.step2 == item.genre_ids[i] || data.step3 == item.genre_ids[i]) {
+
+                        return  ( item) 
+
+                    } else {
+                        return console.log('result if of the if of the for  : ', item)
+                    }
+
+                }
+
+            //} else {
+            //    return console.log('result if of the first if : ', item)
+            //}
+
+        });
+
+    }
+
   return (
     <div className={styles.step_4}>
       <header>
@@ -15,48 +44,30 @@ function Step4({ data, updateFieldHandler }) {
         <h2>Qual sugestão deseja assistir?</h2>
       </header>
 
-      <div>
-      <label htmlFor="movie1">
-          <input 
-            type="radio" 
-            name="box" 
-            id="movie1" 
-            required
-            value="movie1"
-            checked={data.step4 === "movie1"}
-            onChange={(event) => updateFieldHandler("step4", event.target.value)}
-            />
-          <Image src={sozinho} alt="Assistir filme 1" />
-          <figcaption>Movie 1</figcaption>
-        </label>
-        <label htmlFor="movie2">
-          <input 
-            type="radio" 
-            name="box" 
-            id="movie2" 
-            required
-            value="movie2"
-            checked={data.step4 === "movie2"}
-            onChange={(event) => updateFieldHandler("step4", event.target.value)}
-            />
-          <Image src={sozinho} alt="Assistir filme 2" />
-          <figcaption>Movie 2</figcaption>
-        </label>
-        <label htmlFor="movie3">
-          <input 
-            type="radio" 
-            name="box" 
-            id="movie3" 
-            required
-            value="movie3"
-            checked={data.step4 === "movie3"}
-            onChange={(event) => updateFieldHandler("step4", event.target.value)}
-            />
-          <Image src={sozinho} alt="Assistir filme 3" />
-          <figcaption>Movie 3</figcaption>
-        </label>
+      {
+         filter_data_movies(dataMovies).map((data, key) => {
+            return (
+            <div key={key}>
+               <label htmlFor="movie1">
+                  <input 
+                    type="radio" 
+                    name="box" 
+                    id="movie1" 
+                    required
+                    value={data.id}
+                    checked={data.step4 === data.id}
+                    onChange={(event) => updateFieldHandler("step4", event.target.value)}
+                    />
+                  <img src={`https://image.tmdb.org/t/p/w500/${data.backdrop_path}`} alt="Image" />
+                  <figcaption>{data.original_title}</figcaption>
+                </label>
+             </div>
+
+            )
+         }).splice(-3)
+      }
+
       </div>
-    </div>
   );
 }
 

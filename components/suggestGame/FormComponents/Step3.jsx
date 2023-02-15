@@ -20,8 +20,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="action" 
-            value="action"
-            checked={data.step3 === "action"}
+            value="28"
+            checked={data.step3 === "28"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Ação</span>
@@ -31,8 +31,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="romance" 
-            value="romance"
-            checked={data.step3 === "romance"}
+            value="10749"
+            checked={data.step3 === "10749"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Romance</span>
@@ -42,8 +42,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="drama" 
-            value="drama"
-            checked={data.step3 === "drama"}
+            value="18"
+            checked={data.step3 === "18"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Drama</span>
@@ -53,8 +53,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="terror" 
-            value="terror"
-            checked={data.step3 === "terror"}
+            value="27"
+            checked={data.step3 === "27"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
              />
           <span>Terror</span>
@@ -64,8 +64,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="aventura" 
-            value="aventura"
-            checked={data.step3 === "aventura"}
+            value="12"
+            checked={data.step3 === "12"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Aventura</span>
@@ -75,8 +75,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="desenho" 
-            value="desenho"
-            checked={data.step3 === "desenho"}
+            value="12"
+            checked={data.step3 === "12"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Desenho animado</span>
@@ -86,8 +86,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="guerra" 
-            value="guerra"
-            checked={data.step3 === "guerra"}
+            value="10752"
+            checked={data.step3 === "10752"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Guerra</span>
@@ -97,8 +97,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="adulto" 
-            value="adulto"
-            checked={data.step3 === "adulto"}
+            value="14"
+            checked={data.step3 === "14"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>+18</span>
@@ -108,8 +108,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="desporto" 
-            value="desporto"
-            checked={data.step3 === "desporto"}
+            value="28"
+            checked={data.step3 === "28"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Desporto</span>
@@ -119,8 +119,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="biografia" 
-            value="biografia"
-            checked={data.step3 === "biografia"}
+            value="99"
+            checked={data.step3 === "99"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Biográfia</span>
@@ -130,8 +130,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="documentario" 
-            value="documentario"
-            checked={data.step3 === "documentario"}
+            value="99"
+            checked={data.step3 === "99"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Documentário</span>

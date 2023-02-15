@@ -20,7 +20,7 @@ import { useState, useEffect } from 'react';
 import ModalInfo from './ModalInfo';
 import { Loader } from '../../components/Loader';
 import ModalBuyService from './ModalBuyService';
-import { Carousel } from '../../components/Carousel';
+import { CarouselMyServices } from '../../components/CarouselMyServices';
 import LayoutSkeleton from '../../components/Carousel/LayoutSkeleton';
 
 export default function Dashboard() {
@@ -33,7 +33,10 @@ export default function Dashboard() {
   const [suggestionIsOpen, setSuggestionIsOpen] = useState(false);
   const [modalBuyServiceIsOpen, setModalBuyServiceIsOpen] = useState(false);
   const [suggestion, setSuggestion] = useState([]);
+  const [suggestionMovieId, setSuggestionMovieId] = useState('');
   const [accountService, setAccountService] = useState([])
+  const [myAccounts, setMyAccounts] = useState([]);
+  const [services, setServices] = useState([]);
 
 
   const navigate = useRouter();
@@ -43,7 +46,9 @@ export default function Dashboard() {
     setIsOpen(true);
   }
 
-  function closeModal() {
+  async function closeModal() {
+    window.location.reload(false)
+    await setSuggestionMovieId('')
     setIsOpen(false);
   }
 
@@ -77,6 +82,26 @@ export default function Dashboard() {
     console.log('res account services : ', res.data);
     setAccountService(res.data.accountServices)
 }
+function getMyAccountServices() {
+    Api.get('/my-account-services')
+      .then((res) => {
+        console.log('my account services : ', res.data.accountServicesOfTheUser);
+        setMyAccounts([res.data.accountServicesOfTheUser]);
+
+      })
+      .catch((error) => console.log("Erro: ", error));
+  }
+
+  function getServices() {
+    Api.get('/services')
+      .then((res) => {
+        console.log('services : ', res.data.services);
+        setServices(res.data.services);
+
+      })
+      .catch((error) => console.log("Erro: ", error));
+  }
+
 const loadMovieFromApi = () => {
   fetch('https://api.themoviedb.org/3/trending/all/day?api_key=8c55f9e819a9e2f5b48651b3b39ca6f1')
   .then((res) => res.json())
@@ -84,8 +109,6 @@ const loadMovieFromApi = () => {
     console.log('data Movies : ', data.results);
     setSuggestion(data.results)
   })
-  console.log('res account services : ', res.data);
-  setAccountService(res.data.accountServices)
 }
 
 
@@ -96,7 +119,9 @@ useEffect(() => {
   }, 5000)
 
   loadingAccountServices();
+  getMyAccountServices();
   loadMovieFromApi();
+  getServices();
 
 }, [])
 
@@ -199,17 +224,18 @@ if(isLoader) {
                 transition={{duration: .5, delay: 1.4}}
               >Jogo de sugestões</motion.button>
             </div>
-            <ModalInfo ModalIsOpen={suggestionIsOpen} closeModal={suggestionCloseModal} />
             <div>
             {suggestion.map((movie) => (
               <motion.div 
-                onClick={suggestionModalIsOpen}
+                onClick={() => { setSuggestionMovieId(movie.id); suggestionModalIsOpen()}}
                 className={styles.card}
                 initial={{y: 200, opacity: 0, scaleY: 0}}
                 animate={{y: 0, opacity: 1, scaleY: 1}}
                 transition={{duration: .5, delay: 1.6}}
                 key={movie.id}
               >
+               <ModalInfo suggestion={suggestion} suggestionMovieId={suggestionMovieId} ModalIsOpen={suggestionIsOpen} closeModal={suggestionCloseModal} />
+
                 <img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="Image" />
               </motion.div>
             )).splice(-3)}
@@ -228,9 +254,7 @@ if(isLoader) {
         {isLoader ? (
           <h1>Ola</h1>
           ) : (
-            <Carousel />
-            // <LayoutSkeleton />
-          // <h1>Ola01</h1>
+            <CarouselMyServices myAccounts={myAccounts} services={services} />
         )}
       </section>
 
