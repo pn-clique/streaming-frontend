@@ -58,6 +58,8 @@ const handlerSubmit = (e) => {
       localStorage.setItem('userId', id);
       const token = res.data.token;
       const permission = res.data.user.permission;
+      const name = res.data.user.name;
+      localStorege.setItem('name', name);
       localStorage.setItem('token', token);
       localStorage.setItem('permission', permission);
       Api.defaults.headers.Authorization = `Bearer ${token}`;

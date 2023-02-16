@@ -114,6 +114,12 @@ const loadMovieFromApi = () => {
 
 console.log(suggestion)
 
+let name = ''
+
+if(typeof window !== 'undefined') {
+  name = localStorage.getItem('name');
+}
+
 
 useEffect(() => {
   let permission = localStorage.getItem('permission');
@@ -185,8 +191,8 @@ if(isLoader) {
             animate={{x: 0, opacity: 1, }}
             transition={{duration: .5}}
           >
-            <h4>Olá, Osvaldo Cariege</h4>
-            <h1>Bem-vindo de volta! </h1>
+            <h4>Olá, {name}</h4>
+            <h1>Bem-vindo(a) de volta! </h1>
           </motion.div>
           <div className={styles.hero_info}>
             <div>
