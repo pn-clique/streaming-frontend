@@ -2,10 +2,13 @@
 
 import Modal from "react-modal";
 
+import { useState } from 'react'
+
 import styles from "./styles.module.scss";
 
 export default function ModalInfo({ ModalIsOpen, closeModal, suggestion, suggestionMovieId }) {
 
+  const [suggestions, setSuggestions] = useState([suggestion])
 
   return (
     <Modal
@@ -19,7 +22,7 @@ export default function ModalInfo({ ModalIsOpen, closeModal, suggestion, suggest
             <button onClick={closeModal}>X</button>
 
         {
-           suggestion.map((data, key) => {
+           suggestions.map((data, key) => {
             if (data.id == suggestionMovieId)
               return (
                 <div className={styles.movie_info} key={key}>
