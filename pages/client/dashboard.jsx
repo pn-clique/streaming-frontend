@@ -73,7 +73,7 @@ export default function Dashboard() {
      localStorage.removeItem('userId');
      localStorage.removeItem('permission');
 
-     navigate.push('/Login');
+     navigate.push('/login');
   }
 
   const loadingAccountServices = async () => {
@@ -104,17 +104,22 @@ const loadMovieFromApi = () => {
   fetch('https://api.themoviedb.org/3/trending/all/day?api_key=8c55f9e819a9e2f5b48651b3b39ca6f1')
   .then((res) => res.json())
   .then((data) => {
-    data.results;
-    setSuggestion(data.results)
+    const arr = []
+    for (let content of data.results){
+      arr.push(content)
+    }
+    setSuggestion(arr)
   })
 }
+
+console.log(suggestion)
 
 
 useEffect(() => {
   setTimeout(() => {
     setIsLoader(false)
 
-  }, 5000)
+  }, 2000)
 
   loadingAccountServices();
   getMyAccountServices();
@@ -232,7 +237,12 @@ if(isLoader) {
                 transition={{duration: .5, delay: 1.6}}
                 key={movie.id}
               >
-               <ModalInfo suggestion={suggestion} suggestionMovieId={suggestionMovieId} ModalIsOpen={suggestionIsOpen} closeModal={suggestionCloseModal} />
+               <ModalInfo 
+                suggestion={suggestion} 
+                suggestionMovieId={suggestionMovieId} 
+                ModalIsOpen={suggestionIsOpen} 
+                closeModal={suggestionCloseModal} 
+                />
 
                 <img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="Image" />
               </motion.div>
