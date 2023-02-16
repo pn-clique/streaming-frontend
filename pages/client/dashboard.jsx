@@ -116,6 +116,17 @@ console.log(suggestion)
 
 
 useEffect(() => {
+  let permission = localStorage.getItem('permission');
+    if (permission == 0 || permission == null || permission == "undefined" || permission == "") {
+          navigate.push('/login');
+          //window.location.reload()
+      }
+  
+    if (permission == 1) {
+        navigate.push('/admin/dashboard');
+    }
+
+
   setTimeout(() => {
     setIsLoader(false)
 
@@ -237,12 +248,12 @@ if(isLoader) {
                 transition={{duration: .5, delay: 1.6}}
                 key={movie.id}
               >
-               <ModalInfo 
+               {/* <ModalInfo 
                 suggestion={suggestion} 
                 suggestionMovieId={suggestionMovieId} 
                 ModalIsOpen={suggestionIsOpen} 
                 closeModal={suggestionCloseModal} 
-                />
+                /> */}
 
                 <img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="Image" />
               </motion.div>
@@ -289,7 +300,7 @@ if(isLoader) {
               key={key}
               >
                 <div>
-              <ModalBuyService service_id={data.service_id.id}  account_id={data._id} ModalIsOpen={modalBuyServiceIsOpen} closeModal={modalBuyServicesClose} />
+              <ModalBuyService service_id={data.service_id._id}  account_id={data._id} ModalIsOpen={modalBuyServiceIsOpen} closeModal={modalBuyServicesClose} />
                   <img src={`https://api-streaming.onrender.com/uploads/${data.service_id.image}`} alt={data.service_id.name} />
                   <span>{data.service_id.name}</span>
                 </div>
