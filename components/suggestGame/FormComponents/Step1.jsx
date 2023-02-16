@@ -21,8 +21,8 @@ function Step1({ data, updateFieldHandler }) {
           name="step1" 
           id="sozinho" 
           required
-          value="sozinho"
-          checked={data.step1 === "sozinho"}
+          value="14"
+          checked={data.step1 === "14"}
           onChange={(event) => updateFieldHandler("step1", event.target.value)}
           />
           <Image src={sozinho} alt="Assistir sozinho" />
@@ -35,8 +35,8 @@ function Step1({ data, updateFieldHandler }) {
           name="step1" 
           id="amor" 
           required
-          value="acompanhado"
-          checked={data.step1 === 'acompanhado'}
+          value="10749"
+          checked={data.step1 === '10749'}
           onChange={(event) => updateFieldHandler("step1", event.target.value)}
           />
           <Image src={acompanhado} alt="Assistir acompanhado" />
@@ -49,8 +49,8 @@ function Step1({ data, updateFieldHandler }) {
           name="step1" 
           id="familia" 
           required
-          value="familia"
-          checked={data.step1 === 'familia'}
+          value="10770"
+          checked={data.step1 === '10770'}
           onChange={(event) => updateFieldHandler("step1", event.target.value)}
           />
           <Image src={familia} alt="Assistir com a familia" />
@@ -63,8 +63,8 @@ function Step1({ data, updateFieldHandler }) {
           name="step1" 
           id="outros" 
           required
-          value="outros"
-          checked={data.step1 === 'outros'}
+          value="28"
+          checked={data.step1 === '28'}
           onChange={(event) => updateFieldHandler("step1", event.target.value)}
           />
           <Image src={sozinho} alt="Assistir com outros" />
