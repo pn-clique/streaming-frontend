@@ -43,7 +43,7 @@ function Step4({ data, updateFieldHandler, movie }) {
         {filter_data_movies(dataMovies)
           .map((data, key) => {
             return (
-              <div key={key}>
+              <div key={key} className={styles.card}>
                 <label htmlFor="movie1">
                   <input
                     type="radio"

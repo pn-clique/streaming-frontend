@@ -302,22 +302,66 @@
 
   .box_images {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
 
-    label {
+    .card {
       position: relative;
-      cursor: pointer;
+      width: 240px;
+      height: 240px;
+      // width: 100%;
+      // height: 150px;
 
+      label {
+      position: relative;
       background-color: transparent;
       border: 1px solid var(--primary-color);
-      max-width: 120px;
+      // max-width: 220px;
       width: 100%;
-      height: 140px;
+      height: 100%;
       border-radius: 0.25rem;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
 
-      img {
+      input {
+        overflow: hidden;
+        opacity: 0;
+        width: 0;
+      }
+
+      input:checked ~ img {
+        background-color: var(--primary-color);
+      }
+  
+        img {
+        background-position: center;
+        object-fit: cover;
+        background-repeat: no-repeat;
+        position: absolute;
+        bottom: 0;
         display: block;
+        height: 100%;
         width: 100%;
+        border-radius: 0.25rem;
+        }
+
+        figcaption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba($color: #000000, $alpha: 0.9);
+        color: var(--secondary-color);
+        padding: 10px;
+        text-align: center;
+      }
       }
     }
   }
@@ -353,9 +397,9 @@
   //     border-radius: 0.25rem;
   //     padding: 1rem;
   //     display: flex;
-  //     // flex-direction: column;
   //     justify-content: center;
   //     align-items: flex-end;
+  //     // flex-direction: column;
 
   //     transition: all .3s ease-in-out;
 

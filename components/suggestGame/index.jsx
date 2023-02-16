@@ -75,7 +75,7 @@ export default function SuggestGame({ isOpen, closeModal, movie }) {
       ariaHideApp={false}
     >
       <form action="" onSubmit={handlerSubmit}>
-        <button onClick={closeModal} className={styles.btn_close}>X</button>
+        <button onClick={closeModal} type="button" className={styles.btn_close}>X</button>
 
         <div className={styles.form_container}>{currentComponents}</div>
 
@@ -87,7 +87,7 @@ export default function SuggestGame({ isOpen, closeModal, movie }) {
           )}
 
           {isLastStep ? (
-            <button className="btn_default" type="button" onClick={handlerSubmit}>
+            <button className="btn_default" type="submit" onClick={handlerSubmit}>
               Enviar
             </button>
           ) : (

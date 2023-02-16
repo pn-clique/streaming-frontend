@@ -46,7 +46,7 @@ export function CarouselMyServices({myAccounts, services}) {
         >
           {myAccounts.map((data) => {
             return services.map((item) => {
-              if (data.account_service_id.service_id == item._id)
+              if (data.service_id == item._id)
               return (
                 <motion.div
                   className={styles.card}
