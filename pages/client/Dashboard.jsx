@@ -107,7 +107,7 @@ const loadMovieFromApi = () => {
   .then((res) => res.json())
   .then((data) => {
     console.log('data Movies : ', data.results);
-    setSuggestion(data.results)
+    setSuggestion([data.results])
   })
 }
 
