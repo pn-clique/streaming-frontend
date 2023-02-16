@@ -86,7 +86,7 @@ function getMyAccountServices() {
     Api.get('/my-account-services')
       .then((res) => {
         console.log('my account services : ', res.data.accountServicesOfTheUser);
-        setMyAccounts([res.data.accountServicesOfTheUser]);
+        setMyAccounts(res.data.accountServicesOfTheUser);
 
       })
       .catch((error) => console.log("Erro: ", error));

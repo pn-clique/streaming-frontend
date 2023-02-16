@@ -69,7 +69,7 @@ export default function Dashboard() {
       }
   
     if (permission == 2 || permission == 3) {
-        navigate.push('/client/Dashboard');
+        navigate.push('/client/dashboard');
     }
 
     Api.get("/services")
