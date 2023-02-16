@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Modal from "react-modal";
 
 import Image from "next/image";
@@ -8,6 +10,7 @@ import styles from "./styles.module.scss";
 import { movie05 } from "../../../assets";
 
 export default function ModalInfo({ ModalIsOpen, closeModal, suggestion, suggestionMovieId }) {
+//const [suggestion, setSuggestion] = useState([]);
   return (
     <Modal
       isOpen={ModalIsOpen}
