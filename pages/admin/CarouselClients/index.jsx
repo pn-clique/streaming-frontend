@@ -125,8 +125,7 @@ export function CarouselClients() {
           ourClients.map((data, key) => {
             if (data._id == ourClientId)
             return services.map((item) => {
-              return data.account_service_id.map((i) => {
-                if (i.service_id == item._id)
+              
                 return (
                   <div key={key} className={styles.modal_clients}>
                       <img
@@ -156,7 +155,6 @@ export function CarouselClients() {
                     </div>
                   </div>
                 )
-              })
               
             })
           })
