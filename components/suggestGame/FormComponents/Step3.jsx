@@ -20,13 +20,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="action" 
-<<<<<<< HEAD
-            value="12"
-            checked={data.step3 === "12"}
-=======
             value="28"
             checked={data.step3 === "28"}
->>>>>>> 8fd464509611ab344f72d9e0cb80e173043a4453
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Ação</span>

@@ -21,13 +21,8 @@ function Step2({ data, updateFieldHandler }) {
           name="step2" 
           id="Sala" 
           required
-<<<<<<< HEAD
-          value="10751"
-          checked={data.step2 === "10751"}
-=======
           value="35"
           checked={data.step2 === "35"}
->>>>>>> 8fd464509611ab344f72d9e0cb80e173043a4453
           onChange={(event) => updateFieldHandler("step2", event.target.value)}
           />
           <Image src={familia} alt="Assistir na sala" />
@@ -40,13 +35,8 @@ function Step2({ data, updateFieldHandler }) {
           name="step2" 
           id="quarto" 
           required
-<<<<<<< HEAD
-          value="28"
-          checked={data.step2 === '28'}
-=======
           value="80"
           checked={data.step2 === '80'}
->>>>>>> 8fd464509611ab344f72d9e0cb80e173043a4453
           onChange={(event) => updateFieldHandler("step2", event.target.value)}
           />
           <Image src={acompanhado} alt="Assistir no quarto" />
@@ -59,13 +49,8 @@ function Step2({ data, updateFieldHandler }) {
           name="step2" 
           id="Carro" 
           required
-<<<<<<< HEAD
-          value="80"
-          checked={data.step2 === '80'}
-=======
           value="10751"
           checked={data.step2 === '10751'}
->>>>>>> 8fd464509611ab344f72d9e0cb80e173043a4453
           onChange={(event) => updateFieldHandler("step2", event.target.value)}
           />
           <Image src={acompanhado} alt="Assistir no carro" />
@@ -78,13 +63,8 @@ function Step2({ data, updateFieldHandler }) {
           name="step2" 
           id="outros" 
           required
-<<<<<<< HEAD
-          value="35"
-          checked={data.step2 === '35'}
-=======
           value="28"
           checked={data.step2 === '28'}
->>>>>>> 8fd464509611ab344f72d9e0cb80e173043a4453
           onChange={(event) => updateFieldHandler("step2", event.target.value)}
           />
           <Image src={sozinho} alt="Assistir com outros" />

@@ -12,6 +12,10 @@ import {
 import { wrap } from "@motionone/utils";
 import Image from "next/image";
 import { movie01, movie02, movie03, movie04 } from "../../assets";
+import { Api, ApiMovies } from "./../../api/axios";
+import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 
 
 
@@ -19,7 +23,7 @@ import { movie01, movie02, movie03, movie04 } from "../../assets";
 
 
 
-function ParallaxText({ children, baseVelocity = 100 }) {
+function ParallaxText({ baseVelocity = 100 }) {
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
@@ -64,41 +68,38 @@ function ParallaxText({ children, baseVelocity = 100 }) {
    * we have four children (100% / 4). This would also want deriving from the
    * dynamically generated number of children.
    */
+
+   const [movies, setMovies] = useState([])
+
+  useEffect(() => {
+    axios.get(ApiMovies)
+    .then((res) => setMovies(res.data.results));
+  }, [])
+
+  
+  
+
   return (
     <div className={styles.parallax}>
       <motion.div className={styles.scroller} style={{ x }}>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
-        <span>{children} </span>
+        {movies.map((movie) => (
+          <span key={movie.id}>
+          <img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt={movie.title} />
+        </span>
+        
+        ))}
       </motion.div>
     </div>
   );
 }
 
 export default function Framer() {
+
   return (
     <section className={styles.carousel}>
-      <ParallaxText baseVelocity={-5}>
-        <Image src={movie01} alt="Movie" />
-      </ParallaxText>
-      <ParallaxText baseVelocity={5}>
-        <Image src={movie02} alt="Movie" />
-      </ParallaxText>
+        <ParallaxText baseVelocity={-5} />
+      
+      <ParallaxText baseVelocity={5} />
     </section>
   );
 }

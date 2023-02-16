@@ -18,7 +18,7 @@ import { motion } from 'framer-motion'
 
 import { useRouter } from "next/router";
 
-import { logo } from "../assets/";
+import { logo } from "../assets";
 
 import styles from '../styles/login.module.scss';
 import { Loader } from "../components/Loader";
@@ -62,7 +62,7 @@ const handlerSubmit = (e) => {
       localStorage.setItem('permission', permission);
       Api.defaults.headers.Authorization = `Bearer ${token}`;
       Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      navigate.push('/client/Dashboard');
+      navigate.push('/client/dashboard');
 
     })
     .catch((err) => { console.log('erro na promise signin login : ', err); setSmsError(true) })
