@@ -7,10 +7,10 @@ import Image from "next/image";
 import { MdOutlineAddToPhotos } from 'react-icons/md'
 
 import styles from "./styles.module.scss";
-import { movie05 } from "../../../assets";
 
 export default function ModalInfo({ ModalIsOpen, closeModal, suggestion, suggestionMovieId }) {
-//const [suggestion, setSuggestion] = useState([]);
+
+  console.log(suggestion)
   return (
     <Modal
       isOpen={ModalIsOpen}
@@ -22,7 +22,7 @@ export default function ModalInfo({ ModalIsOpen, closeModal, suggestion, suggest
       <form className={styles.form}>
             <button onClick={closeModal}>X</button>
 
-        {
+        {/* {
            suggestion.map((data, key) => {
             if (data.id == suggestionMovieId)
               return (
@@ -48,7 +48,7 @@ export default function ModalInfo({ ModalIsOpen, closeModal, suggestion, suggest
                 </div>
              )
            })
-        }
+        } */}
         
       </form>
     </Modal>
