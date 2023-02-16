@@ -47,7 +47,7 @@ export default function Dashboard() {
   }
 
   async function closeModal() {
-    window.location.reload(false)
+    await window.location.reload(false)
     await setSuggestionMovieId('')
     setIsOpen(false);
   }
@@ -113,6 +113,16 @@ const loadMovieFromApi = () => {
 
 
 useEffect(() => {
+  let permission = localStorage.getItem('permission');
+  if (permission == 0 || permission == null || permission == "undefined" || permission == "") {
+      navigate.push('/login');
+      //window.location.reload()
+  }
+
+  if (permission == 1) {
+      navigate.push('/admin/Dashboard');
+  }
+
   setTimeout(() => {
     setIsLoader(false)
 
