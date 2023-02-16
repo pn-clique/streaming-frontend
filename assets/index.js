@@ -18,6 +18,7 @@ import loader from './loader02.gif';
 import sza from './sza.jpg';
 import sunGlassesEmoji from './sun-glasses-emoji.gif';
 import giphy from './giphy.gif';
+import allIcones from './allicones.png'
 
 
 export {
@@ -36,6 +37,7 @@ export {
 
   sunGlassesEmoji,
   giphy,
+  allIcones,
   
 
   sozinho,
