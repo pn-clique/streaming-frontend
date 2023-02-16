@@ -49,8 +49,13 @@ function Step1({ data, updateFieldHandler }) {
           name="step1" 
           id="familia" 
           required
+<<<<<<< HEAD
           value="10770"
           checked={data.step1 === '10770'}
+=======
+          value="10751"
+          checked={data.step1 === '10751'}
+>>>>>>> 8fd464509611ab344f72d9e0cb80e173043a4453
           onChange={(event) => updateFieldHandler("step1", event.target.value)}
           />
           <Image src={familia} alt="Assistir com a familia" />

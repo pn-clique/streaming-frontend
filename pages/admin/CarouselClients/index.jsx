@@ -30,7 +30,7 @@ import axios from "axios";
 
 
 
-export function CarouselClients() {
+export default function CarouselClients() {
   const [width, setWidth] = useState(0);
   const slider_wrapper = useRef();
 
