@@ -62,6 +62,16 @@ export default function Dashboard() {
   const [ourAccountServicesLength, setAccountOurServicesLength] = useState(0);
 
   useEffect(() => {
+    let permission = localStorage.getItem('permission');
+    if (permission == 0 || permission == null || permission == "undefined" || permission == "") {
+          navigate.push('/login');
+          //window.location.reload()
+      }
+  
+    if (permission == 2 || permission == 3) {
+        navigate.push('/client/Dashboard');
+    }
+
     Api.get("/services")
       .then((res) => {
          setOurService(res.data.services);
@@ -79,7 +89,7 @@ export default function Dashboard() {
       Api.get("/clients")
       .then((res) => {
         console.log("clients : ", res.data.user);
-        setOurClientsLength([res.data.user])
+        setOurClientsLength(res.data.user)
       })
       .catch((error) => console.log("Erro: ", error));
 
@@ -348,7 +358,7 @@ export default function Dashboard() {
           <CarouselClients />
         </div>
       </section>
-      
+
     </>
   );
 }

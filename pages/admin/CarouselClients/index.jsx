@@ -54,8 +54,8 @@ export function CarouselClients() {
   useEffect(() => {
     Api.get("/clients")
       .then((res) => {
-        console.log("clients : ", res.data.user);
-        setOurClients([res.data.user]);
+        console.log("res our clients : ", res.data.user);
+        setOurClients(res.data.user);
       })
       .catch((error) => console.log("Erro: ", error));
 
@@ -124,8 +124,10 @@ export function CarouselClients() {
         {
           ourClients.map((data, key) => {
             if (data._id == ourClientId)
-            return services.map((item) => {
-              return data.account_service_id.map((i) => {
+
+            return myAccountServices.map((i) => {
+              if (i.user_id == data._id)
+              return services.map((item) => {
                 if (i.service_id == item._id)
                 return (
                   <div key={key} className={styles.modal_clients}>
@@ -157,9 +159,11 @@ export function CarouselClients() {
                   </div>
                 )
               })
+
+            })
               
             })
-          })
+
         }
       </Modal>
     </div>
