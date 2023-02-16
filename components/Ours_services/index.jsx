@@ -14,9 +14,9 @@ export function Ours_service() {
   const [width, setWidth] = useState(0);
   const carousel = useRef();
 
-  useEffect(() => {
-    console.log(carousel.current.scrollWidth);
-  }, [])
+  // useEffect(() => {
+  //   console.log(carousel.current.scrollWidth);
+  // }, [])
 
   return (
     <div className={styles.app}>

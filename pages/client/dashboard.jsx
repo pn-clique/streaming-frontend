@@ -78,14 +78,12 @@ export default function Dashboard() {
 
   const loadingAccountServices = async () => {
     const res = await Api.get('/account-service')
-    
-    console.log('res account services : ', res.data);
     setAccountService(res.data.accountServices)
 }
 function getMyAccountServices() {
     Api.get('/my-account-services')
       .then((res) => {
-        console.log('my account services : ', res.data.accountServicesOfTheUser);
+        res.data.accountServicesOfTheUser;
         setMyAccounts(res.data.accountServicesOfTheUser);
 
       })
@@ -95,7 +93,7 @@ function getMyAccountServices() {
   function getServices() {
     Api.get('/services')
       .then((res) => {
-        console.log('services : ', res.data.services);
+        res.data.services;
         setServices(res.data.services);
 
       })
@@ -106,7 +104,7 @@ const loadMovieFromApi = () => {
   fetch('https://api.themoviedb.org/3/trending/all/day?api_key=8c55f9e819a9e2f5b48651b3b39ca6f1')
   .then((res) => res.json())
   .then((data) => {
-    console.log('data Movies : ', data.results);
+    data.results;
     setSuggestion(data.results)
   })
 }

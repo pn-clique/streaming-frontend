@@ -59,7 +59,7 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
     };
 
     Api.post("/account-service", data)
-    .then((res) => console.log("Success:", res))
+    .then((res) => res)
     .catch((error) => console.log(error));
     console.log(data);
   }

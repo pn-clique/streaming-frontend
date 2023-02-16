@@ -47,17 +47,6 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
 
 
     const file = refImage.current.files[0];
-    console.log({
-      file,
-      name,
-      preco,
-      pontos,
-      duracao,
-      capacidade,
-      comissao,
-      obs
-    })
-
 
     const form = new FormData();
     form.append('name', name);
@@ -79,7 +68,6 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
       }
     }).then(res => {
       window.location.reload();
-      console.log('Success: ', res)
     })
     .catch(error => console.log('Error: ', error))
   }

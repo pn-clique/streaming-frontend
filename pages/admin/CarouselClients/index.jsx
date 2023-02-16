@@ -49,24 +49,21 @@ export default function CarouselClients() {
   useEffect(() => {
     Api.get("/clients")
       .then((res) => {
-        console.log("res our clients : ", res.data.user);
+        res.data.user;
         setOurClients(res.data.user);
       })
       .catch((error) => console.log("Erro: ", error));
 
     Api.get("/my-account-services")
       .then((res) => {
-        console.log(
-          "account services of the clients : ",
-          res.data.accountServicesOfTheUser
-        );
+          res.data.accountServicesOfTheUser;
         setMyAccountServices(res.data.accountServicesOfTheUser);
       })
       .catch((error) => console.log("Erro: ", error));
 
     Api.get("/services")
       .then((res) => {
-        console.log("services of the clients : ", res.data.services);
+        res.data.services;
         setServices(res.data.services);
       })
       .catch((error) => console.log("Erro: ", error));

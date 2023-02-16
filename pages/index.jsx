@@ -73,11 +73,9 @@ function handleSubmit(e) {
     }
     Api.post('/auth', { email: email, password: password })
       .then((res) => {
-        // console.log('data res signin login : ', res.data.user);
         const id = res.data.user._id;
         localStorage.setItem('userId', id);
 
-        // console.log('usersss id : ', id);
         const token = res.data.token;
         const permission = res.data.user.permission;
         localStorage.setItem('token', token);

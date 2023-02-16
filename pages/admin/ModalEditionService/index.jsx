@@ -60,7 +60,7 @@ export default function ModalEditionService({
   const loadingServices = () => {
     Api.get("services")
       .then((res) => {
-        console.log("res services a: ", res.data.services);
+        res.data.services;
         setServices(res.data.services);
         // setName(res.data.service.name);
         // setPreco(res.data.service.preco);
@@ -77,19 +77,8 @@ export default function ModalEditionService({
   function handlerSubmit(e, data) {
     e.preventDefault();
 
-    console.log("data services : ", data);
-
     const file = refImage.current.files[0];
-    console.log({
-      file,
-      name,
-      preco,
-      pontos,
-      duracao,
-      capacidade,
-      comissao,
-      recarga,
-    });
+
 
     const form = new FormData();
     form.append("name", name == "" ? data.name : name);
@@ -115,7 +104,7 @@ export default function ModalEditionService({
       })
       .then((res) => {
         window.location.reload();
-        console.log("Success: ", res);
+        res
       })
       .catch((error) => console.log("Error: ", error));
   }

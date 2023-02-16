@@ -43,7 +43,8 @@ export default function ModalEditAccountService({
 
   function callAccountServices() {
     Api.get("account-service")
-      .then((res) => { console.log('res account : ', res.data.accountServices); setAccountService(res.data.accountServices)} )
+      .then((res) => { res.data.accountServices; 
+        setAccountService(res.data.accountServices)} )
       .catch((err) => console.log(err));
   }
 
@@ -57,8 +58,6 @@ export default function ModalEditAccountService({
     setDateStart("");
     setDateEnd("");
 
-    console.log("account service id : ", accountServiceId);
-
     setModalEditionAccountServiceIsOpen(!modalEditionAccountServiceIsOpen);
   }
 
@@ -71,8 +70,8 @@ export default function ModalEditAccountService({
     e.preventDefault();
 
     closeModal();
-    console.log("item : ", item);
-    console.log("refpoints : ", refPoints.current);
+    // console.log("item : ", item);
+    // console.log("refpoints : ", refPoints.current);
 
     
     const data = {
@@ -93,7 +92,7 @@ export default function ModalEditAccountService({
     };
 
      Api.put(`/account-service/${accountServiceId}`, data)
-     .then((res) => {console.log("Success:", res); window.location.reload()} )
+     .then((res) => { res ; window.location.reload()} )
      .catch((error) => console.log(error));
      console.log('data : ', data);
   }

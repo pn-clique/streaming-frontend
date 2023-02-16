@@ -21,9 +21,6 @@ export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, a
   const ref = useRef(null);
 
 
-
-
-
   async function handlerSubmit(e) {
     e.preventDefault();
 
@@ -54,7 +51,7 @@ export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, a
       Authorization: `Bearer ${token}`
     }
     
-  }).then(response => console.log('response then: ', response))
+  }).then(response => response)
   .catch(error => console.log('Error: ', error))
 
   }

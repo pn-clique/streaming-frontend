@@ -27,8 +27,6 @@ export default function SuggestGame({ isOpen, closeModal, movie }) {
 
       return { ...prev, [key]: value };
     });
-
-    // console.log(key, value);
   };
 
   const formComponents = [
@@ -59,9 +57,6 @@ export default function SuggestGame({ isOpen, closeModal, movie }) {
       step4: "",
     });
     closeModal(true);
-
-    // Dados para retornar na api(POST)
-    console.log(data);
   }
 
 
