@@ -84,7 +84,7 @@ function handleSubmit(e) {
         localStorage.setItem('permission', permission);
         Api.defaults.headers.Authorization = `Bearer ${token}`;
         Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        navigate.push('/client/Dashboard');
+        navigate.push('/client/dashboard');
 
       })
       .catch((err) => { console.log('erro na promise signin login : ', err) })
@@ -131,8 +131,8 @@ if(isLoader) {
           transition={{duration: 0.5}}
           >
             <div className="buttons_auth">
-              <Link className={'btn_default'} href={"./Login"}>Entrar</Link>
-              <Link className={'btn_default'} href={"/Register"}>Registrar</Link>
+              <Link className={'btn_default'} href={"./login"}>Entrar</Link>
+              <Link className={'btn_default'} href={"/register"}>Registrar</Link>
             </div>
           </motion.nav>
         </div>
@@ -196,8 +196,6 @@ if(isLoader) {
                 <button className={'btn_default'} type="submit">Entrar</button>
               </div>
             </motion.form>
-
-            {/* <button className={styles.btn_login_now}>Entrar agora</button> */}
           </main>
         </div>
       </motion.section>

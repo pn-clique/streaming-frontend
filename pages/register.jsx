@@ -18,7 +18,7 @@ import { useState, useEffect, useRef } from "react";
 
 import { useRouter } from 'next/router';
 
-import { logo, UserCircle } from "../assets/";
+import { logo, UserCircle } from "../assets";
 
 import styles from "../styles/register.module.scss";
 import axios from "axios";
@@ -113,7 +113,7 @@ export default  function Register() {
         localStorage.setItem("modalSuggestion", false);
         Api.defaults.headers.Authorization = `Bearer ${token}`;
         Api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        navigate.push("/client/Dashboard");
+        navigate.push("/client/dashboard");
       })
       .catch((err) => console.log("erro na promise signup register : ", err))
       .finally();
