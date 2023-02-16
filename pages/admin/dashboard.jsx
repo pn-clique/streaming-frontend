@@ -24,7 +24,7 @@ import ModalNewService from "./ModalNewService";
 import ModalAddAccountService from "./ModalAddAccountService";
 import ModalEditAccountService from "./ModalEditAccountService";
 import { Api } from "../../api/axios";
-import { CarouselClients } from "./CarouselClients";
+import CarouselClients from "./CarouselClients";
 import ModalEditionService from "./ModalEditionService";
 
 export default function Dashboard() {
