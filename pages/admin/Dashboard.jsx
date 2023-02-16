@@ -348,6 +348,7 @@ export default function Dashboard() {
           <CarouselClients />
         </div>
       </section>
+      
     </>
   );
 }
