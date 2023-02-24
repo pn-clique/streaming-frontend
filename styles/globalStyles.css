@@ -39,12 +39,13 @@ button, a {
   cursor: pointer;
 }
 
+
 // Classe para alerta de erro
 .message_error {
   border: 1px solid red;
 }
 
-input {
+.input_default {
   outline: none;
 
   &:hover {
@@ -147,6 +148,7 @@ a {
   position: relative;
   overflow: hidden;
   background: #3f3f3f;
+  outline: 1px solid var(--primary-color);
   z-index: 0;
   border: 1px solid var(--primary-color) !important;
   transition: all .3s cubic-bezier(0.47, 0, 0.745, 0.715);

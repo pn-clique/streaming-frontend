@@ -7,22 +7,31 @@ import { HiOutlineMail } from "react-icons/hi";
 import { TbLock } from "react-icons/tb";
 
 import Modal from "react-modal";
+import { useState, useEffect, useRef } from "react";
 
+// MOTION
 import { motion } from "framer-motion";
 
+// FORM DATA
 import FormData from "form-data";
 
 import { FaUserAlt } from "react-icons/fa";
 
-import { useState, useEffect, useRef } from "react";
 
 import { useRouter } from 'next/router';
 
+// ASSETS
 import { logo, UserCircle } from "../assets";
 
+// STYLES
 import styles from "../styles/register.module.scss";
+
+// AXIOS
 import axios from "axios";
+
+// COMPONENTS
 import { Loader } from "../components/Loader";
+import HeaderAuth from "../components/HeaderAuth";
 import { Api } from "../api/axios";
 
 export default  function Register() {
@@ -125,32 +134,7 @@ export default  function Register() {
         <Loader />
       ) : (
         <div>
-          <header className={styles.header_nav}>
-            <div>
-              <motion.div
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Link href="/">
-                  <Image
-                    src={logo}
-                    alt="PN Clique logo"
-                    className={styles.logo}
-                  />
-                </Link>
-              </motion.div>
-              <motion.nav
-                initial={{ x: 100, opacity: 0, scale: 0 }}
-                animate={{ x: 0, opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Link className="btn_default" href={"/"}>
-                  Pagina inicial
-                </Link>
-              </motion.nav>
-            </div>
-          </header>
+          <HeaderAuth />
 
           <section className={styles.register}>
             <motion.div
@@ -167,7 +151,7 @@ export default  function Register() {
                   <header>
                     {smsError ? (
                       <div className={styles.message_error}>
-                        <p>Preencha todos os campos!</p>
+                        <p>Preencha todos os campos correctamente!</p>
                       </div>
                     ) : (
                       ""
@@ -182,7 +166,7 @@ export default  function Register() {
                       <HiOutlineMail />
                       <input
                         type="text"
-                        placeholder="Digite seu nome:"
+                        placeholder="Digite seu nome"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
@@ -201,7 +185,7 @@ export default  function Register() {
                       <HiOutlineMail />
                       <input
                         type="text"
-                        placeholder="WhatsApp:"
+                        placeholder="WhatsApp"
                         value={whatsApp}
                         onChange={(e) => setWhatsApp(e.target.value)}
                         required
@@ -211,7 +195,7 @@ export default  function Register() {
                     <div className={"input_icon"}>
                       <input
                         type="date"
-                        placeholder="Data de nascimento:"
+                        placeholder="Data de nascimento"
                         value={date_birth}
                         onChange={(e) => setDateBirth(e.target.value)}
                         required
@@ -224,7 +208,7 @@ export default  function Register() {
                       <HiOutlineMail />
                       <input
                         type="email"
-                        placeholder="Digite seu email:"
+                        placeholder="Digite seu e-mail"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -243,7 +227,7 @@ export default  function Register() {
                       <HiOutlineMail />
                       <input
                         type="text"
-                        placeholder="Digite seu PIN:"
+                        placeholder="Digite seu PIN"
                         value={code_pin}
                         onChange={(e) => setCodePin(e.target.value)}
                         required
@@ -255,7 +239,7 @@ export default  function Register() {
                     <div className={"input_icons"}>
                       <TbLock />
                       <input
-                        placeholder="Palavra-passe:"
+                        placeholder="Palavra-passe"
                         autoComplete="false"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -271,7 +255,7 @@ export default  function Register() {
                       <TbLock />
                       <input
                         autoComplete="false"
-                        placeholder="Confirmar:"
+                        placeholder="Confirmar"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required

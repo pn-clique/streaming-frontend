@@ -1,5 +1,6 @@
 
 
+
 .header_nav {
   background-color: var(--primary-color);
   width: 100%;
@@ -17,6 +18,32 @@
     max-width: 975px;
 
   &> nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    .notification{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      background-color: var(--bg-color);
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+
+      svg {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+  
+        // &:hover {
+        //   color: var(--secondary-color);
+        // }
+      }
+    }
+
     &>button {
       padding: 0.8rem 1.5rem;
         border-radius: 0.25rem;
@@ -143,6 +170,12 @@
         padding: 1rem;
         border-radius: 0.25rem;
         gap: 1rem;
+        cursor: pointer;
+        outline: none;
+
+        &:hover {
+          outline: 1px solid var(--primary-color);
+        }
 
         &>div {
 
@@ -181,7 +214,7 @@
       }
     }
 
-    &> button {
+    &> a, &> button {
       padding: 0.8rem 1.5rem;
           border-radius: 0.25rem;
           background-color: var(--primary-color);
@@ -214,6 +247,8 @@
     
     header {
       width: 100%;
+      display: flex;
+      justify-content: space-between;
   
       
       &>div {
@@ -228,6 +263,17 @@
         border-radius: 0.25rem;
         max-width: 220px;
          }
+      }
+
+      a {
+        padding: 0.8rem 1.5rem;
+          border-radius: 0.25rem;
+          background-color: var(--primary-color);
+          color: var(--secondary-color);
+          font-weight: 700;
+          border: 0;
+
+          max-width: 310px;
       }
     }
   }

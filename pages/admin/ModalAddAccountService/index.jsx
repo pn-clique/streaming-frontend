@@ -55,13 +55,17 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
       price: refPoints.current.value,
       password,
       service_id: serviceId,
-      in_day: 1
+      in_day: 1,
     };
 
     Api.post("/account-service", data)
-    .then((res) => res)
+    .then((res) => {
+      res
+      window.location.reload();
+    })
     .catch((error) => console.log(error));
-    console.log(data);
+
+    
   }
 
   return (
@@ -156,16 +160,13 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
         <div className={styles.form_group_password}>
           <input
             type="password"
-            name=""
-            id=""
             placeholder="Palavra-passe:"
             value={password}
             autoComplete="false"
             onChange={(e) => setPassword(e.target.value)}
+            
           />
           <select
-            name=""
-            id=""
             value={serviceId}
             onChange={(e) => setServiceId(e.target.value)}
           >
@@ -179,7 +180,7 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
         </div>
 
         <div>
-          <button type="submit" onClick={handlerSubmit}>
+          <button type="submit" className="btn_default" onClick={handlerSubmit}>
             Adicionar
           </button>
         </div>

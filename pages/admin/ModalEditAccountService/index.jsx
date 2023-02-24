@@ -70,8 +70,6 @@ export default function ModalEditAccountService({
     e.preventDefault();
 
     closeModal();
-    // console.log("item : ", item);
-    // console.log("refpoints : ", refPoints.current);
 
     
     const data = {
@@ -216,7 +214,7 @@ export default function ModalEditAccountService({
                 </select>
               </div>
 
-              <div>
+              <div className={styles.button}>
                 <button type="submit" onClick={(e) => handlerSubmit(e, item)}>
                   Adicionar
                 </button>

@@ -15,7 +15,7 @@ import Framer from "../components/LoopInfinity";
 import styles from '../styles/index.module.scss';
 
 // ASSETS
-import { banner, logo, services, giphy } from "../assets/";
+import { banner, logo, services, giphy , allIcones, allIconesMusic} from "../assets/";
 
 //icons
 import { 
@@ -55,7 +55,7 @@ export default function HomePage() {
 const [toggle, setToggle] = useState(true);
 
 const [email, setEmail] = useState('')
-const [password, setPassword] = useState('')
+const [password, setPassword] = useState('');
 
 function handleSubmit(e) {
   e.preventDefault();
@@ -149,7 +149,7 @@ if(isLoader) {
               animate={{y: 0, opacity: 1, scale: 1}}
               transition={{duration: 1, delay: 0.5}}
             >
-            <Image src={banner} alt="Banner Streaming" className={styles.banner} />
+            <Image src={banner} alt="Banner Streaming" width={'100%'} className={styles.banner} />
             </motion.div>
             <motion.form 
             className={styles.form_login} 
@@ -161,7 +161,6 @@ if(isLoader) {
               <header>
                 <h2>Faça login</h2>
                 <span>E experimente a aventura  
-                  <Image src={giphy} alt="Imoje" width={24} height={24} />
                 </span>
               </header>
               <div className={styles.form_group}>
@@ -169,20 +168,22 @@ if(isLoader) {
                   <HiOutlineMail />
                   <input 
                     type="email" 
-                    placeholder="Email:" 
+                    placeholder="E-mail"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    className="input_default"
                     />
                 </div>
                 <div className={'input_icons'}>
                   <TbLock />
                   <input 
                     type={toggle ? 'text' : 'password'} 
-                    placeholder="Palavra-passe:" 
+                    placeholder="Palavra-passe" 
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    className="input_default"
                     />
                     <button
                     >
@@ -212,7 +213,7 @@ if(isLoader) {
             whileTap={{ scale: 0.9 }}
             
           >
-            <Image src={services} alt="Nossos serviços" />
+            <Image src={allIconesMusic} alt="Nossos serviços" />
           </motion.div>
         </div>
       </section>
@@ -220,7 +221,7 @@ if(isLoader) {
       
       <section className={styles.new_releases}>
         <div className={styles.heading}>
-          <h1>New releases</h1>
+          <h1>Novos lançamentos</h1>
         </div>
         
         <Carousel />
@@ -234,7 +235,7 @@ if(isLoader) {
       
       <footer className={styles.footer}>
         <Image src={logo} alt="PN Clique Logo" />
-        <span>@PNCliqueStreaming2022.com</span>
+        <span>Feito com (amor) pela PNClique</span>
         <div>
           <Link href={'#'}>Sobre</Link>
           <span></span>

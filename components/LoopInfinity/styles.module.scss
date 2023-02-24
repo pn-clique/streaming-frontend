@@ -34,11 +34,11 @@
 
 .parallax span {
   display: block;
-  margin: 1px 0.25rem;
+  margin: 1px 1px;
 
   img {
-    // display: block;
-    max-width: 180px; 
-    height: 210px;
+    display: block;
+    max-width: 180px;
+    background-size: contain;
   }
 }

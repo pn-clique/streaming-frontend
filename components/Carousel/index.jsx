@@ -11,14 +11,12 @@ import {
   movie05,
 } from "../../assets";
 
-import Image from "next/image";
 import styles from "./styles.module.scss";
-import { newReleases } from "../../dataAPI/DataAdmin/Datas";
 
 // AXIOS API
 import { Api, ApiMovies } from "../../api/axios";
 import axios from "axios";
-import { Skeleton } from "./Skeleton";
+import Skeleton from "../Skeleton";
 
 export function Carousel() {
   const [width, setWidth] = useState(0);
@@ -33,7 +31,7 @@ export function Carousel() {
     setWidth(
       slider_wrapper.current.scrollWidth - slider_wrapper.current.offsetWidth
     );
-  }, [width]);
+  }, [slider_wrapper]);
 
   return (
     <div className={styles.container}>
@@ -42,7 +40,19 @@ export function Carousel() {
         ref={slider_wrapper}
         whileTap={{ cursor: "grabbing" }}
       >
-        <motion.div
+        {
+          dataMovie == '' ?
+          (
+            <div className={styles.container_skeleton}>
+              <Skeleton width={"100%"} height={50} borderRadius={"0.25rem"} />
+              <Skeleton width={"100%"} height={50} borderRadius={"0.25rem"} />
+              <Skeleton width={"100%"} height={50} borderRadius={"0.25rem"} />
+              <Skeleton width={"100%"} height={50} borderRadius={"0.25rem"} />
+            </div>
+          ) 
+          : 
+          (
+            <motion.div
           className={styles.inner_carousel}
           drag="x"
           dragConstraints={{ right: 0, left: -width }}
@@ -61,6 +71,8 @@ export function Carousel() {
             </motion.div>
           ))}
         </motion.div>
+          )
+        }
       </motion.div>
     </div>
   );

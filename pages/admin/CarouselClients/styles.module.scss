@@ -1,5 +1,17 @@
 
 
+.container_skeleton {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0 auto;
+
+  max-width: 975px;
+}
+
+
 .modal_overlay {
   position: fixed;
   top: 0;

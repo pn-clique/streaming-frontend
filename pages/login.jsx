@@ -20,8 +20,11 @@ import { useRouter } from "next/router";
 
 import { logo } from "../assets";
 
-import styles from '../styles/login.module.scss';
 import { Loader } from "../components/Loader";
+import HeaderAuth from "../components/HeaderAuth";
+
+
+import styles from '../styles/login.module.scss';
 import { Api } from "../api/axios";
 
 
@@ -59,7 +62,7 @@ const handlerSubmit = (e) => {
       const token = res.data.token;
       const permission = res.data.user.permission;
       const name = res.data.user.name;
-      localStorege.setItem('name', name);
+      localStorage.setItem('name', name);
       localStorage.setItem('token', token);
       localStorage.setItem('permission', permission);
       Api.defaults.headers.Authorization = `Bearer ${token}`;
@@ -76,30 +79,8 @@ const handlerSubmit = (e) => {
     <>
     {isLoader ? (<Loader />):(
       <div>
-      <header className={styles.header_nav}>
-        <div>
-          <motion.div
-          initial={{x: -100, opacity: 0, scale: 0}}
-          animate={{x: 0, opacity: 1, scale: 1}}
-          transition={{duration: .5}}
-          >
-          <Link href="#">
-            <Image 
-              src={logo}
-              alt="PN Clique logo"
-              className={styles.logo}
-            />
-          </Link>
-          </motion.div>
-          <motion.nav
-            initial={{x: 100, opacity: 0, scale: 0}}
-            animate={{x: 0, opacity: 1, scale: 1}}
-            transition={{duration: .5}}
-          >
-            <Link className="btn_default" href={'/'}>Pagina inicial</Link>
-          </motion.nav>
-        </div>
-      </header>
+
+        <HeaderAuth />
 
       <section className={styles.login}>
         <motion.div
@@ -112,7 +93,7 @@ const handlerSubmit = (e) => {
             {
                   smsError ? (
                   <div className={styles.message_error}>
-                    <p>Preencha todos os campos!</p>
+                    <p>Preencha todos os campos correctamente!</p>
                   </div>
                   ) : ('')
                 }
@@ -125,10 +106,11 @@ const handlerSubmit = (e) => {
                   <HiOutlineMail />
                   <input 
                     type="email" 
-                    placeholder="Email:" 
+                    placeholder="E-mail" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    autoComplete="false"
                     />
                 </div>
             </div>
@@ -136,11 +118,12 @@ const handlerSubmit = (e) => {
             <div className={'input_icons'}>
                   <TbLock />
                   <input 
-                    type={toggle ? 'text' : 'password'} 
-                    placeholder="Palavra-passe:" 
+                    type={toggle ? 'text' : 'password'}
+                    placeholder="Palavra-passe" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    autoComplete="false"
                     />
                     <button
                       onClick={handlerSubmit}
@@ -153,7 +136,7 @@ const handlerSubmit = (e) => {
               <button type="submit" onClick={handlerSubmit} >Entrar</button>
             </div>
             <div className={styles.footer_login}>
-              <span>Ainda não possui uma conta? <Link href={'/Register'} >Registre-se aqui</Link></span>
+              <span>Ainda não possui uma conta? <Link href={'/register'} >Registre-se aqui</Link></span>
             </div>
           </form>
         </motion.div>

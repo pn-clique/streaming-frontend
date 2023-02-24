@@ -13,14 +13,15 @@
 }
 .Modal_new_service {
   background-color: var(--bg-color);
-  max-width: 725px;
+  max-width: 625px;
   width: 100%;
 
-  padding: 4rem;
+  padding: 2rem;
   border-radius: 0.25rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  outline: none;
 
   &>.form {
     max-width: 500px;
@@ -30,12 +31,10 @@
     flex-direction: column;
     gap: 1rem;
 
-    &>div:nth-child(1) {
+    &>div.form_group_heading {
       width: 100%;
-
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      justify-content: flex-end;
 
       &>div {
         h2 {
@@ -59,118 +58,125 @@
       }
     }
 
-
-      .label_image {
-        background-color: var(--primary-color);
-        padding: 0.5rem 1rem;
-        border-radius: 0.25rem;
-        color: var(--secondary-color);
-
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        cursor: pointer;
-
-        svg {
-          font-size: 2rem;
-        }
-
-        input {
-          display: none;
-        }
-      }
-  
-
- 
-
-    &>div:nth-child(3) {
+    &>div.image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 100%;
 
-      input {
+      img {
+            max-width: 100%;
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            background-position: center;
+            display: block;
+      }
+    }
+
+    &>div.name {
+      
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      label {
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+
+      span {
         width: 100%;
         background-color: var(--main-color);
         color: var(--secondary-color);
         padding: 15px 11px;
         border-radius: 0.25rem;
         border: 0;
-
-        &:focus {
-          outline: var(--primary-color) solid 1px;
-        }
+        outline: none;
       }
     }
 
-    &>div:nth-child(4) { 
+    &>div.comission { 
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
 
-      input {
-        width: 100%;
-        background-color: var(--main-color);
-        color: var(--secondary-color);
-        padding: 15px 11px;
-        border-radius: 0.25rem;
-        border: 0;
+      div {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
 
-        border: 0;
+        label {
+          color: var(--primary-color);
+          font-weight: 600;
+        }
 
-        &:focus {
-          outline: var(--primary-color) solid 1px;
+        span {
+          width: 100%;
+          background-color: var(--main-color);
+          color: var(--secondary-color);
+          padding: 15px 11px;
+          border-radius: 0.25rem;
+          border: 0;
+          outline: none;
         }
       }
+
     }
 
-    &>div:nth-child(5) { 
+    &>div.form_group_date { 
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
 
-      input {
-        width: 100%;
-        background-color: var(--main-color);
-        color: var(--secondary-color);
-        padding: 15px 11px;
-        border-radius: 0.25rem;
-        border: 0;
-        border: 0;
+      div {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
 
-        &:focus {
-          outline: var(--primary-color) solid 1px;
+        label {
+          color: var(--primary-color);
+          font-weight: 600;
+        }
+
+        span {
+          width: 100%;
+          background-color: var(--main-color);
+          color: var(--secondary-color);
+          padding: 15px 11px;
+          border-radius: 0.25rem;
+          border: 0;
+          outline: none;
         }
       }
+
     }
 
-    &>div:nth-child(6) { 
+    &>div.observaction { 
       
 
-      textarea {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+
+      label {
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+
+      span {
         width: 100%;
         background-color: var(--main-color);
         color: var(--secondary-color);
-        padding: 15px 11px;
+        padding: 1rem;
         border-radius: 0.25rem;
         border: 0;
-        border: 0;
-
-        &:focus {
-          outline: var(--primary-color) solid 1px;
-        }
+        outline: none;
       }
     }
 
-    &>div:nth-child(7) {
-
-      button {
-          width: 100%;
-          padding: 0.8rem 1.5rem;
-          border-radius: 0.25rem;
-          background-color: var(--primary-color);
-          color: var(--secondary-color);
-          font-weight: 700;
-          border: 0;
-      }
-    }
 
   }
 

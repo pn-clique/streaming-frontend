@@ -43,7 +43,7 @@ export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, a
     token = localStorage.getItem('token');
   }
 
-  const url = `https://api-streaming.onrender.com/purchase-account-services/${account_id}/${service_id}`
+  const url = `https://api-streaming.onrender.com/purchase-account-services/${account_id}`
 
   await axios.post(url, form, {
     headers: {//...form.getHeaders,
@@ -51,7 +51,7 @@ export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, a
       Authorization: `Bearer ${token}`
     }
     
-  }).then(response => response)
+  }).then(response => {console.log('response buy service : ', response); closeModal()})
   .catch(error => console.log('Error: ', error))
 
   }

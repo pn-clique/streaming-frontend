@@ -39,6 +39,8 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
   const [comissao, setComissao] = useState("");
   const [obs, setObs] = useState("");
 
+  const [inputFile, setInputFile] = useState('')
+
   function handlerSubmit(e) {
     e.preventDefault();
 
@@ -90,18 +92,19 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
         </div>
 
         <div>
-          <label htmlFor="imgService">
-            <MdOutlineAddToPhotos />
-            <input
-              type="file"
-              name="image"
-              id="imgService"
-              ref={refImage}
-            />
-          </label>
-          <label htmlFor="imgService">
-          {image === ''? 'Adicione uma imagem para o serviço' : (image) }
-          </label>
+        <label className={styles.label_image}>
+      <MdOutlineAddToPhotos />
+        <input
+          style={{ display: "none" }}
+          type="file"
+          onChange={e => {
+            setInputFile(e.target.files[0].name);
+          }}
+          ref={refImage}
+        />
+        
+        <span>{inputFile === ''? 'Adicione uma imagem para o serviço' : (inputFile) }</span>
+      </label>
         </div>
 
         <div>

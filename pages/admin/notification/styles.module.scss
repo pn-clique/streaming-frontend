@@ -1,0 +1,223 @@
+
+
+
+.container_skeleton {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0 auto;
+
+  max-width: 975px;
+}
+
+
+.header_nav {
+  background-color: var(--primary-color);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 2rem;
+
+  &> div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px auto;
+
+    width: 100%;
+    max-width: 975px;
+
+  &> nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    
+
+
+    &>a {
+      padding: 0.8rem 1.5rem;
+        border-radius: 0.25rem;
+        background-color: var(--bg-color);
+        color: var(--secondary-color);
+        font-weight: 700;
+        border: 0;
+    }
+  }
+
+  .logo {
+    display: block;
+    max-width: 80px;
+    width: 100%;
+    height: auto;
+  }
+  }
+}
+
+
+.comprovativos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 2rem;
+
+  .container {
+    max-width: 80%;
+    width: 100%;
+    border-radius: 0.25rem;
+    padding: 1rem;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .comprovativo {
+    background-color: var(--bg-color);
+    position: relative;
+    max-width: 220px;
+    width: 100%;
+    height: 200px;
+    padding: 1rem;
+    border-radius: 0.25rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    transition: all 0.3s ease-in;
+
+    &:hover {
+      border: 1px solid var(--primary-color);
+    }
+
+    img {
+      // position: absolute;
+      display: block;
+      max-width: 120px;
+      // height: 100%;
+      border-radius: 0.25rem;
+    }
+
+    header {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      margin-top: 1rem;
+
+      h4 {
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+
+      span {
+        color: var(--secondary-color);
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.btn_options {
+  width: 100%;
+  padding: 1rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  button {
+    padding: 0.8rem 4rem;
+    border-radius: 0.25rem;
+    color: var(--secondary-color);
+  }
+
+  button:nth-child(1) {
+    // background-color: var(--primary-color);
+    // border: 1px solid red;
+    // outline: 1px solid red;
+  }
+}
+
+.overlay { 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba($color: #000000, $alpha: 0.8);
+
+  padding: 2rem;
+}
+.modal {
+  max-width: 60%;
+  background-color: var(--bg-color);
+  border-radius: 0.25rem;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  outline: none;
+
+  &> .image {
+      max-width: 745px;
+      height: 100%;
+      
+      img {
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        max-width: 90%;
+        min-width: 110px;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 0.25rem;
+    }
+  }
+
+  .button_group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--secondary-color);
+
+    button {
+      padding: 0.8rem 4rem;
+          border-radius: 0.25rem;
+          background-color: var(--primary-color);
+          color: var(--secondary-color);
+          font-weight: 700;
+          border: 0;
+    }
+
+    .btn_recusar {
+      background-color: red;
+      transition: all 0.3s ease-in-out;
+      border: 1px solid red !important;
+
+      &:hover {
+        border: 1px solid red;
+        color: red;
+      }
+    }
+  }
+}

@@ -18,7 +18,12 @@ import loader from './loader02.gif';
 import sza from './sza.jpg';
 import sunGlassesEmoji from './sun-glasses-emoji.gif';
 import giphy from './giphy.gif';
+// import provas from './provas.pdf'
+
 import allIcones from './allicones.png'
+import allIconesMusic from './all_icones_musica.png'
+
+import comprovativo01 from './comprovativo-01.jpg'
 
 
 export {
@@ -34,10 +39,12 @@ export {
   netflix,
   UserCircle,
   sza,
+  // provas,
 
   sunGlassesEmoji,
   giphy,
   allIcones,
+  allIconesMusic,
   
 
   sozinho,
@@ -45,4 +52,6 @@ export {
   familia,
   amigos,
   loader,
+
+  comprovativo01,
 }
