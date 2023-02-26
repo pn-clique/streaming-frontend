@@ -26,6 +26,7 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
   const refPoints = useRef(null);
   const refPrice = useRef(null);
   
+  const [smsError, setSmsError] = useState(false);
 
   const [service, setService] = useState([]);
 
@@ -34,7 +35,6 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
       .then((res) => setService(res.data.services))
       .catch((err) => console.log(err));
 
-      
   }
 
   useEffect(() => {
@@ -43,8 +43,6 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
 
   function handlerSubmit(e) {
     e.preventDefault();
-
-    closeModal();
 
     const data = {
       count_service_email: email,
@@ -60,10 +58,14 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
 
     Api.post("/account-service", data)
     .then((res) => {
+      closeModal();
       res
       window.location.reload();
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log('Ola, erro: ',error);
+      setSmsError(true);
+    });
 
     
   }
@@ -77,6 +79,15 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
       className={styles.Modal_new_service}
     >
       <form className={styles.form} onSubmit={handlerSubmit}>
+        <>
+        {smsError ? (
+            <div className={styles.message_error}>
+              <p>Preencha todos os campos correctamente!</p>
+            </div>
+          ) : (
+            ""
+          )}
+        </>
         <div className={styles.form_group_heading}>
           <div>
             <h2>Adicionar conta de serviço</h2>
@@ -179,7 +190,7 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
           </select>
         </div>
 
-        <div>
+        <div className={styles.btn_add_account}>
           <button type="submit" className="btn_default" onClick={handlerSubmit}>
             Adicionar
           </button>

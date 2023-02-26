@@ -1,5 +1,50 @@
 
 
+
+ // Classe para alerta de erro
+ .message_error {
+  border: 1px solid var(--primary-color);
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+
+  animation: animate 1.5s linear infinite;
+
+  p {
+    color: var(--primary-color);
+    text-align: center;
+  } 
+}
+
+@keyframes animate{
+  0%{
+     opacity: 0; 
+    border: 1px solid var(--primary-color);
+    box-shadow: 1px 0px 1px 1px var(--primary-color);
+
+  }
+  25% {
+    opacity: 0.9; 
+    border: 1px solid var(--primary-color);
+    
+  }
+  50%{
+    opacity: 0.1; 
+    border: 1px solid var(--primary-color);
+    box-shadow: 1px 1px 1px var(--primary-color);
+  }
+  75% {
+    opacity: 0.9; 
+    border: 1px solid var(--primary-color);
+  }
+  100%{
+    opacity: 0.1; 
+    border: 1px solid var(--primary-color);
+    box-shadow: 1px 1px 1px var(--primary-color);
+
+  }
+}
+
 .modal_overlay {
   position: fixed;
   top: 0;
@@ -30,7 +75,7 @@
     flex-direction: column;
     gap: 1rem;
 
-    &>div:nth-child(1) {
+    &>header {
       width: 100%;
 
       display: flex;
@@ -61,29 +106,31 @@
         border: 0;
       }
     }
+    .image_service {
 
-    .label_image {
-      background-color: var(--primary-color);
-      padding: 0.5rem 1rem;
-      border-radius: 0.25rem;
-      color: var(--secondary-color);
-
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      cursor: pointer;
-
-      svg {
-        font-size: 2rem;
-      }
-
-      input {
-        display: none;
+      .label_image {
+        background-color: var(--primary-color);
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        color: var(--secondary-color);
+  
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+  
+        svg {
+          font-size: 2rem;
+        }
+  
+        input {
+          display: none;
+        }
       }
     }
 
 
-    &>div:nth-child(3) {
+    &>div.name_service {
       width: 100%;
 
       input {
@@ -100,7 +147,7 @@
       }
     }
 
-    &>div:nth-child(4) { 
+    &>div.comission_service { 
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
@@ -121,7 +168,7 @@
       }
     }
 
-    &>div:nth-child(5) { 
+    &>div.data_service { 
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
@@ -141,7 +188,7 @@
       }
     }
 
-    &>div:nth-child(6) { 
+    &>div.code_service { 
       
 
       textarea {
@@ -159,7 +206,7 @@
       }
     }
 
-    &>div:nth-child(7) {
+    &>div.btn_service {
 
       button {
           width: 100%;

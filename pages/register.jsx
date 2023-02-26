@@ -120,8 +120,8 @@ export default function Register() {
         closeModal()
       })
       .catch((err) => {
-        closeModal()
         console.log("erro na promise signup register : ", err)
+        setSmsError(true);
       })
       .finally();
   };
@@ -295,8 +295,8 @@ export default function Register() {
                       </div>
 
                       <div className={styles.button_register}>
-                        <button onClick={handlerSubmit} type="submit">
-                          Adicionar
+                        <button className="btn_default" onClick={handlerSubmit} type="submit">
+                          Registar
                         </button>
                       </div>
                     </div>

@@ -70,7 +70,10 @@ const handlerSubmit = (e) => {
       navigate.push('/client/dashboard');
 
     })
-    .catch((err) => { console.log('erro na promise signin login : ', err); setSmsError(true) })
+    .catch((err) => { 
+      console.log('erro na promise signin login : ', err);
+      setSmsError(true);
+    })
     .finally();
 
 }

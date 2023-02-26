@@ -35,6 +35,8 @@ export default function ModalEditAccountService({
   const [service, setService] = useState([]);
   const [accountService, setAccountService] = useState([]);
 
+  const [smsError, setSmsError] = useState(false);
+
   function callServices() {
     Api.get("services")
       .then((res) => setService(res.data.services))
@@ -69,7 +71,7 @@ export default function ModalEditAccountService({
   function handlerSubmit(e, item) {
     e.preventDefault();
 
-    closeModal();
+    
 
     
     const data = {
@@ -90,9 +92,15 @@ export default function ModalEditAccountService({
     };
 
      Api.put(`/account-service/${accountServiceId}`, data)
-     .then((res) => { res ; window.location.reload()} )
-     .catch((error) => console.log(error));
-     console.log('data : ', data);
+     .then((res) => { 
+        res ; 
+        closeModal();
+        window.location.reload()
+      } )
+     .catch((error) => {
+      console.log(error)
+      setSmsError(true);
+     });
   }
 
   return (
@@ -104,6 +112,15 @@ export default function ModalEditAccountService({
       className={styles.Modal_new_service}
     >
       <form className={styles.form} onSubmit={handlerSubmit}>
+        <>
+        {smsError ? (
+            <div className={styles.message_error}>
+              <p>Preencha todos os campos correctamente!</p>
+            </div>
+          ) : (
+            ""
+          )}
+        </>
         <div className={styles.form_group_heading}>
           <div>
             <h2>Editar conta de serviço</h2>

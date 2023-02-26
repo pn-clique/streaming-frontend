@@ -176,39 +176,39 @@ export default function clientsFilter() {
 
   const [inputFile, setInputFile] = useState("");
 
-  function handlerSubmit(e, data) {
-    e.preventDefault();
+  // function handlerSubmit(e, data) {
+  //   e.preventDefault();
 
-    const file = refImage.current.files[0];
+  //   const file = refImage.current.files[0];
 
-    const form = new FormData();
-    form.append("name", name == "" ? data.name : name);
-    form.append("recarga", recarga == "" ? data.recarga : recarga);
-    form.append("preco", preco == "" ? data.preco : preco);
-    form.append("pontos", pontos == "" ? data.pontos : pontos);
-    form.append("duracao", duracao == "" ? data.duracao : duracao);
-    form.append("capacidade", capacidade == "" ? data.capacidade : capacidade);
-    form.append("comissao", comissao == "" ? data.comissao : comissao);
-    form.append("image", file == undefined ? data.image : file);
+  //   const form = new FormData();
+  //   form.append("name", clientName == "" ? data.name : clientName);
+  //   form.append("recarga", sex == "" ? data.sex : sex);
+  //   form.append("preco", whatsapp == "" ? data.whatsApp : whatsapp);
+  //   form.append("pontos", email == "" ? data.email : email);
+  //   form.append("duracao", date_birth == "" ? data.date_birth : date_birth);
+  //   form.append("capacidade", code_pin == "" ? data.code_pin : code_pin);
+  //   form.append("comissao", password == "" ? data.password : password);
+  //   form.append("image", photo_profile == undefined ? data.image : file);
 
-    console.log("files : ", file == undefined ? file : data.image);
-    console.log("name : ", name == "" ? data.name : name);
+  //   console.log("files : ", photo_profile == undefined ? file : data.image);
+  //   console.log("name : ", clientName == "" ? data.name : clientName);
 
-    const token = localStorage.getItem("token");
-    const url = `https://api-streaming.onrender.com/services/${serviceId}`;
-    axios
-      .put(url, form, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        window.location.reload();
-        res;
-      })
-      .catch((error) => console.log("Error: ", error));
-  }
+  //   const token = localStorage.getItem("token");
+  //   const url = `https://api-streaming.onrender.com/client/${serviceId}`;
+  //   axios
+  //     .put(url, form, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       window.location.reload();
+  //       res;
+  //     })
+  //     .catch((error) => console.log("Error: ", error));
+  // }
 
   function handlerEditClient() {
     console.log({
@@ -263,6 +263,20 @@ export default function clientsFilter() {
             <input
               type="text"
               placeholder="Pesquisar pelo nome do cliente"
+              value={search}
+              requerid="true"
+              onChange={(e) => {
+                setSearch(e.target.value);
+                e.target.value == "" ? setMyResult(false) : setMyResult(true);
+              }}
+              onKeyPress={(e) => {
+                setSearch(e.target.value);
+                setMyResult(true);
+              }}
+            />
+             <input
+              type="text"
+              placeholder="Pesquisar pelo email do cliente"
               value={search}
               requerid="true"
               onChange={(e) => {
@@ -387,13 +401,14 @@ export default function clientsFilter() {
               className={styles.modal_info_client}
             >
               <div className={styles.modal_clients}>
-                <img
+                {/* <img
                   src={
-                    `https://api-streaming.onrender.com/uploads/${data.photo_profile}` ||
+                    // `https://api-streaming.onrender.com/uploads/${data.photo_profile}` ||
                     sza
                   }
                   alt={"Client image" || data.name}
-                />
+                /> */}
+                <Image src={sza} alt="Image client" />
                 <div className={styles.name_clients}>
                   <h4>Nome:</h4>
                   <span>{"Client name" || data.name}</span>

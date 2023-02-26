@@ -11,14 +11,23 @@ import { MdOutlineAddToPhotos } from 'react-icons/md'
 
 import styles from "./styles.module.scss";
 import { movie05, netflix } from "../../../assets";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Api } from "../../../api/axios";
 import axios from "axios";
 
 
 export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, account_id }) {
-
+  
   const [inputFile, setInputFile] = useState('')
+  const [modalNotification, setModalNotification] = useState(false)
+  
+  // MODAL NOTIFICATION SEND AFTER BUY SERVICE
+  function openModalNotification() {
+    setModalNotification(true);
+  }
+  function closeModalNotification() {
+    setModalNotification(false);
+  }
 
   const [boleto, setBoleto] = useState('');
 
@@ -50,15 +59,31 @@ export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, a
       Authorization: `Bearer ${token}`
     }
     
-  }).then(response => {console.log('response buy service : ', response); closeModal()})
-  .catch(error => console.log('Error: ', error))
+  }).then(response => {
+    console.log('response buy service : ', response); 
+    closeModal()
+    
+  })
+  .catch(error => {
+    setModalNotification(false)
+    console.log('Error: ', error)})
 
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      closeModalNotification()
+      setModalNotification(false)
+    }, 5000)
+  }, [])
+
+  console.log(modalNotification);
 
 
 
 
   return (
+    <>
     <Modal
       isOpen={ModalIsOpen}
       onRequestClose={closeModal}
@@ -87,11 +112,23 @@ export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, a
       </label>
 
         <div className={styles.btn_send}>
-          <button type="submit">Enviar</button>
+          <button type="submit" onClick={openModalNotification}>Enviar</button>
         </div>
           
         </div>
       </form>
     </Modal>
+
+    <Modal
+    isOpen={modalNotification}
+    onRequestClose={closeModalNotification}
+    ariaHideApp={false}
+    overlayClassName={styles.overlay_modal_notification}
+    className={styles.modal_notification}
+    >
+      <h2>A sua compra está pendente!</h2>
+      <p>Lhe será enviado uma notificação, assim que o admin confirmar a sua compra</p>
+    </Modal>
+    </>
   );
 }

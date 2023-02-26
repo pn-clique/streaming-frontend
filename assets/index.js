@@ -15,7 +15,7 @@ import acompanhado from './acompanhado.png';
 import familia from './Familia.png';
 import amigos from './amigos4.gif';
 import loader from './loader02.gif';
-import sza from './sza.jpg';
+import sza from './clients/sza.jpg';
 import sunGlassesEmoji from './sun-glasses-emoji.gif';
 import giphy from './giphy.gif';
 // import provas from './provas.pdf'

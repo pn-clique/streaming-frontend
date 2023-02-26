@@ -30,6 +30,8 @@ export default function ModalEditionService({
 
   const navigate = useRouter();
 
+  const [smsError, setSmsError] = useState(false);
+
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [preco, setPreco] = useState("");
@@ -103,9 +105,13 @@ export default function ModalEditionService({
       })
       .then((res) => {
         window.location.reload();
+        closeModal()
         res;
       })
-      .catch((error) => console.log("Error: ", error));
+      .catch((error) => {
+        console.log("Error: ", error);
+        setSmsError(true);
+      });
   }
 
   useEffect(() => {
@@ -132,15 +138,24 @@ export default function ModalEditionService({
           if (data._id == serviceId)
             return (
               <>
-                <div>
+                <>
+                  {smsError ? (
+                    <div className={styles.message_error}>
+                      <p>Preencha todos os campos correctamente!</p>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </>
+                <header>
                   <div>
                     <h2>Editar serviço</h2>
                     <span>Edite o serviço</span>
                   </div>
                   <button onClick={closeEditionService}>X</button>
-                </div>
+                </header>
 
-                <div>
+                <div className={styles.image_service}>
                   <label className={styles.label_image}>
                     <MdOutlineAddToPhotos />
                     <input
@@ -159,7 +174,7 @@ export default function ModalEditionService({
                   </label>
                 </div>
 
-                <div>
+                <div className={styles.name_service}>
                   <input
                     required
                     type="text"
@@ -169,7 +184,7 @@ export default function ModalEditionService({
                   />
                 </div>
 
-                <div>
+                <div className={styles.comission_service}>
                   <input
                     required
                     type="text"
@@ -186,7 +201,7 @@ export default function ModalEditionService({
                   />
                 </div>
 
-                <div>
+                <div className={styles.data_service}>
                   <input
                     required
                     type="text"
@@ -210,19 +225,19 @@ export default function ModalEditionService({
                   />
                 </div>
 
-                <div>
+                <div className={styles.code_service}>
                   <textarea
                     name=""
                     id=""
                     cols="30"
-                    rows="10"
+                    rows="5"
                     placeholder={data.recarga}
                     value={data.recarga}
                     onChange={(e) => setRecarga(e.target.value)}
                   ></textarea>
                 </div>
 
-                <div>
+                <div className={styles.btn_service}>
                   <button type="submit" onClick={(e) => handlerSubmit(e, data)}>
                     Salvar
                   </button>

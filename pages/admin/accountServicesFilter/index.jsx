@@ -158,7 +158,7 @@ export default function ServicesFilter() {
           <div className={styles.filter}>
           <input
               type="text"
-              placeholder="Pesquisar pela conta de serviço(Email, nome de serviço e condição)"
+              placeholder="Pesquisar conta de serviço pelo nome"
               value={search}
 
               onChange={(e) => {
@@ -173,6 +173,29 @@ export default function ServicesFilter() {
               }}
               
             />
+            <input
+              type="text"
+              placeholder="Pesquisar conta de serviço pelo email"
+              value={search}
+
+              onChange={(e) => {
+                setSearch(e.target.value);
+                e.target.value == '' ? setMyResult(false) : setMyResult(true)
+                
+              }}
+
+              onKeyPress={(e) => {
+                setSearch(e.target.value);
+                setMyResult(true)
+              }}
+              
+            />
+            <select>
+              <option>Condição</option>
+              <option value="1">Ativa</option>
+              <option value="0">Não ativa</option>
+
+            </select>
           </div>
 
           <div className={styles.table_services}>
