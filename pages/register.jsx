@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { HiOutlineMail } from "react-icons/hi";
 import { TbLock } from "react-icons/tb";
+import { FaUserAlt } from "react-icons/fa";
 
 import Modal from "react-modal";
 import { useState, useEffect, useRef } from "react";
@@ -15,10 +16,8 @@ import { motion } from "framer-motion";
 // FORM DATA
 import FormData from "form-data";
 
-import { FaUserAlt } from "react-icons/fa";
 
-
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 // ASSETS
 import { logo, UserCircle } from "../assets";
@@ -34,7 +33,7 @@ import { Loader } from "../components/Loader";
 import HeaderAuth from "../components/HeaderAuth";
 import { Api } from "../api/axios";
 
-export default  function Register() {
+export default function Register() {
   const [isLoader, setIsLoader] = useState(true);
 
   useEffect(() => {
@@ -67,18 +66,13 @@ export default  function Register() {
 
   const [smsError, setSmsError] = useState(false);
 
-
-
   const ref = useRef(null);
-  const navigate = useRouter()
+  const navigate = useRouter();
 
-  
-  
   const handlerSubmit = async (e) => {
     e.preventDefault();
-    
-    const file = ref.current.files[0];
 
+    const file = ref.current.files[0];
 
     const config = {
       headers: { "Content-Type": "multipart/form-data" },
@@ -93,7 +87,7 @@ export default  function Register() {
     if (password != confirmPassword) {
       setSmsError(true);
     }
-    
+
     var bForm = new FormData();
     bForm.append("name", name);
     bForm.append("email", email);
@@ -104,13 +98,13 @@ export default  function Register() {
     bForm.append("code_pin", code_pin);
     bForm.append("photo_profile", file);
 
-    const url = 'https://api-streaming.onrender.com/register'
-     axios.post(url, bForm, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      }
-      
-    })
+    const url = "https://api-streaming.onrender.com/register";
+    axios
+      .post(url, bForm, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         console.log("data res signup register : ", res.data);
         const id = res.data.user._id;
@@ -123,10 +117,13 @@ export default  function Register() {
         Api.defaults.headers.Authorization = `Bearer ${token}`;
         Api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         navigate.push("/client/dashboard");
+        closeModal()
       })
-      .catch((err) => console.log("erro na promise signup register : ", err))
+      .catch((err) => {
+        closeModal()
+        console.log("erro na promise signup register : ", err)
+      })
       .finally();
-
   };
   return (
     <>
@@ -149,14 +146,6 @@ export default  function Register() {
               >
                 <div className={styles.person_datas}>
                   <header>
-                    {smsError ? (
-                      <div className={styles.message_error}>
-                        <p>Preencha todos os campos correctamente!</p>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-
                     <h2>Dados pessoais</h2>
                     <span>Registre-se para usufruir dos nossos serviços.</span>
                   </header>
@@ -280,12 +269,21 @@ export default  function Register() {
                     className={styles.Modal_new_service}
                   >
                     <div className={styles.Modal_image}>
-                      <div>
+                      <div className={styles.alert}>
+                        {smsError ? (
+                          <div className={styles.message_error}>
+                            <p>Preencha todos os campos correctamente!</p>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                      <div className={styles.heading}>
                         <h2>Foto de perfil</h2>
                         <span>Selecione uma foto de perfil.</span>
                       </div>
 
-                      <div>
+                      <div className={styles.photo}>
                         <label htmlFor="imgService">
                           {/* <Image src={UserCircle} alt="Foto de perfil" /> */}
                           <FaUserAlt />
@@ -296,7 +294,7 @@ export default  function Register() {
                         </label>
                       </div>
 
-                      <div>
+                      <div className={styles.button_register}>
                         <button onClick={handlerSubmit} type="submit">
                           Adicionar
                         </button>

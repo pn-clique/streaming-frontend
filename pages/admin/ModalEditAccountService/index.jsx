@@ -216,7 +216,7 @@ export default function ModalEditAccountService({
 
               <div className={styles.button}>
                 <button type="submit" onClick={(e) => handlerSubmit(e, item)}>
-                  Adicionar
+                  Salvar
                 </button>
               </div>
             </>

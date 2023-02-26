@@ -31,7 +31,7 @@ export default function ModalInfoService({ isOpen, closeModal, serviceId, setSer
     callServices();
   }, []);
   console.log("All services: ", services);
-
+// key
   return (
     <div>
 
@@ -46,7 +46,7 @@ export default function ModalInfoService({ isOpen, closeModal, serviceId, setSer
                 overlayClassName={styles.modal_overlay}
                 ariaHideApp={false}
                 className={styles.Modal_new_service}
-                key={index}
+                key={service.id}
               >
                     <section className={styles.form} >
                       <div className={styles.form_group_heading}>
@@ -93,7 +93,7 @@ export default function ModalInfoService({ isOpen, closeModal, serviceId, setSer
                       <div className={styles.observaction}>
                         <label htmlFor="">Codigo de recarga</label>
                         <span>
-                          {service.recarga}
+                          {service.recarga || (<p>Sem nenhum código de recarga</p>)}
                         </span>
                       </div>
                     </section>

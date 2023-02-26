@@ -45,6 +45,7 @@ export default function Dashboard() {
         console.log(res.data.message);
 
         window.location.reload();
+        closeModal()
       })
       .catch((error) => console.log("Erro: ", error));
   }
@@ -193,7 +194,7 @@ export default function Dashboard() {
   if (isLoader) {
     return <Loader />;
   }
-
+// key
   return (
     <>
       <header className={styles.header_nav}>
@@ -257,6 +258,7 @@ export default function Dashboard() {
         </div>
       </section>
 
+    {/* SERVICE */}
       <section className={styles.services}>
         <div>
           <header>
@@ -287,6 +289,7 @@ export default function Dashboard() {
             >
               Adicionar serviço
             </motion.button>
+
           </header>
           {ourService == "" ? (
             <div className={styles.container_skeleton}>
@@ -304,12 +307,12 @@ export default function Dashboard() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.5, delay: 1 }}
                   key={service.name}
-                  onClick={(e) => {
+                  
+                >
+                  <div onClick={(e) => {
                     openModalInfoService()
                     setServiceId(service._id);
-                  }}
-                >
-                  <div>
+                  }} >
                     <img
                       src={`https://api-streaming.onrender.com/uploads/${service.image}`}
                       alt={service.name}
@@ -342,7 +345,7 @@ export default function Dashboard() {
                       className="btn_default"
                       onClick={() => handlerDeleteService(service._id)}
                     >
-                      Apagar
+                      Ver contas
                     </button>
                   </div>
                 </motion.div>
@@ -356,6 +359,7 @@ export default function Dashboard() {
         </div>
       </section>
 
+        {/* ACCOUNT SERVICE */}
       <section className={styles.services}>
         <div>
           <header>
@@ -386,17 +390,16 @@ export default function Dashboard() {
                 accountId={accountId}
                 setAccountId={setAccountId}
               />
-              {ourAccountServices.map((data, key) => {
+              {ourAccountServices.map((data) => {
                 return (
                   <div
-                    key={key}
+                    key={data._id}
                     className={styles.card}
-                    onClick={() => {
+                  >
+                    <div onClick={() => {
                       openModalInfoAccount()
                       setAccountId(data._id)
-                    }}
-                  >
-                    <div>
+                    }} >
                       <img
                         src={`https://api-streaming.onrender.com/uploads/${data.service_id.image}`}
                         alt={data.count_service_email}
@@ -440,7 +443,7 @@ export default function Dashboard() {
             </div>
           )}
           <Link href={"./accountServicesFilter"} className="btn_default">
-            Mostrar mais contas de serviços
+            Mostrar contas de serviços
           </Link>
         </div>
       </section>

@@ -12,6 +12,9 @@ import { useRouter } from "next/router";
 import SuggestGame from "../../components/suggestGame";
 import { useState, useEffect } from "react";
 
+// ICONS
+import { IoMdNotifications, IoIosNotifications } from "react-icons/io";
+
 // Skeleton
 import Skeleton from "../../components/Skeleton";
 
@@ -73,6 +76,7 @@ export default function Dashboard() {
   const loadingAccountServices = async () => {
     const res = await Api.get("/account-service");
     setAccountService(res.data.accountServices);
+    console.log(res.data.accountServices)
   };
   function getMyAccountServices() {
     Api.get("/my-account-services")
@@ -159,6 +163,13 @@ export default function Dashboard() {
             animate={{ x: 0, opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
           >
+            <Link
+              href={"./notification"}
+              className={`btn_default ${styles.notification}`}
+            >
+              <IoMdNotifications />
+              <span>4</span>
+            </Link>
             <button
               type="button"
               onClick={handlerLogout}
@@ -268,6 +279,12 @@ export default function Dashboard() {
                 </>
               ) : (
                 <>
+                <ModalInfo 
+                suggestion={suggestion} 
+                suggestionMovieId={suggestionMovieId} 
+                ModalIsOpen={suggestionIsOpen} 
+                closeModal={suggestionCloseModal} 
+                />
                   {suggestion
                     .map((movie) => (
                       <motion.div
@@ -281,12 +298,7 @@ export default function Dashboard() {
                         transition={{ duration: 0.5, delay: 1.6 }}
                         key={movie.id}
                       >
-                        {/* <ModalInfo 
-                suggestion={suggestion} 
-                suggestionMovieId={suggestionMovieId} 
-                ModalIsOpen={suggestionIsOpen} 
-                closeModal={suggestionCloseModal} 
-                /> */}
+                        
 
                         <img
                           src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}
@@ -341,16 +353,16 @@ export default function Dashboard() {
                   >
                     <div>
                       <ModalBuyService
-                        service_id={data.service_id._id}
+                        service_id={data.service_id?._id}
                         account_id={data._id}
                         ModalIsOpen={modalBuyServiceIsOpen}
                         closeModal={modalBuyServicesClose}
                       />
                       <img
-                        src={`https://api-streaming.onrender.com/uploads/${data.service_id.image}`}
-                        alt={data.service_id.name}
+                        src={`https://api-streaming.onrender.com/uploads/${(data.service_id?.image) || (data.image)}`}
+                        alt={data.service_id?.name || 'Serviço'}
                       />
-                      <span>{data.service_id.name}</span>
+                      <span>{data.service_id?.name || 'Nome invalido'}</span>
                     </div>
                     <button
                       type="button"

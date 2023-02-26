@@ -21,7 +21,7 @@ export default function ModalInfo({ ModalIsOpen, closeModal, suggestion, suggest
       <form className={styles.form}>
             <button onClick={closeModal}>X</button>
 
-        {/* {
+        {
            suggestions.map((data, key) => {
             if (data.id == suggestionMovieId)
               return (
@@ -47,7 +47,7 @@ export default function ModalInfo({ ModalIsOpen, closeModal, suggestion, suggest
                 </div>
              )
            })
-        } */}
+        }
         
       </form>
     </Modal>

@@ -41,6 +41,32 @@
     max-width: 975px;
 
   &> nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    .notification{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      background-color: var(--bg-color);
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+
+      svg {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+  
+        // &:hover {
+        //   color: var(--secondary-color);
+        // }
+      }
+    }
+
     button {
       padding: 0.8rem 1.5rem;
         border-radius: 0.25rem;
@@ -167,6 +193,9 @@
         &>.card {
           position: relative;
           box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           border-radius: 0.25rem;
 
           cursor: pointer;
@@ -174,11 +203,17 @@
           width: 140px;
           height: 201px;
 
+          overflow: hidden;
+          
           img {
-            width: 141px;
-            aspect-ratio: auto 141 / 201;
-            height: 200px;
+            background-position: center !important;
+            object-fit: cover;
+            height: auto;
             border-radius: 0.25rem;
+            transform: scale(1);
+            z-index: 0;
+            display: block;
+
           }
         }
       }
@@ -261,7 +296,7 @@
             max-width: 50px;
             width: 100%;
             height: auto;
-            border-radius: 50%;
+            border-radius: 0.25rem;
           }
 
           span {

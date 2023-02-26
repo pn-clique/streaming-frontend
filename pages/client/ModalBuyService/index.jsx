@@ -4,6 +4,9 @@ import Image from "next/image";
 
 import FormData from "form-data";
 
+
+
+// iCONS
 import { MdOutlineAddToPhotos } from 'react-icons/md'
 
 import styles from "./styles.module.scss";
@@ -12,14 +15,14 @@ import { useState, useRef } from "react";
 import { Api } from "../../../api/axios";
 import axios from "axios";
 
+
 export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, account_id }) {
+
+  const [inputFile, setInputFile] = useState('')
 
   const [boleto, setBoleto] = useState('');
 
-  const [isOpen, setIsOpen] = useState(false);
-
   const ref = useRef(null);
-
 
   async function handlerSubmit(e) {
     e.preventDefault();
@@ -33,10 +36,6 @@ export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, a
     form.append('pdf_purchasing', file);
     form.append('user_id', user_id);
     form.append('account_service_id', account_id);
-
-   
-
-
 
   let token = ''
   if(typeof window !== 'undefined') {
@@ -73,24 +72,19 @@ export default function ModalBuyService({ ModalIsOpen, closeModal, service_id, a
 
         <div className={styles.movie_info}>
 
-    {/* <label htmlFor="fileSend">
-      <input type="file" name="" id="fileSend" />
-      <span>Adic</span>
-    </label> */}
-
-        <div>
-          <label htmlFor="imgService">
-            <MdOutlineAddToPhotos />
-          <span>
-          {boleto === ''? 'Adicione uma imagem para o serviço' : (boleto) }
-          </span>
-          </label>
-            <input
-              type="file"
-              id="imgService"
-              ref={ref}
-            />
-        </div>
+<label className={styles.label_image}>
+      <MdOutlineAddToPhotos />
+        <input
+          style={{ display: "none" }}
+          type="file"
+          onChange={e => {
+            setInputFile(e.target.files[0].name);
+          }}
+          ref={ref}
+        />
+        
+        <span>{inputFile === ''? 'Adicione uma imagem para o serviço' : (inputFile) }</span>
+      </label>
 
         <div className={styles.btn_send}>
           <button type="submit">Enviar</button>

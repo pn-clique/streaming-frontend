@@ -48,7 +48,8 @@ export function CarouselMyServices({myAccounts, services}) {
               <Skeleton width={141} height={200} borderRadius={"0.25rem"} />
             </div>
         ) : (
-          (<motion.div
+          (
+          <motion.div
             className={styles.inner_carousel}
             drag="x"
             dragConstraints={{ right: 0, left: -width }}
@@ -71,7 +72,8 @@ export function CarouselMyServices({myAccounts, services}) {
                 )
               })
             })}
-          </motion.div>)
+          </motion.div>
+          )
         )
        }
       </motion.div>

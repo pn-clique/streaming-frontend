@@ -109,7 +109,7 @@ const handlerSubmit = (e) => {
                     placeholder="E-mail" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
+                    required={true}
                     autoComplete="false"
                     />
                 </div>
@@ -122,7 +122,7 @@ const handlerSubmit = (e) => {
                     placeholder="Palavra-passe" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
+                    required={true}
                     autoComplete="false"
                     />
                     <button
@@ -133,7 +133,10 @@ const handlerSubmit = (e) => {
                 </div>
             </div>
             <div>
-              <button type="submit" onClick={handlerSubmit} >Entrar</button>
+              <button 
+                type="submit" 
+                className="btn_default"
+                onClick={handlerSubmit} >Entrar</button>
             </div>
             <div className={styles.footer_login}>
               <span>Ainda não possui uma conta? <Link href={'/register'} >Registre-se aqui</Link></span>

@@ -127,6 +127,21 @@
   }
 }
 
+.feedback {
+  width: 100%;
+  
+  textarea {
+    background-color: var(--main-color);
+    color: var(--secondary-color);
+    outline: none;
+    border: 0;
+    
+    width: 100%;
+    border-radius: 0.25rem;
+    padding: 1rem;
+  }
+}
+
 .btn_options {
   width: 100%;
   padding: 1rem;

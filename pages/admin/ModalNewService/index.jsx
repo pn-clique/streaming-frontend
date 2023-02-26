@@ -143,6 +143,7 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
           onChange={(e) => setPreco(e.target.value)}
           />
         </div>
+            
 
         <div>
           <textarea
@@ -163,3 +164,4 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
     </Modal>
   );
 }
+

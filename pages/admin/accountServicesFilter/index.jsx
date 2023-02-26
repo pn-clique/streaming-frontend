@@ -92,6 +92,7 @@ export default function ServicesFilter() {
     Api.delete(`account-service/${deleteAccount}`)
       .then((res) => {
         console.log('delete account services : ', res.data.message);
+        closeModal()
         window.location.reload();
       })
       .catch((error) => console.log("Erro in delete account: ", error));

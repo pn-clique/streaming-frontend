@@ -35,7 +35,10 @@ export default function notification() {
   const [isOpen, setIsOpen] = useState(false);
 
   // Active state
-  const [color, setColor] = useState(true)
+  const [color, setColor] = useState(true);
+
+  // FEEDBACK STATE
+  const [feedback, setFeedback] = useState('')
 
   function openModal() {
     setIsOpen(true);
@@ -88,21 +91,32 @@ export default function notification() {
       .catch((error) => console.log("Erro: ", error));
   }, []);
 
+  // Api.post(
+  //   `/purchased-account-services/${purchasedId}/${accountId}/${serviceId}`,
+  //   {
+  //     accept: e, message: feedback
+  //   }
+  // )
+  // .then(res => console.log('Message send:', res.data))
+  // .catch(error => console.log('Message error:', error.data))
+
   const acceptPayments = (e) => {
     console.log("params : ", e);
+    console.log("message : ", feedback);
+
     Api.put(
       `/purchased-account-services/${purchasedId}/${accountId}/${serviceId}`,
       {
-        accept: e,
+        accept: e, message: feedback
       }
     )
       .then((res) => {
-        console.log("sucess : ", res.data);
+        console.log("sucess : ", res.data, "Message: ", message);
         closeModal();
         window.location.reload(false);
       })
       .catch((error) => {
-        console.log("error : ", error);
+        console.log("error : ", error, "Message: ", message);
       });
   };
   return (
@@ -124,11 +138,11 @@ export default function notification() {
         <button
           className={`btn_default ${color}`}
           style={{
-            backgroundColor: `${color == true ? '#D81E5B' : ' '}`
+            backgroundColor: `${color == true ? "#D81E5B" : " "}`,
           }}
           onClick={() => {
             setPendent(true);
-            setColor(true)
+            setColor(true);
           }}
         >
           Pendentes
@@ -136,12 +150,11 @@ export default function notification() {
         <button
           className="btn_default"
           style={{
-            backgroundColor: `${color == false ? '#D81E5B' : ' '}`
+            backgroundColor: `${color == false ? "#D81E5B" : " "}`,
           }}
           onClick={() => {
             setPendent(false);
-            setColor(true)
-            
+            setColor(true);
           }}
         >
           Aceites
@@ -181,26 +194,37 @@ export default function notification() {
             </div>
 
             {pendent ? (
-              <div className={styles.button_group}>
-                <button
-                  className={`btn_default`}
-                  onClick={() => {
-                    //            setAccept(1)
-                    acceptPayments(1);
-                  }}
-                >
-                  Aceitar
-                </button>
-                <button
-                  className={`btn_default ${styles.btn_recusar}`}
-                  onClick={() => {
-                    //setAccept(0)
-                    acceptPayments(0);
-                  }}
-                >
-                  Recusar
-                </button>
-              </div>
+              <>
+                <div className={styles.feedback}>
+                  <textarea
+                   placeholder="Digite um feedback para o cliente"
+                   value={feedback}
+                   onChange={(e) => {
+                    setFeedback(e.target.value)
+                   }}
+                   ></textarea>
+                </div>
+
+                <div className={styles.button_group}>
+                  <button
+                    className={`btn_default`}
+                    onClick={() => {
+                      acceptPayments(1);
+                    }}
+                  >
+                    Aceitar
+                  </button>
+                  <button
+                    className={`btn_default ${styles.btn_recusar}`}
+                    onClick={() => {
+                      //setAccept(0)
+                      acceptPayments(0);
+                    }}
+                  >
+                    Recusar
+                  </button>
+                </div>
+              </>
             ) : (
               ""
             )}

@@ -13,10 +13,10 @@ import { MdOutlineAddToPhotos } from "react-icons/md";
 
 // AXIOS API
 import { Api } from "../../../api/axios";
+import axios from "axios";
 
 // STYLES
 import styles from "./styles.module.scss";
-import axios from "axios";
 import { useEffect } from "react";
 
 export default function ModalEditionService({
@@ -43,7 +43,7 @@ export default function ModalEditionService({
 
   function closeEditionService() {
     setServiceId("");
-    setName("");
+    setName();
     setPreco("");
     setPontos("");
     setDuracao("");
@@ -62,14 +62,14 @@ export default function ModalEditionService({
       .then((res) => {
         res.data.services;
         setServices(res.data.services);
-        // setName(res.data.service.name);
-        // setPreco(res.data.service.preco);
-        // setPontos(res.data.service.pontos);
-        // setDuracao(res.data.service.duracao);
-        // setCapacidade(res.data.service.capacidade);
-        // setComissao(res.data.service.comissao);
-        // setRecarga(res.data.service.recarga);
-        // setImage(res.data.service.image);
+        setName(res.data.service.name);
+        setPreco(res.data.service.preco);
+        setPontos(res.data.service.pontos);
+        setDuracao(res.data.service.duracao);
+        setCapacidade(res.data.service.capacidade);
+        setComissao(res.data.service.comissao);
+        setRecarga(res.data.service.recarga);
+        setImage(res.data.service.image);
       })
       .catch((error) => console.log("Erro: ", error));
   };
@@ -78,7 +78,6 @@ export default function ModalEditionService({
     e.preventDefault();
 
     const file = refImage.current.files[0];
-
 
     const form = new FormData();
     form.append("name", name == "" ? data.name : name);
@@ -90,8 +89,8 @@ export default function ModalEditionService({
     form.append("comissao", comissao == "" ? data.comissao : comissao);
     form.append("image", file == undefined ? data.image : file);
 
-    console.log('files : ', file == undefined ? file : data.image);
-    console.log('name : ', name == "" ? data.name : name);
+    console.log("files : ", file == undefined ? file : data.image);
+    console.log("name : ", name == "" ? data.name : name);
 
     const token = localStorage.getItem("token");
     const url = `https://api-streaming.onrender.com/services/${serviceId}`;
@@ -104,14 +103,17 @@ export default function ModalEditionService({
       })
       .then((res) => {
         window.location.reload();
-        res
+        res;
       })
       .catch((error) => console.log("Error: ", error));
   }
 
   useEffect(() => {
+    // EditService()
     loadingServices();
   }, []);
+
+  const [inputFile, setInputFile] = useState("");
 
   return (
     <Modal
@@ -139,63 +141,71 @@ export default function ModalEditionService({
                 </div>
 
                 <div>
-                  <label htmlFor="imgService">
+                  <label className={styles.label_image}>
                     <MdOutlineAddToPhotos />
                     <input
+                      required
+                      style={{ display: "none" }}
                       type="file"
-                      name="image"
-                      id="imgService"
+                      onChange={(e) => {
+                        setInputFile(e.target.files[0].name);
+                      }}
                       ref={refImage}
                     />
-                  </label>
-                  <label htmlFor="imgService">
-                    {data.image === ""
-                      ? "Adicione uma imagem para o serviço"
-                      : data.image}
+
+                    <span>
+                      {inputFile === "" ? "Atualizar imagem" : inputFile}
+                    </span>
                   </label>
                 </div>
 
                 <div>
                   <input
+                    required
                     type="text"
                     placeholder={data.name}
-                    value={name}
+                    value={data.name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
 
                 <div>
                   <input
+                    required
                     type="text"
                     placeholder={data.comissao}
-                    value={comissao}
+                    value={data.comissao}
                     onChange={(e) => setComissao(e.target.value)}
                   />
                   <input
+                    required
                     type="text"
                     placeholder={data.duracao}
-                    value={duracao}
+                    value={data.duracao}
                     onChange={(e) => setDuracao(e.target.value)}
                   />
                 </div>
 
                 <div>
                   <input
+                    required
                     type="text"
                     placeholder={data.capacidade}
-                    value={capacidade}
+                    value={data.capacidade}
                     onChange={(e) => setCapacidade(e.target.value)}
                   />
                   <input
+                    required
                     type="text"
                     placeholder={data.pontos}
-                    value={pontos}
+                    value={data.pontos}
                     onChange={(e) => setPontos(e.target.value)}
                   />
                   <input
+                    required
                     type="text"
                     placeholder={data.preco}
-                    value={preco}
+                    value={data.preco}
                     onChange={(e) => setPreco(e.target.value)}
                   />
                 </div>
@@ -207,14 +217,14 @@ export default function ModalEditionService({
                     cols="30"
                     rows="10"
                     placeholder={data.recarga}
-                    value={recarga}
+                    value={data.recarga}
                     onChange={(e) => setRecarga(e.target.value)}
                   ></textarea>
                 </div>
-                
+
                 <div>
                   <button type="submit" onClick={(e) => handlerSubmit(e, data)}>
-                    Adicionar
+                    Salvar
                   </button>
                 </div>
               </>

@@ -48,6 +48,9 @@
         }
       }
 
+   
+  
+
       button {
         background-color: transparent;
         color: var(--primary-color);
@@ -59,51 +62,26 @@
       }
     }
 
-    &>div:nth-child(2) {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      // height: 30px;
+    .label_image {
+      background-color: var(--primary-color);
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      color: var(--secondary-color);
 
-      // &> label:nth-child(1) {
-      //   display: flex;
-      //   justify-content: center;
-      //   align-items: center;
-      //   margin-right: -5px;
-      //   z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
 
-      //   background-color: var(--main-color);
-      //   border-radius: 0.25rem;
-      //   cursor: pointer;
+      svg {
+        font-size: 2rem;
+      }
 
-      //   input {
-      //     overflow: hidden;
-      //     opacity: 0;
-      //     width: 0;
-      //     border: 0;
-          
-      //   }
-
-      //   svg {
-      //     color: var(--primary-color);
-      //     font-weight: 700;
-      //     font-size: 1.5rem;
-      //   }
-      // }
-
-      label:nth-child(2) {
-        background-color: var(--primary-color);
-        color: var(--secondary-color);
-
-        display: flex;
-        align-items: center;
-        padding: 1rem;
-
-        border-top-right-radius: 0.25rem;
-        border-bottom-right-radius: 0.25rem;
-
-        cursor: pointer;
+      input {
+        display: none;
       }
     }
+
 
     &>div:nth-child(3) {
       width: 100%;
