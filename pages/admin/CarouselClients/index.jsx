@@ -11,6 +11,9 @@ import { motion } from "framer-motion";
 // MODAL
 import Modal from "react-modal";
 
+// Skeleton
+import Skeleton from "../../../components/Skeleton";
+
 // ASSETS
 import {
   netflix,
@@ -80,7 +83,16 @@ export default function CarouselClients() {
         ref={slider_wrapper}
         whileTap={{ cursor: "grabbing" }}
       >
-        <motion.div
+        {
+          ourClients == '' ? (
+            <div className={styles.container_skeleton}>
+              <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
+              <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
+              <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
+              <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
+            </div>
+          ) : (
+            <motion.div
           className={styles.inner_carousel}
           drag="x"
           dragConstraints={{ right: 0, left: -width }}
@@ -108,6 +120,8 @@ export default function CarouselClients() {
             );
           })}
         </motion.div>
+          )
+        }
       </motion.div>
 
       {/* MODAL INFO CLIENT */}

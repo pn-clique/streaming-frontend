@@ -10,7 +10,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 393px) { 
+    .modal_overlay {
+      padding: 4rem 1rem;
+    }
+  }
 }
+
 .Modal_new_service {
   background-color: var(--bg-color);
   max-width: 725px;

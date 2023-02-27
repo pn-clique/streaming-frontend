@@ -29,6 +29,8 @@ import ModalEditAccountService from "../ModalEditAccountService";
 import { Api } from "../../../api/axios";
 export default function ServicesFilter() {
 
+  
+
   const [modalAddService, setModalAddService] = useState(false);
   const [modalEditAccountService, setModalEditAccountService] = useState(false);
   const [modalDeleteAccountService, setModalDeleteAccountService] = useState(false)
@@ -36,16 +38,6 @@ export default function ServicesFilter() {
   const [accountServiceId, setAccountServiceId] = useState('')
 
   const navigate = useRouter();
-
-  // FUNCTION LOGOUT
-  function handlerLogout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("permission");
-
-    navigate.push("/login");
-  }
-
 
   // FUNCTIONS ADD ACCOUNT SERVICES
   function openModalAddService() {
@@ -74,7 +66,26 @@ export default function ServicesFilter() {
   const [accountService, setAccountService] = useState([])
 
   // = useState([]) API 
-  useState(() => {
+  useEffect(() => {
+
+    let permission = localStorage.getItem("permission");
+
+  // PROTECT ROUTER URL
+  if (
+    permission == 0 ||
+    permission == null ||
+    permission == undefined ||
+    permission == ""
+  ) {
+    navigate.push("/login");
+    //window.location.reload()
+  }
+
+  if (permission == 2 || permission == 3) {
+    navigate.push("/client/dashboard");
+  }
+
+
     Api.get('/account-service')
     .then(res => {
       setAccountService(res.data.accountServices)
@@ -99,17 +110,23 @@ export default function ServicesFilter() {
   }
 
   const [search, setSearch] = useState('')
-  const [myResult, setMyResult] = useState(false)
+  const [myResult, setMyResult] = useState(false);
 
+  // STATES FILTER
+  const [searchEmail, setSearchEmail] = useState('');
+  const [searchCondition, setSearchCondition] = useState('');
+
+  console.log(searchCondition)
   const data = Object.values(accountService)
   function search_account_services(account) {
     return account.filter(item => {
       if(
-        item.id == search || 
-        item.service_id.name == search || 
-        item.count_service_email == search ||
-        item.in_day == search
+        item.service_id.name == search && 
+        item.count_service_email == searchEmail &&
+        item.in_day == searchCondition 
       ) {
+        return item
+      } else if(item.service_id.name == search && item.in_day == searchCondition ) {
         return item
       }
     }) 
@@ -124,13 +141,13 @@ export default function ServicesFilter() {
             <Image src={logo} alt="PN Clique logo" className={styles.logo} />
           </Link>
           <nav>
-            <button
-              onClick={handlerLogout}
+            <Link
               className={"btn_default"}
               type="button"
+              href={'/'}
             >
               Dashboard
-            </button>
+            </Link>
           </nav>
         </div>
       </header>
@@ -176,21 +193,28 @@ export default function ServicesFilter() {
             <input
               type="text"
               placeholder="Pesquisar conta de serviço pelo email"
-              value={search}
+              value={searchEmail}
 
               onChange={(e) => {
-                setSearch(e.target.value);
+                setSearchEmail(e.target.value);
                 e.target.value == '' ? setMyResult(false) : setMyResult(true)
                 
               }}
 
               onKeyPress={(e) => {
-                setSearch(e.target.value);
+                setSearchEmail(e.target.value);
                 setMyResult(true)
               }}
               
             />
-            <select>
+            <select 
+              value={searchCondition}
+              onChange={(e) => {
+                setSearchCondition(e.target.value);
+                e.target.value == '' ? setMyResult(false) : setMyResult(true)
+
+              }}
+            >
               <option>Condição</option>
               <option value="1">Ativa</option>
               <option value="0">Não ativa</option>

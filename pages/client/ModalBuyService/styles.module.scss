@@ -1,5 +1,94 @@
 
 
+// Classe para alerta de erro
+.message_error {
+  border: 1px solid var(--primary-color);
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+
+  animation: animate 1.5s linear infinite;
+
+  p {
+    color: var(--primary-color);
+    text-align: center;
+  } 
+}
+
+@keyframes animate{
+  0%{
+     opacity: 0; 
+    border: 1px solid var(--primary-color);
+    box-shadow: 1px 0px 1px 1px var(--primary-color);
+
+  }
+  25% {
+    opacity: 0.9; 
+    border: 1px solid var(--primary-color);
+    
+  }
+  50%{
+    opacity: 0.1; 
+    border: 1px solid var(--primary-color);
+    box-shadow: 1px 1px 1px var(--primary-color);
+  }
+  75% {
+    opacity: 0.9; 
+    border: 1px solid var(--primary-color);
+  }
+  100%{
+    opacity: 0.1; 
+    border: 1px solid var(--primary-color);
+    box-shadow: 1px 1px 1px var(--primary-color);
+
+  }
+}
+
+.modal_notification {
+  position: relative;
+  background-color: var(--bg-color);
+  max-width: 510px;
+  width: 100%;
+  padding: 4rem 2rem;
+
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    color: var(--primary-color);
+    font-weight: 700;
+  }
+  
+  p {
+    color: var(--secondary-color);
+    text-align: center;
+  }
+  
+  button {
+    position: absolute;
+    font-weight: 700;
+    color: var(--primary-color);
+    background-color: transparent;
+    font-size: 1.5rem;
+    border: 0;
+    outline: none;
+    top: 1rem;
+    right: 2rem;
+  }
+
+  a {
+    background-color: var(--primary-color);
+              padding: 0.8rem 1.5rem;
+              border-radius: 0.25rem;
+              color: var(--secondary-color);
+              margin-top: 1rem;
+  }
+}
+.overlay_modal_notification,
 .modal_overlay {
   position: fixed;
   top: 0;
@@ -53,11 +142,6 @@
         gap: 1rem;
 
         &>div { 
-          // height: 30px;
-          
-        //   display: grid;
-        // grid-template-columns: 100px 1fr;
-        background-color: var(--main-color);
 
             label {
               display: grid;

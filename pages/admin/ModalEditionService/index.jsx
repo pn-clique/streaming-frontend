@@ -64,14 +64,6 @@ export default function ModalEditionService({
       .then((res) => {
         res.data.services;
         setServices(res.data.services);
-        setName(res.data.service.name);
-        setPreco(res.data.service.preco);
-        setPontos(res.data.service.pontos);
-        setDuracao(res.data.service.duracao);
-        setCapacidade(res.data.service.capacidade);
-        setComissao(res.data.service.comissao);
-        setRecarga(res.data.service.recarga);
-        setImage(res.data.service.image);
       })
       .catch((error) => console.log("Erro: ", error));
   };
@@ -84,7 +76,7 @@ export default function ModalEditionService({
     const form = new FormData();
     form.append("name", name == "" ? data.name : name);
     form.append("recarga", recarga == "" ? data.recarga : recarga);
-    form.append("preco", preco == "" ? data.preco : preco);
+    form.append("preco", 200);
     form.append("pontos", pontos == "" ? data.pontos : pontos);
     form.append("duracao", duracao == "" ? data.duracao : duracao);
     form.append("capacidade", capacidade == "" ? data.capacidade : capacidade);
@@ -93,6 +85,8 @@ export default function ModalEditionService({
 
     console.log("files : ", file == undefined ? file : data.image);
     console.log("name : ", name == "" ? data.name : name);
+
+    console.log(data.preco);
 
     const token = localStorage.getItem("token");
     const url = `https://api-streaming.onrender.com/services/${serviceId}`;
@@ -179,7 +173,6 @@ export default function ModalEditionService({
                     required
                     type="text"
                     placeholder={data.name}
-                    value={data.name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
@@ -189,14 +182,12 @@ export default function ModalEditionService({
                     required
                     type="text"
                     placeholder={data.comissao}
-                    value={data.comissao}
                     onChange={(e) => setComissao(e.target.value)}
                   />
                   <input
                     required
                     type="text"
                     placeholder={data.duracao}
-                    value={data.duracao}
                     onChange={(e) => setDuracao(e.target.value)}
                   />
                 </div>
@@ -206,21 +197,18 @@ export default function ModalEditionService({
                     required
                     type="text"
                     placeholder={data.capacidade}
-                    value={data.capacidade}
                     onChange={(e) => setCapacidade(e.target.value)}
                   />
                   <input
                     required
                     type="text"
                     placeholder={data.pontos}
-                    value={data.pontos}
                     onChange={(e) => setPontos(e.target.value)}
                   />
                   <input
                     required
                     type="text"
                     placeholder={data.preco}
-                    value={data.preco}
                     onChange={(e) => setPreco(e.target.value)}
                   />
                 </div>
@@ -232,7 +220,6 @@ export default function ModalEditionService({
                     cols="30"
                     rows="5"
                     placeholder={data.recarga}
-                    value={data.recarga}
                     onChange={(e) => setRecarga(e.target.value)}
                   ></textarea>
                 </div>

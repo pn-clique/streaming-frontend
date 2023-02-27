@@ -243,9 +243,9 @@ export default function clientsFilter() {
             <Image src={logo} alt="PN Clique logo" className={styles.logo} />
           </Link>
           <nav>
-            <button className={"btn_default"} type="button">
-              Dashboard
-            </button>
+            <Link href={'./dashboard'} className="btn_default">
+              Dashboard 
+            </Link>
           </nav>
         </div>
       </header>

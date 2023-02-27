@@ -139,6 +139,9 @@ export default function Dashboard() {
     getServices();
   }, []);
 
+  console.log('Account',myAccounts);
+  console.log('Account',services);
+
   if(isLoader) {
     return (
       <Loader />
@@ -342,7 +345,13 @@ export default function Dashboard() {
                 <Skeleton width={"100%"} height={50} borderRadius={"0.25rem"} />
               </div>
             ) : (
-              <>
+              accountService.length === 0 ? (
+                <div className={styles.no_services}>
+                  <h2>Sem nenhuma conta de serviço!</h2>
+                  <span>Compre os nossos serviços para poder usufruir mais do que temos a lhe oferecer</span>
+                </div>
+              ) : (
+                <>
                 {accountService.map((data, key) => (
                   <motion.div
                     className={styles.card}
@@ -374,6 +383,8 @@ export default function Dashboard() {
                   </motion.div>
                 ))}
               </>
+              )
+
             )}
           </div>
         </div>

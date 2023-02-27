@@ -319,7 +319,23 @@
 }
 
 
+.no_services {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 
+  width: 100%;
+
+  h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+  span {
+    color: var(--secondary-color);
+  }
+}
 
 
 

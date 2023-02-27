@@ -80,7 +80,7 @@ export default function Dashboard() {
     if (
       permission == 0 ||
       permission == null ||
-      permission == "undefined" ||
+      permission == undefined ||
       permission == ""
     ) {
       navigate.push("/login");
@@ -402,9 +402,9 @@ export default function Dashboard() {
                     }} >
                       <img
                         src={`https://api-streaming.onrender.com/uploads/${data.service_id.image}`}
-                        alt={data.count_service_email}
+                        alt={data.service_id.name}
                       />
-                      <span>{data.count_service_email}</span>
+                      <span>{data.service_id.name}</span>
                     </div>
                     <ModalEditAccountService
                       ModalIsOpen={modalEditionAccountServiceIsOpen}
