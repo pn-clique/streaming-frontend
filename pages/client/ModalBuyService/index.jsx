@@ -103,7 +103,7 @@ export default function ModalBuyService({
         >
           <button onClick={closeModal}>X</button>
 
-          <div className={styles.movie_info}>
+          {/* <div className={styles.movie_info}>
             {smsError ? (
               <div className={styles.message_error}>
                 <p>Preencha todos os campos correctamente!</p>
@@ -156,7 +156,7 @@ export default function ModalBuyService({
                 Enviar
               </button>
             </div>
-          </div>
+          </div> */}
         </form>
       </Modal>
 
