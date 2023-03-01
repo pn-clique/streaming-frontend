@@ -18,7 +18,6 @@ import axios from "axios";
 export default function ModalBuyService({
   ModalIsOpen,
   closeModal,
-  service_id,
   account_id,
   data,
 }) {
