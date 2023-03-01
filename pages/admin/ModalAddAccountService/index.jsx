@@ -110,13 +110,13 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
         <div className={styles.form_group_date}>
           <input
             type="date"
-            placeholder="Digite a data do iniçio:"
+            placeholder="Digite a data de início:"
             value={dateStart}
             onChange={(e) => setDateStart(e.target.value)}
           />
           <input
             type="date"
-            placeholder="Digite a data final:"
+            placeholder="Digite a data de vencimento:"
             value={dateEnd}
             autoComplete="false"
             onChange={(e) => setDateEnd(e.target.value)}

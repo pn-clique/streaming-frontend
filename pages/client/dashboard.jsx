@@ -12,13 +12,15 @@ import { useRouter } from "next/router";
 import SuggestGame from "../../components/suggestGame";
 import { useState, useEffect } from "react";
 
+// Modal
+import Modal from "react-modal";
+
 // ICONS
 import { IoMdNotifications, IoIosNotifications } from "react-icons/io";
 
 // Skeleton
 import Skeleton from "../../components/Skeleton";
 
-import ModalInfo from "./ModalInfo";
 import { Loader } from "../../components/Loader";
 import ModalBuyService from "./ModalBuyService";
 import { CarouselMyServices } from "../../components/CarouselMyServices";
@@ -36,6 +38,21 @@ export default function Dashboard() {
   const [accountService, setAccountService] = useState([]);
   const [myAccounts, setMyAccounts] = useState([]);
   const [services, setServices] = useState([]);
+
+
+  // PROPS MODAL BUY SERVICE
+  const [serviceImage, setServiceImage] = useState('')
+  const [serviceName, setServiceName] = useState('')
+  const [servicePrice, setServicePrice] = useState('31')
+  const [serviceDuraction, setServiceDuraction] = useState('')
+
+  const modalServiceBuy = {
+    serviceImage,
+    serviceName,
+    servicePrice,
+    serviceDuraction
+  }
+
 
   const navigate = useRouter();
 
@@ -76,7 +93,7 @@ export default function Dashboard() {
   const loadingAccountServices = async () => {
     const res = await Api.get("/account-service");
     setAccountService(res.data.accountServices);
-    console.log(res.data.accountServices)
+    console.log(res.data.accountServices);
   };
   function getMyAccountServices() {
     Api.get("/my-account-services")
@@ -110,11 +127,10 @@ export default function Dashboard() {
             arr.push(content);
           }
           setSuggestion(arr);
+          console.log("suggestion: ", arr);
         });
     }, 2000);
   };
-
-  console.log(suggestion);
 
   let name = "";
 
@@ -123,15 +139,20 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    let permission = localStorage.getItem('permission');
-      if (permission == 0 || permission == null || permission == "undefined" || permission == "") {
-            navigate.push('/login');
-            //window.location.reload()
-        }
+    let permission = localStorage.getItem("permission");
+    if (
+      permission == 0 ||
+      permission == null ||
+      permission == "undefined" ||
+      permission == ""
+    ) {
+      navigate.push("/login");
+      //window.location.reload()
+    }
 
-      if (permission == 1) {
-          navigate.push('/admin/dashboard');
-      }
+    if (permission == 1) {
+      navigate.push("/admin/dashboard");
+    }
 
     loadingAccountServices();
     getMyAccountServices();
@@ -139,13 +160,11 @@ export default function Dashboard() {
     getServices();
   }, []);
 
-  console.log('Account',myAccounts);
-  console.log('Account',services);
+  console.log("Account", myAccounts);
+  console.log("Account", services);
 
-  if(isLoader) {
-    return (
-      <Loader />
-    )
+  if (isLoader) {
+    return <Loader />;
   }
 
   return (
@@ -282,12 +301,46 @@ export default function Dashboard() {
                 </>
               ) : (
                 <>
-                <ModalInfo 
-                suggestion={suggestion} 
-                suggestionMovieId={suggestionMovieId} 
-                ModalIsOpen={suggestionIsOpen} 
-                closeModal={suggestionCloseModal} 
-                />
+                  <Modal
+                    isOpen={suggestionIsOpen}
+                    onRequestClose={suggestionCloseModal}
+                    ariaHideApp={false}
+                    overlayClassName={styles.modal_overlay}
+                    className={styles.Modal_new_service}
+                  >
+                    <form className={styles.form}>
+                      <button onClick={suggestionCloseModal}>X</button>
+
+                      {suggestion.map((data, key) => {
+                        if (data.id == suggestionMovieId)
+                          return (
+                            <div className={styles.movie_info} key={key}>
+                              <div>
+                                <img
+                                  src={`https://image.tmdb.org/t/p/w500/${data.backdrop_path}`}
+                                  alt="Image"
+                                />
+                              </div>
+                              <div>
+                                <h4>Título:</h4>
+                                <span>{data.original_title}</span>
+                              </div>
+                              <div>
+                                <h4>Gênero:</h4>
+                                <span>Desenho animado</span>
+                              </div>
+                              <div>
+                                <h4>Ano de lançamento:</h4>
+                                <span>{data.release_date}</span>
+                              </div>
+                              <div>
+                                <p>{data.overview}</p>
+                              </div>
+                            </div>
+                          );
+                      })}
+                    </form>
+                  </Modal>
                   {suggestion
                     .map((movie) => (
                       <motion.div
@@ -301,12 +354,13 @@ export default function Dashboard() {
                         transition={{ duration: 0.5, delay: 1.6 }}
                         key={movie.id}
                       >
-                        
-
                         <img
                           src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}
                           alt="Image"
                         />
+                        <header>
+                          <span>{movie.title}</span>
+                        </header>
                       </motion.div>
                     ))
                     .splice(-3)}
@@ -321,6 +375,7 @@ export default function Dashboard() {
       <section className={styles.new_releases}>
         <div className={styles.heading}>
           <h1>Meus serviços</h1>
+          <p>Selecione um serviço para mais informações</p>
         </div>
         <CarouselMyServices myAccounts={myAccounts} services={services} />
       </section>
@@ -344,14 +399,16 @@ export default function Dashboard() {
                 <Skeleton width={"100%"} height={50} borderRadius={"0.25rem"} />
                 <Skeleton width={"100%"} height={50} borderRadius={"0.25rem"} />
               </div>
+            ) : accountService.length === 0 ? (
+              <div className={styles.no_services}>
+                <h2>Sem nenhuma conta de serviço!</h2>
+                <span>
+                  Compre os nossos serviços para poder usufruir mais do que
+                  temos a lhe oferecer
+                </span>
+              </div>
             ) : (
-              accountService.length === 0 ? (
-                <div className={styles.no_services}>
-                  <h2>Sem nenhuma conta de serviço!</h2>
-                  <span>Compre os nossos serviços para poder usufruir mais do que temos a lhe oferecer</span>
-                </div>
-              ) : (
-                <>
+              <>
                 {accountService.map((data, key) => (
                   <motion.div
                     className={styles.card}
@@ -366,25 +423,33 @@ export default function Dashboard() {
                         account_id={data._id}
                         ModalIsOpen={modalBuyServiceIsOpen}
                         closeModal={modalBuyServicesClose}
+                        data={modalServiceBuy}
                       />
                       <img
-                        src={`https://api-streaming.onrender.com/uploads/${(data.service_id?.image) || (data.image)}`}
-                        alt={data.service_id?.name || 'Serviço'}
+                        src={`https://api-streaming.onrender.com/uploads/${
+                          data.service_id?.image || data.image
+                        }`}
+                        alt={data.service_id?.name || "Serviço"}
                       />
-                      <span>{data.service_id?.name || 'Nome invalido'}</span>
+                      <span>{data.service_id?.name || "Nome invalido"}</span>
+                      <span className={styles.preco_service}>{data.service_id?.preco || "preço invalido"}</span>
                     </div>
                     <button
                       type="button"
                       className={"btn_default"}
-                      onClick={modalBuyServicesOpen}
+                      onClick={() => {
+                        setServiceImage(data.service_id.image);
+                        setServiceName(data.service_id.name);
+                        setServicePrice(data.service_id.preco);
+                        setServiceDuraction(data.service_id.duracao);
+                        modalBuyServicesOpen()
+                      }}
                     >
                       Comprar
                     </button>
                   </motion.div>
                 ))}
               </>
-              )
-
             )}
           </div>
         </div>

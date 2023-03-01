@@ -62,11 +62,11 @@ export default function ModalInfAccountService({
 
                 <div className={styles.form_group_date}>
                   <div>
-                    <label htmlFor="">Data de iniçio</label>
+                    <label htmlFor="">Início</label>
                     <span>{account.date_init}</span>
                   </div>
                   <div>
-                    <label htmlFor="">Data do fim</label>
+                    <label htmlFor="">Vencimento</label>
                     <span>{account.date_finish}</span>
                   </div>
                 </div>

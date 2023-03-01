@@ -13,7 +13,7 @@ function Step1({ data, updateFieldHandler }) {
         <h4>01.</h4>
         <h2>Com quem deseja assistir?</h2>
       </header>
-      <p>Ajude nos a encontrar o que deseja assistir, respondendo á 5 questões.</p>
+      <p>Vamos encontrar o filme ideal, para o momento ideal</p>
       <div>
         <label htmlFor="sozinho">
           <input 

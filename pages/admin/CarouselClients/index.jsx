@@ -37,8 +37,10 @@ export default function CarouselClients() {
   const [myAccountServices, setMyAccountServices] = useState([]);
   const [allAccount, setAllAccount] = useState([]);
   const [ourClientId, setOurClientId] = useState("");
+  const [myAccountId, setMyAccountId] = useState('')
 
   const [isOpen, setIsOpen] = useState(false);
+  const [ourAccountServices, setOurAccountServices] = useState([]);
 
   // Function open modal
   function modalIsOpen() {
@@ -49,7 +51,22 @@ export default function CarouselClients() {
     setIsOpen(false);
   }
 
+  function myAccount() {
+
+    
+    Api.get(`my-account-services/${myAccountId}`)
+    .then((res) => {
+      res.data.accountServicesOfTheUser;
+      setMyAccountServices(res.data.accountServicesOfTheUser);
+    })
+    .catch((error) => console.log("Erro: ", error));
+  }
+  
   useEffect(() => {
+    
+    myAccount();
+
+
     Api.get("/clients")
       .then((res) => {
         res.data.user;
@@ -57,24 +74,24 @@ export default function CarouselClients() {
       })
       .catch((error) => console.log("Erro: ", error));
 
-    Api.get("/all-account-services-of-the-user")
+    Api.get("/services")
       .then((res) => {
-        res.data.accountServicesOfTheUser;
-        setMyAccountServices(res.data.accountServicesOfTheUser);
+        res.data.services;
+        setAllAccount(res.data.services);
       })
       .catch((error) => console.log("Erro: ", error));
 
-    Api.get("/account-service")
+      Api.get("/account-service")
       .then((res) => {
         res.data.accountServices;
-        setAllAccount(res.data.accountServices);
+        setOurAccountServices(res.data.accountServices);
       })
       .catch((error) => console.log("Erro: ", error));
 
     setWidth(
       slider_wrapper.current.scrollWidth - slider_wrapper.current.offsetWidth
     );
-  }, []);
+  }, [ourClientId]);
 
   return (
     <div className={styles.container}>
@@ -108,12 +125,14 @@ export default function CarouselClients() {
                 onClick={() => {
                   setOurClientId(data._id);
                   modalIsOpen();
+                  myAccount();
+                  setMyAccountId(data._id)
                 }}
               >
                 <div className={styles.card_image}>
                   <img
                     src={`https://api-streaming.onrender.com/uploads/${data.photo_profile}`}
-                    alt={data.name}
+                    alt={'data.name'}
                   />
                 </div>
               </motion.div>
@@ -132,81 +151,72 @@ export default function CarouselClients() {
         overlayClassName={styles.modal_overlay}
         className={styles.modal_content}
       >
-        {ourClients.map((data, key) => {
-          if (data._id == ourClientId)
-            return myAccountServices.map((i) => {
-              if (i.user_id == data._id)
-                {
-                  return allAccount.map((index) => {
-                    if (index.account_service_id == index._id) {
-                      return (
-                        <div key={key} className={styles.modal_clients}>
-                          <img
-                            src={`https://api-streaming.onrender.com/uploads/${data.photo_profile}`}
-                            alt={data.name}
-                          />
-                          <div className={styles.name_clients}>
-                            <h4>Nome:</h4>
-                            <span>{data.name}</span>
-                          </div>
-                          <div className={styles.email_clients}>
-                            <h4>Email:</h4>
-                            <span>{data.email}</span>
-                          </div>
-                          <div className={styles.services_clients}>
-                            <h4>Serviços:</h4>
-                            <hr />
-                            <div>
-                              <Image
-                                src={netflix}
-                                alt="Serviços"
-                                width={160}
-                                height={160}
-                              />
-                              <Image
-                                src={netflix}
-                                alt="Serviços"
-                                width={160}
-                                height={160}
-                              />
-                              <Image
-                                src={netflix}
-                                alt="Serviços"
-                                width={160}
-                                height={160}
-                              />
-                              <Image
-                                src={netflix}
-                                alt="Serviços"
-                                width={160}
-                                height={160}
-                              />
-                            </div>
-                          </div>
-                          <div className={styles.btn_clients}>
-                            <button
-                              className={`${styles.btn_renovar} btn_default`}
-                            >
-                              Renovar
-                            </button>
-                            <button
-                              className={`${styles.btn_delete} btn_default`}
-                            >
-                              Eliminar
-                            </button>
-                          </div>
-                        </div>
-                      );
+        {
 
-                    } else if (index.account_service_id != index._id && i.user_id != ourClientId) {
-                      return (
-                        <h1>Não tem nenhum serviço.</h1>
-                      )
-                    }
-                  });
-                }
-            });
-        })}
+          ourClients.map((data, key) => {
+          if (data._id == ourClientId)
+            return (
+              <div key={key} className={styles.modal_clients}>
+                  <img
+                    src={`https://api-streaming.onrender.com/uploads/${data.photo_profile}`}
+                    alt={data.name} />
+                  <div className={styles.name_clients}>
+                    <h4>Nome:</h4>
+                    <span>{data.name}</span>
+                  </div>
+                  <div className={styles.email_clients}>
+                    <h4>Email:</h4>
+                    <span>{data.email}</span>
+                  </div>
+
+                  <div className={styles.services_clients}>
+                     <h4>Serviços:</h4>
+                      <hr />
+                  
+                  <div>
+                  {
+                    myAccountServices.map((i, keyValue) => {
+
+                      if (i.user_id._id == data._id) {
+                        return ourAccountServices.map((item) => {
+                          if (i.account_service_id?._id == item._id)
+                          return allAccount.map((service) => {
+                            if (service._id == i.account_service_id?.service_id) {
+                              return (
+                                <div>
+                                    <img
+                                      src={`https://api-streaming.onrender.com/uploads/${service.image}`}
+                                      alt={service.name} />
+                                </div>
+                              )
+                            }
+                            
+                          })
+
+                        })
+
+                      } 
+
+                    })
+                  }
+                  </div>
+                </div>
+              
+
+             
+
+              <div className={styles.btn_clients}>
+                <button className={`${styles.btn_renovar} btn_default`}>Renovar</button>
+                <button className={`${styles.btn_delete} btn_default`}>Eliminar</button>
+              </div>
+      
+            </div>
+          )
+              
+
+            })
+        }
+        
       </Modal>
     </div>
   );

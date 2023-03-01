@@ -49,19 +49,7 @@ export default function clientsFilter() {
   const [modalAddService, setModalAddService] = useState(false);
   const [accountServiceId, setAccountServiceId] = useState("");
 
-  const [ourClients, setOurClients] = useState([
-    {
-      name: "Osvaldo Cariege",
-      photo_profile: netflix,
-      email: "osvaldocariege06@gmail.com",
-      whatsapp: "933847576",
-      sex: "H",
-      password: "298384",
-      confirmPassword: "298384",
-      date_birth: new Date("06/01/2000"),
-      code_pin: "12345",
-    },
-  ]);
+  const [ourClients, setOurClients] = useState([]);
   const [myAccountServices, setMyAccountServices] = useState([]);
   const [services, setServices] = useState([]);
   const [ourClientId, setOurClientId] = useState("");
@@ -109,29 +97,6 @@ export default function clientsFilter() {
     setModalEditClient(false);
   }
 
-  useEffect(() => {
-    Api.get("/clients")
-      .then((res) => {
-        res.data.user;
-        setOurClients(res.data.user);
-      })
-      .catch((error) => console.log("Erro: ", error));
-
-    Api.get("/my-account-services")
-      .then((res) => {
-        res.data.accountServicesOfTheUser;
-        setMyAccountServices(res.data.accountServicesOfTheUser);
-      })
-      .catch((error) => console.log("Erro: ", error));
-
-    Api.get("/services")
-      .then((res) => {
-        res.data.services;
-        setServices(res.data.services);
-      })
-      .catch((error) => console.log("Erro: ", error));
-  }, []);
-
   // FUNCTION DELETE CLIENT
   const [deleteClient, setDeleteClient] = useState("");
   const [image, setImage] = useState("");
@@ -170,45 +135,59 @@ export default function clientsFilter() {
   const [password, setPassword] = useState("");
   const [photo_profile, setPhotoProfile] = useState("");
 
+  const [filterService, setFilterService] = useState("");
+  const [accountService, setAccountService] = useState([]);
+
   // Mudar o estado da palavra-passe
   const [toggle, setToggle] = useState(true);
   const [smsError, setSmsError] = useState(false);
 
   const [inputFile, setInputFile] = useState("");
 
-  // function handlerSubmit(e, data) {
-  //   e.preventDefault();
+  const [modalAddServiceClient, setModalAddClientService] = useState(false);
 
-  //   const file = refImage.current.files[0];
+  function openModalAddServiceClient() {
+    setModalAddClientService(true);
+  }
 
-  //   const form = new FormData();
-  //   form.append("name", clientName == "" ? data.name : clientName);
-  //   form.append("recarga", sex == "" ? data.sex : sex);
-  //   form.append("preco", whatsapp == "" ? data.whatsApp : whatsapp);
-  //   form.append("pontos", email == "" ? data.email : email);
-  //   form.append("duracao", date_birth == "" ? data.date_birth : date_birth);
-  //   form.append("capacidade", code_pin == "" ? data.code_pin : code_pin);
-  //   form.append("comissao", password == "" ? data.password : password);
-  //   form.append("image", photo_profile == undefined ? data.image : file);
+  function closeModalAddServiceClient() {
+    setModalAddClientService(false);
+  }
 
-  //   console.log("files : ", photo_profile == undefined ? file : data.image);
-  //   console.log("name : ", clientName == "" ? data.name : clientName);
+  function callAccountService() {
+    Api.get("account-service")
+      .then((res) => {
+        setAccountService(res.data.accountServices);
+        console.log(res.data.accountServices);
+      })
+      .catch((error) => console.log("Erro: ", error));
+  }
 
-  //   const token = localStorage.getItem("token");
-  //   const url = `https://api-streaming.onrender.com/client/${serviceId}`;
-  //   axios
-  //     .put(url, form, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       window.location.reload();
-  //       res;
-  //     })
-  //     .catch((error) => console.log("Error: ", error));
-  // }
+  useEffect(() => {
+    callAccountService();
+
+    Api.get("/clients")
+      .then((res) => {
+        res.data.user;
+        setOurClients(res.data.user);
+      })
+      .catch((error) => console.log("Erro: ", error));
+
+    Api.get(`my-account-services/${ourClientId}`)
+      .then((res) => {
+        res.data.accountServicesOfTheUser;
+        setMyAccountServices(res.data.accountServicesOfTheUser);
+        console.log(res.data.accountServicesOfTheUser);
+      })
+      .catch((error) => console.log("Erro: ", error));
+
+    Api.get("/services")
+      .then((res) => {
+        res.data.services;
+        setServices(res.data.services);
+      })
+      .catch((error) => console.log("Erro: ", error));
+  }, [ourClientId]);
 
   function handlerEditClient() {
     console.log({
@@ -235,6 +214,37 @@ export default function clientsFilter() {
     });
   }
 
+  const dataFilter = Object.values(accountService);
+  function filter(account) {
+    return account.filter((item) => {
+      if (item.service_id.name == filterService) {
+        return item;
+      }
+    });
+  }
+
+  function handlerAddUserAccountService(e) {
+    e.preventDefault();
+
+    const data = {
+      account_service_id: accountServiceId,
+      user_id: ourClientId,
+    };
+
+    console.log(data);
+
+    Api.post("/add-user-the-one-account-services", data)
+      .then((res) => {
+        // closeModalClient();
+        res.data;
+        window.location.reload();
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log("Ola, erro: ", error);
+      });
+  }
+
   return (
     <>
       <header className={styles.header_nav}>
@@ -243,8 +253,8 @@ export default function clientsFilter() {
             <Image src={logo} alt="PN Clique logo" className={styles.logo} />
           </Link>
           <nav>
-            <Link href={'./dashboard'} className="btn_default">
-              Dashboard 
+            <Link href={"./dashboard"} className="btn_default">
+              Dashboard
             </Link>
           </nav>
         </div>
@@ -274,7 +284,7 @@ export default function clientsFilter() {
                 setMyResult(true);
               }}
             />
-             <input
+            <input
               type="text"
               placeholder="Pesquisar pelo email do cliente"
               value={search}
@@ -347,7 +357,10 @@ export default function clientsFilter() {
                         {ourClients.map((account, index) => (
                           <div key={index} className={styles.card}>
                             <div
-                              onClick={openModalInfoClient}
+                              onClick={() => {
+                                openModalInfoClient();
+                                setOurClientId(account._id);
+                              }}
                             >
                               <img
                                 src={`https://api-streaming.onrender.com/uploads/${account.photo_profile}`}
@@ -400,62 +413,115 @@ export default function clientsFilter() {
               overlayClassName={styles.modal_info_client_overlay}
               className={styles.modal_info_client}
             >
-              <div className={styles.modal_clients}>
-                {/* <img
-                  src={
-                    // `https://api-streaming.onrender.com/uploads/${data.photo_profile}` ||
-                    sza
-                  }
-                  alt={"Client image" || data.name}
-                /> */}
-                <Image src={sza} alt="Image client" />
-                <div className={styles.name_clients}>
-                  <h4>Nome:</h4>
-                  <span>{"Client name" || data.name}</span>
-                </div>
-                <div className={styles.email_clients}>
-                  <h4>Email:</h4>
-                  <span>{"Client email" || data.email}</span>
-                </div>
-                <div className={styles.services_clients}>
-                  <h4>Serviços:</h4>
-                  <hr />
-                  <div>
-                    <Image
-                      src={netflix}
-                      alt="Serviços"
-                      width={160}
-                      height={160}
-                    />
-                    <Image
-                      src={netflix}
-                      alt="Serviços"
-                      width={160}
-                      height={160}
-                    />
-                    <Image
-                      src={netflix}
-                      alt="Serviços"
-                      width={160}
-                      height={160}
-                    />
-                    <Image
-                      src={netflix}
-                      alt="Serviços"
-                      width={160}
-                      height={160}
-                    />
-                  </div>
-                </div>
-                <div className={styles.btn_clients}>
-                  <button className={`${styles.btn_renovar} btn_default`}>
-                    Renovar
-                  </button>
-                  <button className={`${styles.btn_delete} btn_default`}>
-                    Eliminar
-                  </button>
-                </div>
+              {ourClients.map((data) => {
+                if (data._id == ourClientId) {
+                  return (
+                    <div className={styles.modal_clients}>
+                      <img
+                        src={
+                          `https://api-streaming.onrender.com/uploads/${data.photo_profile}` ||
+                          sza
+                        }
+                        alt={"Client image" || data.name}
+                      />
+
+                      <div className={styles.name_clients}>
+                        <h4>Nome:</h4>
+                        <span>{"Client name" || data.name}</span>
+                      </div>
+                      <div className={styles.email_clients}>
+                        <h4>Email:</h4>
+                        <span>{"Client email" || data.email}</span>
+                      </div>
+                      <h4>Serviços:</h4>
+                      <hr />
+                      <div className={styles.container_our_service}>
+                      {myAccountServices.map((account) => {
+                        if (account.user_id._id == data._id) {
+                          return accountService.map((i) => {
+                            if (account.account_service_id?._id == i._id) {
+                              return (
+                                  <div className={styles.services_clients}>
+                                  <div>
+                                    <img
+                                      src={`https://api-streaming.onrender.com/uploads/${i.service_id.image}`}
+                                      alt="Serviços"
+                                      width={160}
+                                      height={160}
+                                    />
+                                  </div>
+                                  <button
+                                    onClick={() => {
+                                      openModalAddServiceClient();
+                                      setOurClientId(data._id);
+                                      setAccountServiceId(i._id);
+                                    }}
+                                    className={`${styles.btn_renovar} btn_default`}
+                                  >
+                                    Adcionar serviço
+                                  </button>
+                                </div>
+                               
+                              );
+                            }
+                          });
+                        }
+                      }
+                      )
+                    }
+                    </div>
+
+                      <div className={styles.btn_clients}></div>
+                    </div>
+                  );
+                }
+              })}
+            </Modal>
+
+            <Modal
+              isOpen={modalAddServiceClient}
+              onRequestClose={closeModalAddServiceClient}
+              ariaHideApp={false}
+              className={styles.modal_Add_service_client}
+              overlayClassName={styles.modal_Add_service_client_overlay}
+            >
+              <header>
+                <h2>Filtrar conta de serviço</h2>
+                <p>Filtre a conta de serviço para adicionar ao cliente.</p>
+              </header>
+
+              <div className={styles.form_group}>
+                <input
+                  type="text"
+                  placeholder="Pesquisar por serviço"
+                  value={filterService}
+                  onChange={(e) => setFilterService(e.target.value)}
+                  onKeyPress={(e) => {
+                    setFilterService(e.target.value);
+                  }}
+                />
               </div>
+              {filter(dataFilter).map((filter) => {
+                if (filter.in_day != 0) {
+                  return (
+                    <div>
+                      <img
+                        src={`https://api-streaming.onrender.com/uploads/${filter.service_id.image}`}
+                      />
+                      <span>{filter.count_service_email} </span>
+
+                      <button
+                        onClick={(e) => {
+                          setAccountServiceId(filter._id);
+                          handlerAddUserAccountService(e);
+                        }}
+                      >
+                        Adicionar
+                      </button>
+                    </div>
+                  );
+                }
+              })}
             </Modal>
 
             <Modal

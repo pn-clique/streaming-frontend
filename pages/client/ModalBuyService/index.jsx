@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 
-import Link from 'next/link'
+import Link from "next/link";
 
 import Image from "next/image";
 
@@ -20,6 +20,7 @@ export default function ModalBuyService({
   closeModal,
   service_id,
   account_id,
+  data,
 }) {
   const [inputFile, setInputFile] = useState("");
   const [modalNotification, setModalNotification] = useState(false);
@@ -82,7 +83,6 @@ export default function ModalBuyService({
     // setTimeout(() => {
     //   closeModalNotification();
     // }, 2000);
-
     // return () =>  clearTimeout(timer);
   }, []);
 
@@ -113,6 +113,29 @@ export default function ModalBuyService({
               ""
             )}
 
+            <div className={styles.form_image}>
+              <img
+                src={`https://api-streaming.onrender.com/uploads/${
+                  data.service_id?.image || data.image
+                }`}
+                alt={data.service_id?.name || "Serviço"}
+              />
+            </div>
+
+            <div className={styles.service_info}>
+              <div className={styles.form_group}>
+                <span>Serviço: {data.serviceName}</span>
+              </div>
+
+              <div className={styles.form_group}>
+                <span>Preço: {data.servicePrice}</span>
+              </div>
+
+              <div className={styles.form_group}>
+                <span>Duração: {data.serviceDuraction} dias</span>
+              </div>
+            </div>
+
             <label className={styles.label_image}>
               <MdOutlineAddToPhotos />
               <input
@@ -125,9 +148,7 @@ export default function ModalBuyService({
               />
 
               <span>
-                {inputFile === ""
-                  ? "Adicione uma imagem para o serviço"
-                  : inputFile}
+                {inputFile === "" ? "Adicione um comprovativo" : inputFile}
               </span>
             </label>
 
@@ -147,15 +168,13 @@ export default function ModalBuyService({
         overlayClassName={styles.overlay_modal_notification}
         className={styles.modal_notification}
       >
-          
         <button onClick={closeModalNotification}>X</button>
         <h2>A sua compra está pendente!</h2>
         <p>
           Lhe será enviado uma notificação, assim que o admin confirmar a sua
           compra
         </p>
-        <Link 
-          href={'./filterPaymentClient'}>Ver pagamentos</Link>
+        <Link href={"./filterPaymentClient"}>Ver pagamentos</Link>
       </Modal>
     </>
   );

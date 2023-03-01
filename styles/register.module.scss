@@ -216,7 +216,36 @@
           grid-template-columns: repeat(2, 1fr);
           gap: 1rem;
         }
+
+        .form_group_partnes {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 10px;
+          margin-bottom: 1rem;
+  
+          input {
+            width: 15px;
+            height: 15px;
+            border-radius: 0.25rem;
+          }
+          label {
+            color: var(--secondary-color);
+          }
+        }
       }
+
+      .partnes_data {
+        width: 100%;
+
+        &>.form_group {
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          gap: 1rem;
+        }
+     
+      }
+
 
       &> div {
         display: flex;

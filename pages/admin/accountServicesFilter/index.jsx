@@ -23,15 +23,14 @@ import { logo, netflix } from "../../../assets";
 
 
 import ModalNewService from "../ModalNewService";
-import ModalEditionService from "../ModalEditionService";
+import ModalAddUserInAccountService  from "../ModalAddUserInAccountService ";
 import ModalAddAccountService from "../ModalAddAccountService";
 import ModalEditAccountService from "../ModalEditAccountService";
 import { Api } from "../../../api/axios";
-export default function ServicesFilter() {
-
-  
+export default function AccountServicesFilter() {
 
   const [modalAddService, setModalAddService] = useState(false);
+  const [modalAddUserInAccountService, setModalAddUserInAccountService] = useState(false);
   const [modalEditAccountService, setModalEditAccountService] = useState(false);
   const [modalDeleteAccountService, setModalDeleteAccountService] = useState(false)
 
@@ -45,6 +44,14 @@ export default function ServicesFilter() {
   }
   function closeModalAddService() {
     setModalAddService(false);
+  }
+
+  // FUNCTIONS ADD USER IN ACCOUNT SERVICES
+  function ModalIsOpenClient() {
+    setModalAddUserInAccountService(true);
+  }
+  function closeModalClient() {
+    setModalAddUserInAccountService(false);
   }
 
   // FUNCTIONS EDIT ACCOUNT SERVICES
@@ -280,6 +287,12 @@ export default function ServicesFilter() {
                 />
                 <span>{account.count_service_email}</span>
               </div>
+              <ModalAddUserInAccountService
+                ModalIsOpenClient={modalAddUserInAccountService}
+                closeModalClient={closeModalClient}
+                accountServiceId={accountServiceId}
+                setAccountServiceId={setModalEditAccountService}
+              />
               <ModalEditAccountService
                 ModalIsOpen={modalEditAccountService}
                 closeModal={!modalEditAccountService}
@@ -289,6 +302,16 @@ export default function ServicesFilter() {
                 setModalEditionAccountServiceIsOpen={setModalEditAccountService}
               />
               <div className={styles.button_group}>
+                <button
+                 type="button"
+                  className="btn_default"
+                  onClick={() => {
+                    setAccountServiceId(account._id);
+                    ModalIsOpenClient();
+                  }}>
+                  Adicionar cliente
+                </button>
+
                 <button
                  type="button"
                   className="btn_default"

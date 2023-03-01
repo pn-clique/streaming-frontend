@@ -61,6 +61,9 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [photo_profile, setPhotoProfile] = useState("");
 
+  const [partners_code, setPartners_code] = useState('');
+  const [permission, setPermission] = useState(false);
+
   // Mudar o estado da palavra-passe
   const [toggle, setToggle] = useState(true);
 
@@ -97,6 +100,12 @@ export default function Register() {
     bForm.append("date_birth", date_birth);
     bForm.append("code_pin", code_pin);
     bForm.append("photo_profile", file);
+    bForm.append("partners_code", partners_code);
+    bForm.append("permission", (permission ? 2 : 3));
+
+    console.log({
+      partners_code,
+      permission})
 
     const url = "https://api-streaming.onrender.com/register";
     axios
@@ -255,6 +264,37 @@ export default function Register() {
                       </button>
                     </div>
                   </div>
+
+                  <div className={styles.form_group_partnes}>
+                  <input 
+                    type="checkbox"
+                     id="partnes" 
+                     checked={permission}
+                     onChange={() => setPermission(!permission)}
+                     />
+                    <label htmlFor="partnes">Deseja-se registar como um parceiro</label>
+                  </div>
+                </div>
+
+                <div className={styles.partnes_data}>
+                  <header>
+                    <h2>Dados do parceiro</h2>
+                    <span>Torne-se um parceiro.</span>
+                  </header>
+
+                  <div className={styles.form_group}>
+                    <div className={"input_icon"}>
+                      <HiOutlineMail />
+                      <input
+                        type="text"
+                        value={partners_code}
+                        placeholder="Digite o codigo de parceiro"
+                        onChange={(e) => setPartners_code(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+
                 </div>
                 <motion.div
                   initial={{ y: 100, opacity: 0, scale: 0 }}

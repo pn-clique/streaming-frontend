@@ -45,7 +45,7 @@ export default function Dashboard() {
         console.log(res.data.message);
 
         window.location.reload();
-        closeModal()
+        closeModal();
       })
       .catch((error) => console.log("Erro: ", error));
   }
@@ -160,14 +160,13 @@ export default function Dashboard() {
   // MODAL SERVICE
   const [modalInfoService, setModalInfoService] = useState(false);
 
-  const [accountId, setAccountId] = useState('')
+  const [accountId, setAccountId] = useState("");
 
   function openModalInfoService() {
     setModalInfoService(true);
   }
 
   function closeModalInfoService() {
-    
     setModalInfoService(false);
   }
 
@@ -182,6 +181,31 @@ export default function Dashboard() {
     setModalInfoAccount(false);
   }
 
+  const [modalDeleteAccountService, setModalDeleteAccountService] =
+    useState(false);
+  // FUNCTIONS DELETE ACCOUNT SERVICES
+  function openModalDeleteAccountService() {
+    setModalDeleteAccountService(true);
+  }
+  function closeModalDeleteAccountService() {
+    setModalDeleteAccountService(false);
+  }
+
+  // FUNCTION CONFIRM DELETE ACCOUNT SERVICE
+  const [deleteAccount, setDeleteAccount] = useState("");
+  const [image, setImage] = useState("");
+  const [serviceName, setServiceName] = useState("");
+
+  function handlerDeleteAccountService() {
+    Api.delete(`account-service/${deleteAccount}`)
+      .then((res) => {
+        console.log("delete account services : ", res.data.message);
+        closeModal();
+        window.location.reload();
+      })
+      .catch((error) => console.log("Erro in delete account: ", error));
+  }
+
   // FUNCTION LOGOUT
   function handlerLogout() {
     localStorage.removeItem("token");
@@ -194,7 +218,7 @@ export default function Dashboard() {
   if (isLoader) {
     return <Loader />;
   }
-// key
+  // key
   return (
     <>
       <header className={styles.header_nav}>
@@ -258,7 +282,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-    {/* SERVICE */}
+      {/* SERVICE */}
       <section className={styles.services}>
         <div>
           <header>
@@ -274,7 +298,6 @@ export default function Dashboard() {
                 setServiceId={setServiceId}
               />
               <motion.h2>Nossos serviços</motion.h2>
-            
             </motion.div>
             <ModalNewService
               ModalIsOpen={ModalIsOpen}
@@ -289,7 +312,6 @@ export default function Dashboard() {
             >
               Adicionar serviço
             </motion.button>
-
           </header>
           {ourService == "" ? (
             <div className={styles.container_skeleton}>
@@ -307,12 +329,13 @@ export default function Dashboard() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.5, delay: 1 }}
                   key={service.name}
-                  
                 >
-                  <div onClick={(e) => {
-                    openModalInfoService()
-                    setServiceId(service._id);
-                  }} >
+                  <div
+                    onClick={(e) => {
+                      openModalInfoService();
+                      setServiceId(service._id);
+                    }}
+                  >
                     <img
                       src={`https://api-streaming.onrender.com/uploads/${service.image}`}
                       alt={service.name}
@@ -343,7 +366,10 @@ export default function Dashboard() {
                     <button
                       type="button"
                       className="btn_default"
-                      onClick={() => handlerDeleteService(service._id)}
+                      onClick={() => { navigate.push({
+                        pathname: '/admin/servicesFilter',
+                        query: { serviceId: service._id, results: true, serviceName: service.name }
+                      }) } }
                     >
                       Ver contas
                     </button>
@@ -359,7 +385,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-        {/* ACCOUNT SERVICE */}
+      {/* ACCOUNT SERVICE */}
       <section className={styles.services}>
         <div>
           <header>
@@ -392,14 +418,13 @@ export default function Dashboard() {
               />
               {ourAccountServices.map((data) => {
                 return (
-                  <div
-                    key={data._id}
-                    className={styles.card}
-                  >
-                    <div onClick={() => {
-                      openModalInfoAccount()
-                      setAccountId(data._id)
-                    }} >
+                  <div key={data._id} className={styles.card}>
+                    <div
+                      onClick={() => {
+                        openModalInfoAccount();
+                        setAccountId(data._id);
+                      }}
+                    >
                       <img
                         src={`https://api-streaming.onrender.com/uploads/${data.service_id.image}`}
                         alt={data.service_id.name}
@@ -429,10 +454,43 @@ export default function Dashboard() {
                       >
                         Editar
                       </button>
+
+                      <Modal
+                        isOpen={modalDeleteAccountService}
+                        onRequestClose={closeModalDeleteAccountService}
+                        ariaHideApp={false}
+                        className={styles.modal_delete}
+                        overlayClassName={styles.modal_delete_overlay}
+                      >
+                        <img
+                          src={`https://api-streaming.onrender.com/uploads/${image}`}
+                          alt={image}
+                        />
+                        <p>{serviceName}</p>
+                        <span>
+                          Tem a certeza que deseja eliminar este cliente?
+                        </span>
+                        <div className={styles.button_group}>
+                          <button
+                            className={`btn_default ${styles.btn_delete}`}
+                            onClick={() => {
+                              handlerDeleteAccountService(data._id);
+                            }}
+                          >
+                            Confirmar
+                          </button>
+                        </div>
+                      </Modal>
+
                       <button
                         type="button"
                         className="btn_default"
-                        onClick={() => handlerDeleteAccountService(data._id)}
+                        onClick={() => {
+                          openModalDeleteAccountService();
+                          setImage(data.service_id.image);
+                          setServiceName(data.service_id.name);
+                          setDeleteAccount(data._id);
+                        }}
                       >
                         Apagar
                       </button>
@@ -451,7 +509,6 @@ export default function Dashboard() {
       <section className={styles.clients}>
         <div>
           <header>
-
             <motion.div
               initial={{ x: "-100%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -464,7 +521,7 @@ export default function Dashboard() {
             <Link className={"btn_default"} href={"./clientsFilter"}>
               Mostrar todos clientes
             </Link>
-            
+
             <ModalNewService
               ModalIsOpen={ModalIsOpen}
               closeModal={closeModal}

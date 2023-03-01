@@ -84,9 +84,9 @@ export default function ModalEditionService({
     form.append("image", file == undefined ? data.image : file);
 
     console.log("files : ", file == undefined ? file : data.image);
-    console.log("name : ", name == "" ? data.name : name);
+    console.log("name : ", name == '' ? data.name : name);
 
-    console.log(data.preco);
+    console.log(data.name);
 
     const token = localStorage.getItem("token");
     const url = `https://api-streaming.onrender.com/services/${serviceId}`;

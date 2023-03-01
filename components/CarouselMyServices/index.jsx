@@ -150,7 +150,7 @@ export function CarouselMyServices({myAccounts, services}) {
                   <div>
                     <h2>{account.service_id.name}</h2>
                   </div>
-                  <button onClick={() => {}}>X</button>
+                  <button onClick={closeModalAccountService}>X</button>
                 </div>
     
                 <div className={styles.form_group_email}>
@@ -160,11 +160,11 @@ export function CarouselMyServices({myAccounts, services}) {
     
                 <div className={styles.form_group_date}>
                   <div>
-                    <label htmlFor="">Data de iniçio</label>
+                    <label htmlFor="">Início</label>
                     <span>{account.date_init}</span>
                   </div>
                   <div>
-                    <label htmlFor="">Data do fim</label>
+                    <label htmlFor="">Vencimento</label>
                     <span>{account.date_finish}</span>
                   </div>
                 </div>
