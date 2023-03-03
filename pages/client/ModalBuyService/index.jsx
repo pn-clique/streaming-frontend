@@ -19,7 +19,10 @@ export default function ModalBuyService({
   ModalIsOpen,
   closeModal,
   account_id,
-  data,
+  serviceName,
+  serviceImage,
+  serviceDuraction,
+  servicePrice
 }) {
   const [inputFile, setInputFile] = useState("");
   const [modalNotification, setModalNotification] = useState(false);
@@ -123,14 +126,14 @@ export default function ModalBuyService({
 
             <div className={styles.form_image}>
               <img
-                src={`https://api-streaming.onrender.com/uploads/${data.serviceImage}`}
-                alt={data.serviceName || "Serviço"}
+                src={`https://api-streaming.onrender.com/uploads/${serviceImage}`}
+                alt={serviceName || "Serviço"}
               />
             </div>
 
             <div className={styles.service_info}>
               <div className={styles.form_group}>
-                <span>Serviço: {data.serviceName}</span>
+                <span>Serviço: {serviceName}</span>
               </div>
 
               <div className={styles.form_group}>
@@ -139,12 +142,12 @@ export default function ModalBuyService({
                   {new Intl.NumberFormat("pt-AO", {
                     style: "currency",
                     currency: "AOA",
-                  }).format(data.servicePrice)}
+                  }).format(servicePrice)}
                 </span>
               </div>
 
               <div className={styles.form_group}>
-                <span>Duração: {data.serviceDuraction} dias</span>
+                <span>Duração: {serviceDuraction} dias</span>
               </div>
             </div>
 

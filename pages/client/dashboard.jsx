@@ -439,12 +439,10 @@ export default function Dashboard() {
                           account_id={data._id}
                           ModalIsOpen={modalBuyServiceIsOpen}
                           closeModal={modalBuyServicesClose}
-                          data={{
-                            serviceName,
-                            serviceImage,
-                            serviceDuraction,
-                            servicePrice
-                          }}
+                            serviceName={serviceName}
+                            serviceImage={serviceImage}
+                            serviceDuraction={serviceDuraction}
+                            servicePrice={servicePrice}
 
                         />
                         <img
