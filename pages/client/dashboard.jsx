@@ -38,6 +38,7 @@ export default function Dashboard() {
   const [accountService, setAccountService] = useState([]);
   const [myAccounts, setMyAccounts] = useState([]);
   const [services, setServices] = useState([]);
+  const [newPayments, setNewPayments] = useState('');
 
 
   // PROPS MODAL BUY SERVICE
@@ -60,9 +61,9 @@ export default function Dashboard() {
     setIsOpen(true);
   }
 
-  async function closeModal() {
+   function closeModal() {
     window.location.reload(false);
-    await setSuggestionMovieId("");
+    setSuggestionMovieId("");
     setIsOpen(false);
   }
 
@@ -92,14 +93,24 @@ export default function Dashboard() {
 
   const loadingAccountServices = async () => {
     const res = await Api.get("/account-service");
+    console.log('data : ', res.data.accountServices)
     setAccountService(res.data.accountServices);
-    console.log(res.data.accountServices);
   };
   function getMyAccountServices() {
     Api.get("/my-account-services")
       .then((res) => {
-        res.data.accountServicesOfTheUser;
         setMyAccounts(res.data.accountServicesOfTheUser);
+
+        var arr = [];
+        res.data.accountServicesOfTheUser.forEach(element => {
+          if (element.newPayments == 0 && element.accept == 1 && element.time_remaining >= 28) {
+            arr.push(element);
+          } else if (element.newPayments == 0 && element.accept == 3 && element.time_remaining >= 28) {
+            arr.push(element);
+          }
+        });
+
+        setNewPayments(arr.length)
       })
       .catch((error) => console.log("Erro: ", error));
   }
@@ -107,7 +118,6 @@ export default function Dashboard() {
   function getServices() {
     Api.get("/services")
       .then((res) => {
-        res.data.services;
         setServices(res.data.services);
       })
       .catch((error) => console.log("Erro: ", error));
@@ -127,7 +137,6 @@ export default function Dashboard() {
             arr.push(content);
           }
           setSuggestion(arr);
-          console.log("suggestion: ", arr);
         });
     }, 2000);
   };
@@ -140,6 +149,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     let permission = localStorage.getItem("permission");
+    let token = localStorage.getItem("token");
+    if (token == 'Token inválido' || token == 'token não informado' || token == 'Token malformatado' || token == 'Erro no token') {
+      navigate.push("/login");
+    }
     if (
       permission == 0 ||
       permission == null ||
@@ -154,14 +167,14 @@ export default function Dashboard() {
       navigate.push("/admin/dashboard");
     }
 
+   
+
     loadingAccountServices();
     getMyAccountServices();
     loadMovieFromApi();
     getServices();
   }, []);
 
-  console.log("Account", myAccounts);
-  console.log("Account", services);
 
   if (isLoader) {
     return <Loader />;
@@ -190,7 +203,7 @@ export default function Dashboard() {
               className={`btn_default ${styles.notification}`}
             >
               <IoMdNotifications />
-              <span>4</span>
+              <span>{newPayments}</span>
             </Link>
             <button
               type="button"
@@ -323,7 +336,7 @@ export default function Dashboard() {
                               </div>
                               <div>
                                 <h4>Título:</h4>
-                                <span>{data.original_title}</span>
+                                <span>{data.original_title  || 'Título indefinido!'}</span>
                               </div>
                               <div>
                                 <h4>Gênero:</h4>
@@ -359,7 +372,7 @@ export default function Dashboard() {
                           alt="Image"
                         />
                         <header>
-                          <span>{movie.title}</span>
+                          <span>{movie.title || 'Título indefinido!'}</span>
                         </header>
                       </motion.div>
                     ))
@@ -375,7 +388,7 @@ export default function Dashboard() {
       <section className={styles.new_releases}>
         <div className={styles.heading}>
           <h1>Meus serviços</h1>
-          <p>Selecione um serviço para mais informações</p>
+          <p>Selecione um serviço abaixo para mais informações</p>
         </div>
         <CarouselMyServices myAccounts={myAccounts} services={services} />
       </section>
@@ -409,46 +422,63 @@ export default function Dashboard() {
               </div>
             ) : (
               <>
-                {accountService.map((data, key) => (
-                  <motion.div
-                    className={styles.card}
-                    initial={{ y: 200, opacity: 0, scale: 0 }}
-                    animate={{ y: 0, opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 5.5 }}
-                    key={key}
-                  >
-                    <div>
-                      <ModalBuyService
-                        service_id={data.service_id?._id}
-                        account_id={data._id}
-                        ModalIsOpen={modalBuyServiceIsOpen}
-                        closeModal={modalBuyServicesClose}
-                        data={modalServiceBuy}
-                      />
-                      <img
-                        src={`https://api-streaming.onrender.com/uploads/${
-                          data.service_id?.image || data.image
-                        }`}
-                        alt={data.service_id?.name || "Serviço"}
-                      />
-                      <span>{data.service_id?.name || "Nome invalido"}</span>
-                      <span className={styles.preco_service}>{data.service_id?.preco || "preço invalido"}</span>
-                    </div>
-                    <button
-                      type="button"
-                      className={"btn_default"}
-                      onClick={() => {
-                        setServiceImage(data.service_id.image);
-                        setServiceName(data.service_id.name);
-                        setServicePrice(data.service_id.preco);
-                        setServiceDuraction(data.service_id.duracao);
-                        modalBuyServicesOpen()
-                      }}
-                    >
-                      Comprar
-                    </button>
-                  </motion.div>
-                ))}
+                {
+                  accountService.map((data, key) => {
+                    if (data.duplicate == 0 && data.capacity > 0 && data.in_day == 1)
+                    return (
+                      <motion.div
+                        className={styles.card}
+                        initial={{ y: 200, opacity: 0, scale: 0 }}
+                        animate={{ y: 0, opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5, delay: 5.5 }}
+                        key={key}
+                      >
+                      <div>
+                        <ModalBuyService
+                          service_id={data.service_id?._id}
+                          account_id={data._id}
+                          ModalIsOpen={modalBuyServiceIsOpen}
+                          closeModal={modalBuyServicesClose}
+                          data={{
+                            serviceName,
+                            serviceImage,
+                            serviceDuraction,
+                            servicePrice
+                          }}
+
+                        />
+                        <img
+                          src={`https://api-streaming.onrender.com/uploads/${
+                            data.service_id?.image || data.image
+                          }`}
+                          alt={data.service_id?.name || "Serviço"}
+                        />
+                        <span>{data.service_id?.name || "Nome invalido"}</span>
+                        <span 
+                          className={styles.preco_service}>
+                            {new Intl.NumberFormat('pt-AO', {
+                              style: 'currency',
+                              currency: 'AOA',
+                            }).format(data.service_id.preco) || "preço invalido"}
+                          </span>
+                      </div>
+                      <button
+                        type="button"
+                        className={"btn_default"}
+                        onClick={() => {
+                          setServiceImage(data.service_id.image);
+                          setServiceName(data.service_id.name);
+                          setServicePrice(data.service_id.preco);
+                          setServiceDuraction(data.service_id.duracao);
+                          modalBuyServicesOpen()
+                        }}
+                      >
+                        Comprar
+                      </button>
+                      </motion.div>
+                    )
+                  })
+                }
               </>
             )}
           </div>

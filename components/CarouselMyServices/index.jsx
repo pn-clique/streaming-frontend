@@ -37,7 +37,6 @@ export function CarouselMyServices({myAccounts, services}) {
   Api.get('./account-service')
   .then(res => {
     setAccountService(res.data.accountServices)
-    console.log(res.data)
   })
   .catch(error => console.log('Erro account service: ', error))
 
@@ -54,7 +53,6 @@ export function CarouselMyServices({myAccounts, services}) {
   const [width, setWidth] = useState(0);
   const slider_wrapper = useRef();
 
-  console.log('Account: ',myAccounts.length)
 
 
   useEffect(() => {
@@ -95,9 +93,9 @@ export function CarouselMyServices({myAccounts, services}) {
             dragConstraints={{ right: 0, left: -width }}
           >
             {myAccounts.map((data) => {
-              if(data.accept === 2) {
+              if(data.accept === 1 && data.time_remaining > 0) {
                 return services.map((item) => {
-                  if (data.account_service_id.service_id == item._id)
+                  if (data.account_service_id?.service_id == item._id)
                   return (
                     <motion.div
                       className={styles.card}

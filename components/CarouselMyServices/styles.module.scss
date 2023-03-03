@@ -260,28 +260,30 @@
       .card {
 
         // max-width: 180px;
-        width: 300px;
+        width: 160px;
         background-color: rgba(255, 255, 255, 0);
         border-radius: 16px;
         backdrop-filter: blur(20px);
         box-shadow: 0 3px 6px rgba(0 ,0 ,0 , 0.16),
                     0 3px 6px rgba(56, 40, 40, 0.23);
-        height: 180px;
+        height: 160px;
         cursor: pointer;
 
         .card_image {
           display: block;
-          width: 100%;
-          height: 100%;
+          // width: 100%;
+          // height: 100%;
           height: auto;
           border-radius: 0.25rem;
           overflow: hidden;
           // margin-bottom: 32px;
 
           img {
+          border-radius: 0.25rem;
+          max-width: 160px;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            // height: 100%;
+            object-fit: contain;
             display: block;
           }
         }

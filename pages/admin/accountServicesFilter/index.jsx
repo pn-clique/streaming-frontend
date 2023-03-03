@@ -75,6 +75,11 @@ export default function AccountServicesFilter() {
   // = useState([]) API 
   useEffect(() => {
 
+    let token = localStorage.getItem("token");
+    if (token == 'Token inválido' || token == 'token não informado' || token == 'Token malformatado' || token == 'Erro no token') {
+      navigate.push("/login");
+    }
+
     let permission = localStorage.getItem("permission");
 
   // PROTECT ROUTER URL

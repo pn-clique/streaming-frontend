@@ -141,7 +141,7 @@ export default function ServicesFilter() {
             <Link
               className={"btn_default"}
               type="button"
-              href={'/'}
+              href={"./dashboard"}
             >
               Dashboard
             </Link>

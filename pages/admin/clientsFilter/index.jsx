@@ -9,6 +9,9 @@ import { useState, useEffect, useRef } from "react";
 // MOTION
 import { motion } from "framer-motion";
 
+// Skeleton
+// import { Skeleton } from '../../../components/Skeleton';
+
 // OTHERS
 import FormData from "form-data";
 
@@ -45,6 +48,7 @@ import ModalEditionService from "../ModalEditionService";
 import ModalAddAccountService from "../ModalAddAccountService";
 import ModalEditAccountService from "../ModalEditAccountService";
 import Skeleton from "../../../components/Skeleton";
+
 export default function clientsFilter() {
   const [modalAddService, setModalAddService] = useState(false);
   const [accountServiceId, setAccountServiceId] = useState("");
@@ -166,6 +170,16 @@ export default function clientsFilter() {
   useEffect(() => {
     callAccountService();
 
+    let token = localStorage.getItem("token");
+    if (
+      token == "Token inválido" ||
+      token == "token não informado" ||
+      token == "Token malformatado" ||
+      token == "Erro no token"
+    ) {
+      navigate.push("/login");
+    }
+
     Api.get("/clients")
       .then((res) => {
         res.data.user;
@@ -203,12 +217,13 @@ export default function clientsFilter() {
   }
 
   const [search, setSearch] = useState("");
+  const [searchEmail, setSearchEmail] = useState("");
   const [myResult, setMyResult] = useState(false);
 
   const data = Object.values(ourClients);
   function search_account_services(account) {
     return account.filter((item) => {
-      if (item.id == search || item.name == search || item.email == search) {
+      if (item.name == search || item.email == searchEmail) {
         return item;
       }
     });
@@ -231,14 +246,11 @@ export default function clientsFilter() {
       user_id: ourClientId,
     };
 
-    console.log(data);
-
     Api.post("/add-user-the-one-account-services", data)
       .then((res) => {
         // closeModalClient();
         res.data;
         window.location.reload();
-        console.log(res.data);
       })
       .catch((error) => {
         console.log("Ola, erro: ", error);
@@ -287,14 +299,14 @@ export default function clientsFilter() {
             <input
               type="text"
               placeholder="Pesquisar pelo email do cliente"
-              value={search}
+              value={searchEmail}
               requerid="true"
               onChange={(e) => {
-                setSearch(e.target.value);
+                setSearchEmail(e.target.value);
                 e.target.value == "" ? setMyResult(false) : setMyResult(true);
               }}
               onKeyPress={(e) => {
-                setSearch(e.target.value);
+                setSearchEmail(e.target.value);
                 setMyResult(true);
               }}
             />
@@ -416,61 +428,84 @@ export default function clientsFilter() {
               {ourClients.map((data) => {
                 if (data._id == ourClientId) {
                   return (
-                    <div className={styles.modal_clients}>
+                    <div key={data._id} className={styles.modal_clients}>
                       <img
                         src={
                           `https://api-streaming.onrender.com/uploads/${data.photo_profile}` ||
                           sza
                         }
-                        alt={"Client image" || data.name}
+                        alt={data.name}
                       />
 
                       <div className={styles.name_clients}>
                         <h4>Nome:</h4>
-                        <span>{"Client name" || data.name}</span>
+                        <span>{data.name}</span>
                       </div>
                       <div className={styles.email_clients}>
                         <h4>Email:</h4>
-                        <span>{"Client email" || data.email}</span>
+                        <span>{data.email}</span>
                       </div>
                       <h4>Serviços:</h4>
                       <hr />
                       <div className={styles.container_our_service}>
-                      {myAccountServices.map((account) => {
-                        if (account.user_id._id == data._id) {
-                          return accountService.map((i) => {
-                            if (account.account_service_id?._id == i._id) {
-                              return (
-                                  <div className={styles.services_clients}>
-                                  <div>
-                                    <img
-                                      src={`https://api-streaming.onrender.com/uploads/${i.service_id.image}`}
-                                      alt="Serviços"
-                                      width={160}
-                                      height={160}
-                                    />
-                                  </div>
-                                  <button
-                                    onClick={() => {
-                                      openModalAddServiceClient();
-                                      setOurClientId(data._id);
-                                      setAccountServiceId(i._id);
-                                    }}
-                                    className={`${styles.btn_renovar} btn_default`}
-                                  >
-                                    Adcionar serviço
-                                  </button>
-                                </div>
-                               
-                              );
-                            }
-                          });
-                        }
-                      }
-                      )
-                    }
-                    </div>
-
+                        {myAccountServices == "" ? (
+                          <div className={styles.container_skeleton_services}>
+                            <Skeleton
+                              width={120}
+                              height={120}
+                              borderRadius={"0.25rem"}
+                            />
+                            <Skeleton
+                              width={120}
+                              height={120}
+                              borderRadius={"0.25rem"}
+                            />
+                            <Skeleton
+                              width={120}
+                              height={120}
+                              borderRadius={"0.25rem"}
+                            />
+                            <Skeleton
+                              width={120}
+                              height={120}
+                              borderRadius={"0.25rem"}
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            {myAccountServices.map((account) => {
+                              if (account.user_id._id == data._id) {
+                                return accountService.map((i) => {
+                                  if (
+                                    account.account_service_id?._id == i._id
+                                  ) {
+                                    return (
+                                      <div className={styles.services_clients}>
+                                        <div>
+                                          <img
+                                            src={`https://api-streaming.onrender.com/uploads/${i.service_id.image}`}
+                                            alt="Serviços"
+                                            width={160}
+                                            height={160}
+                                          />
+                                        </div>
+                                      </div>
+                                    );
+                                  }
+                                });
+                              }
+                            })}
+                          </>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => {
+                          openModalAddServiceClient();
+                        }}
+                        className={`${styles.btn_renovar} btn_default`}
+                      >
+                        Adcionar serviço
+                      </button>
                       <div className={styles.btn_clients}></div>
                     </div>
                   );

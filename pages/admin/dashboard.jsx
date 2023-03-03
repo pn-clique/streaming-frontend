@@ -50,6 +50,24 @@ export default function Dashboard() {
       .catch((error) => console.log("Erro: ", error));
   }
 
+  function verifyDayAccount() {
+    Api.get('/account-service-exhausted')
+    .then(res => res)
+    .catch(error => console.log('Erro: ', error))
+  }
+
+  function verifyAccountDuplicate() {
+    Api.get('/account-service-reverte-duplicate')
+    .then(res => res)
+    .catch(error => console.log('Erro: ', error))
+  }
+
+  function verifyTimeExcedidAccount() {
+    Api.get('/account-service-of-the-user-time-out-excedid')
+    .then(res => res)
+    .catch(error => console.log('Erro: ', error))
+  }
+
   function handlerDeleteAccountService(id) {
     Api.delete(`account-service/${id}`)
       .then((res) => {
@@ -59,6 +77,8 @@ export default function Dashboard() {
       })
       .catch((error) => console.log("Erro in delete account: ", error));
   }
+
+
 
   const [isLoader, setIsLoader] = useState(true);
   const [serviceId, setServiceId] = useState("");
@@ -73,8 +93,30 @@ export default function Dashboard() {
   const [ourAccountServices, setAccountOurServices] = useState([]);
   const [ourAccountServicesLength, setAccountOurServicesLength] = useState(0);
 
+
+  const [newPayments, setNewPayments] = useState([])
+
+  function payments() {
+    Api.get('all-account-services-of-the-user')
+    .then(res => {
+      var arr = [];
+      res.data.accountServicesOfTheUser.forEach(element => {
+        if (element.newPayments != 0) {
+          console.log('news payments into if : ', element.length)
+          arr.push(element);
+        }
+      });
+      setNewPayments(arr.length);
+      console.log('Data: ', res.data.accountServicesOfTheUser);
+      console.log('Data Array : ', arr);
+    })
+    .catch(error => console.log('Erro: ', error));
+  }
+
+
   useEffect(() => {
     let permission = localStorage.getItem("permission");
+    
 
     // PROTECT ROUTER URL
     if (
@@ -91,6 +133,20 @@ export default function Dashboard() {
       navigate.push("/client/dashboard");
     }
 
+    let token = localStorage.getItem("token");
+    if (token == 'Token inválido' || token == 'token não informado' || token == 'Token malformatado' || token == 'Erro no token') {
+      navigate.push("/login");
+    }
+
+    setTimeout(() => {
+      verifyDayAccount()
+      // verifyAccountDuplicate()
+      verifyTimeExcedidAccount()
+    }, 86400000)
+
+    payments()
+    //filterPayments(dataPayments)
+
     Api.get("/services")
       .then((res) => {
         setOurService(res.data.services);
@@ -98,7 +154,7 @@ export default function Dashboard() {
       })
       .catch((error) => console.log("Erro: ", error));
 
-    Api.get("/account-service")
+    Api.get("/top-five-account-services")
       .then((res) => {
         console.log("account-services : ", res.data.accountServices);
         setAccountOurServices(res.data.accountServices);
@@ -122,7 +178,7 @@ export default function Dashboard() {
     setTimeout(() => {
       setIsLoader(false);
     }, 2000);
-  }, []);
+  }, [newPayments]);
 
   const [ModalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpenAccount, setModalIsOpenAccount] = useState(false);
@@ -191,6 +247,8 @@ export default function Dashboard() {
     setModalDeleteAccountService(false);
   }
 
+
+
   // FUNCTION CONFIRM DELETE ACCOUNT SERVICE
   const [deleteAccount, setDeleteAccount] = useState("");
   const [image, setImage] = useState("");
@@ -215,6 +273,7 @@ export default function Dashboard() {
     navigate.push("/login");
   }
 
+
   if (isLoader) {
     return <Loader />;
   }
@@ -232,7 +291,11 @@ export default function Dashboard() {
               className={`btn_default ${styles.notification}`}
             >
               <IoMdNotifications />
-              <span>4</span>
+              <span >
+              {
+                newPayments
+              }
+              </span>
             </Link>
             <button
               onClick={handlerLogout}

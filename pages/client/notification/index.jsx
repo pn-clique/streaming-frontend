@@ -70,20 +70,22 @@ export default function notification() {
   const [pendent, setPendent] = useState(true);
 
   useEffect(() => {
+
+    let token = localStorage.getItem("token");
+    if (token == 'Token inválido' || token == 'token não informado' || token == 'Token malformatado' || token == 'Erro no token') {
+      navigate.push("/login");
+    }
+
     Api.get("my-account-services")
       .then((res) => {
         setComprovativos(res.data.accountServicesOfTheUser);
-        console.log(
-          "comprovativos: dentro do use",
-          res.data.accountServicesOfTheUser
-        );
+        
       })
       .catch((error) => console.log("Erro: ", error));
 
     Api.get("payments")
       .then((res) => {
         setPayments(res.data.payments);
-        console.log(res.data);
       })
       .catch((error) => {
         console.log("Erro payment: ", error);
@@ -91,7 +93,6 @@ export default function notification() {
 
     Api.get("account-service")
       .then((res) => {
-        console.log(res.data.accountServices);
         setAccount(res.data.accountServices);
       })
       .catch((err) => console.log(err));
@@ -99,31 +100,28 @@ export default function notification() {
     Api.get("clients")
       .then((res) => {
         setClients(res.data.user);
-        console.log(res.data.user);
       })
       .catch((error) => console.log("Erro: ", error));
   }, []);
 
-  console.log("comprovativos: ", comprovativos);
 
-  const acceptPayments = (e) => {
+  // const acceptPayments = (e) => {
 
-    Api.put(
-      `/purchased-account-services/${purchasedId}/${accountId}/${serviceId}`,
-      {
-        accept: e,
-        message: feedback,
-      }
-    )
-      .then((res) => {
-        console.log("sucess : ", res.data, "Message: ", message);
-        closeModal();
-        window.location.reload(false);
-      })
-      .catch((error) => {
-        console.log("error : ", error, "Message: ", message);
-      });
-  };
+  //   Api.put(
+  //     `/purchased-account-services/${purchasedId}/${accountId}/${serviceId}`,
+  //     {
+  //       accept: e,
+  //       message: feedback,
+  //     }
+  //   )
+  //     .then((res) => {
+  //       closeModal();
+  //       window.location.reload(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log("error : ", error, "Message: ", message);
+  //     });
+  // };
   return (
     <>
       <header className={styles.header_nav}>
@@ -293,7 +291,7 @@ export default function notification() {
                   {comprovativos.map((data, index) => {
                     if (data.accept == 1)
                       return account.map((account) => {
-                        if (data.account_service_id == account._id) {
+                        if (data.account_service_id?._id == account._id) {
                           return clients.map((client) => {
                             if (data.user_id == client._id) {
                               return (

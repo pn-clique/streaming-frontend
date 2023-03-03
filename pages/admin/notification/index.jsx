@@ -2,6 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+// Core viewer
+import { Viewer } from '@react-pdf-viewer/core';
+
+// Plugins
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+
+// Import styles
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+
+
+
+// Create new plugin instance
+// const defaultLayoutPluginInstance = defaultLayoutPlugin();
+
+
+
+// // PDF NEW METHOD
+
+
 // PDF
 import { Document, Page, pdfjs } from "react-pdf";
 
@@ -13,7 +33,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 // ASSETS
-import { logo, netflix, comprovativo01, provas } from "../../../assets";
+import { logo, netflix, comprovativo01 } from "../../../assets";
 
 // ICONS
 import { IoMdNotifications, IoIosNotifications } from "react-icons/io";
@@ -21,6 +41,9 @@ import { IoMdNotifications, IoIosNotifications } from "react-icons/io";
 // COMPONENTS
 import { Loader } from "../../../components/Loader";
 import Skeleton from "../../../components/Skeleton";
+
+
+import ViewPDF from "../../../components/ViewPDF";
 
 // MODAL
 import Modal from "react-modal";
@@ -33,6 +56,13 @@ import { Api } from "../../../api/axios";
 
 export default function notification() {
   const [isOpen, setIsOpen] = useState(false);
+
+  
+  const [referenceId, setReferenceId] = useState('')
+  const [value, setValue] = useState('')
+  const [description, setDescription] = useState('')
+
+
 
   // Active state
   const [color, setColor] = useState(true);
@@ -58,6 +88,7 @@ export default function notification() {
   const [comprovativos, setComprovativos] = useState([]);
 
   const [image, setImage] = useState("");
+  const [pdfImage, setPdfImage] = useState('')
   const [imageFile, setImageFile] = useState("");
 
   const [account, setAccount] = useState([]);
@@ -68,13 +99,23 @@ export default function notification() {
   const [pendent, setPendent] = useState(true);
   // const [accept, setAccept] = useState(1)
 
+
+
   useEffect(() => {
+
+    let token = localStorage.getItem("token");
+    if (token == 'Token inválido' || token == 'token não informado' || token == 'Token malformatado' || token == 'Erro no token') {
+      navigate.push("/login");
+    }
+
     Api.get("all-account-services-of-the-user")
       .then((res) => {
         setComprovativos(res.data.accountServicesOfTheUser);
         console.log(res.data.accountServicesOfTheUser);
       })
       .catch((error) => console.log("Erro: ", error));
+
+     // downloadPDF();
 
     Api.get("account-service")
       .then((res) => {
@@ -91,15 +132,6 @@ export default function notification() {
       .catch((error) => console.log("Erro: ", error));
   }, []);
 
-  // Api.post(
-  //   `/purchased-account-services/${purchasedId}/${accountId}/${serviceId}`,
-  //   {
-  //     accept: e, message: feedback
-  //   }
-  // )
-  // .then(res => console.log('Message send:', res.data))
-  // .catch(error => console.log('Message error:', error.data))
-
   const acceptPayments = (e) => {
     console.log("params : ", e);
     console.log("message : ", feedback);
@@ -107,16 +139,26 @@ export default function notification() {
     Api.put(
       `/purchased-account-services/${purchasedId}/${accountId}/${serviceId}`,
       {
-        accept: e, message: feedback
+        accept: e, message: feedback, how_many_screen: 1
       }
     )
       .then((res) => {
-        console.log("sucess : ", res.data, "Message: ", message);
-        closeModal();
-        window.location.reload(false);
+        console.log("sucess : ", res.data);
+
+        Api.post(`payments/${res.data.accountServicesOfTheUser._id}`, {
+          description: description, number_reference: referenceId, value: value
+        }).then(res => {
+          console.log('Success: ', res.data);
+          closeModal();
+          window.location.reload(false);
+        })
+        .catch(error => {
+          console.log('Not Success: ', error)
+        })
+
       })
       .catch((error) => {
-        console.log("error : ", error, "Message: ", message);
+        console.log("error : ", error);
       });
   };
   return (
@@ -179,24 +221,66 @@ export default function notification() {
                   alt={image}
                 />
               ) : (
+                // <div>
+                //   <Document
+                //     file={`https://api-streaming.onrender.com/uploads/${image}`}
+                //     onLoadSuccess={onDocumentLoadSucess}
+                //   >
+                //     <Page pageNumber={pageNumber}></Page>
+                //   </Document>
+                //   <p>
+                //     Page {pageNumber} of {numPage}{" "}
+                //   </p>
+                // </div>
+
                 <div>
-                  <Document
-                    file={`https://api-streaming.onrender.com/uploads/${image}`}
-                    onLoadSuccess={onDocumentLoadSucess}
-                  >
-                    <Page pageNumber={pageNumber}></Page>
-                  </Document>
-                  <p>
-                    Page {pageNumber} of {numPage}{" "}
-                  </p>
-                </div>
+
+                  <h4>PDF File</h4>
+
+                  <Link
+                      href={`https://api-streaming.onrender.com/uploads/${pdfImage}`} 
+                      target={'_blank'} 
+                    >
+                    <Viewer fileUrl={`https://api-streaming.onrender.com/uploads/${pdfImage}`} />
+                    </Link>
+
+          
+              </div>
               )}
             </div>
 
             {pendent ? (
               <>
                 <div className={styles.feedback}>
+                  <div className={styles.form_group}>
+                  <input 
+                  type={'text'} 
+                  value={referenceId} 
+                  placeholder="Id de referência" 
+                  
+                  onChange={(e) => {
+                    setReferenceId(e.target.value)
+                  }} 
+                  />
+                  <input 
+                  type={'text'} 
+                  value={value} 
+                  placeholder="Valor do serviço" 
+                  
+                  onChange={(e) => {
+                    setValue(e.target.value)
+                  }} 
+                  />
+                  </div>
                   <textarea
+                   placeholder="Digite uma descrição da compra"
+                   value={description}
+                   onChange={(e) => {
+                    setDescription(e.target.value)
+                   }}
+                   ></textarea>
+
+                    <textarea
                    placeholder="Digite um feedback para o cliente"
                    value={feedback}
                    onChange={(e) => {
@@ -218,7 +302,7 @@ export default function notification() {
                     className={`btn_default ${styles.btn_recusar}`}
                     onClick={() => {
                       //setAccept(0)
-                      acceptPayments(0);
+                      acceptPayments(3);
                     }}
                   >
                     Recusar
@@ -244,9 +328,9 @@ export default function notification() {
                   {comprovativos.map((data, index) => {
                     if (data.accept == 2)
                       return account.map((account) => {
-                        if (data.account_service_id == account._id) {
+                        if (data.account_service_id?._id == account._id) {
                           return clients.map((client) => {
-                            if (data.user_id == client._id) {
+                            if (data.user_id?._id == client._id) {
                               return (
                                 <div
                                   className={styles.comprovativo}
@@ -257,6 +341,7 @@ export default function notification() {
                                     setServiceId(account.service_id._id);
                                     setImage(data.pdf_purchasing);
                                     setImageFile(data.typeFile);
+                                    setPdfImage(data.pdf_purchasing)
                                   }}
                                   key={index}
                                 >
@@ -268,7 +353,10 @@ export default function notification() {
                                       alt={data.pdf_purchasing}
                                     />
                                   ) : (
-                                    <div>
+                                    <Link
+                                      href={`https://api-streaming.onrender.com/uploads/${data.pdf_purchasing}`} 
+                                      target={'_blank'} 
+                                    >
                                       <Document
                                         file={`https://api-streaming.onrender.com/uploads/${data.pdf_purchasing}`}
                                         onLoadSuccess={onDocumentLoadSucess}
@@ -278,7 +366,7 @@ export default function notification() {
                                       <p>
                                         Page {pageNumber} of {numPage}{" "}
                                       </p>
-                                    </div>
+                                    </Link>
                                   )}
                                   <header>
                                     <h4>{client.name}</h4>
@@ -302,9 +390,9 @@ export default function notification() {
                   {comprovativos.map((data, index) => {
                     if (data.accept == 1)
                       return account.map((account) => {
-                        if (data.account_service_id == account._id) {
+                        if (data.account_service_id?._id == account._id) {
                           return clients.map((client) => {
-                            if (data.user_id == client._id) {
+                            if (data.user_id?._id == client._id) {
                               return (
                                 <div
                                   className={styles.comprovativo}
@@ -327,14 +415,15 @@ export default function notification() {
                                     />
                                   ) : (
                                     <div>
-                                      <Document
+                                      {/* <Document
                                         file={`https://api-streaming.onrender.com/uploads/${data.pdf_purchasing}`}
                                         onLoadSuccess={onDocumentLoadSucess}
                                       >
                                         <Page pageNumber={pageNumber} />
-                                      </Document>
+                                      </Document> */}
+                                      <h4>PDF File</h4>
                                       <p>
-                                        Page {pageNumber} of {numPage}{" "}
+                                        Page {pageNumber} of {numPage}
                                       </p>
                                     </div>
                                   )}

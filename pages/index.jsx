@@ -15,7 +15,7 @@ import Framer from "../components/LoopInfinity";
 import styles from '../styles/index.module.scss';
 
 // ASSETS
-import { banner, logo, services, giphy , allIcones, allIconesMusic} from "../assets/";
+import { banner, logo, services, giphy , allIcones, allIconesMusic, heartEmoji} from "../assets/";
 
 //icons
 import { 
@@ -222,6 +222,7 @@ if(isLoader) {
       <section className={styles.new_releases}>
         <div className={styles.heading}>
           <h1>Novos lançamentos</h1>
+        <p>Selecione uma imagem abaixo para mais informações.</p>
         </div>
         
         <Carousel />
@@ -235,7 +236,7 @@ if(isLoader) {
       
       <footer className={styles.footer}>
         <Image src={logo} alt="PN Clique Logo" />
-        <span>Feito com (amor) pela PNClique</span>
+        <span>Feito com <Image src={heartEmoji} alt="heart-emoji" /> pela PNClique</span>
         <div>
           <Link href={'#'}>Sobre</Link>
           <span></span>

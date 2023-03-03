@@ -250,9 +250,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  
   .heading {
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     max-width: 70%;
     width: 100%;
@@ -301,6 +302,16 @@
 
   &> span {
     color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      margin: 0 4px;
+      display: block;
+      max-width: 25px;
+      border-radius: 0.25rem;
+    }
   }
 
   &> div {
