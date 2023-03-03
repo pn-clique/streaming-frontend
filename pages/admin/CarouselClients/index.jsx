@@ -175,6 +175,16 @@ export default function CarouselClients() {
                   
                   <div>
                   {
+                    myAccountServices == "" ? (
+                      <div className={styles.container_skeleton}>
+              <Skeleton width={220} height={200} borderRadius={"0.25rem"} />
+              <Skeleton width={220} height={200} borderRadius={"0.25rem"} />
+              <Skeleton width={220} height={200} borderRadius={"0.25rem"} />
+              <Skeleton width={220} height={200} borderRadius={"0.25rem"} />
+            </div>
+                    ) : (
+                      <>
+                      {
                     myAccountServices.map((i, keyValue) => {
 
                       if (i.user_id._id == data._id) {
@@ -198,17 +208,11 @@ export default function CarouselClients() {
                       } 
 
                     })
+                  }</>
+                    )
                   }
                   </div>
                 </div>
-              
-
-             
-
-              <div className={styles.btn_clients}>
-                <button className={`${styles.btn_renovar} btn_default`}>Renovar</button>
-                <button className={`${styles.btn_delete} btn_default`}>Eliminar</button>
-              </div>
       
             </div>
           )

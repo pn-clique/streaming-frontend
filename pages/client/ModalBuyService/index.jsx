@@ -137,6 +137,7 @@ export default function ModalBuyService({
               </div>
 
               <div className={styles.form_group}>
+                
                 <span>
                   Preço:
                   {new Intl.NumberFormat("pt-AO", {
