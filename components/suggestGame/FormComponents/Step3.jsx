@@ -1,6 +1,5 @@
-import Image from "next/image";
+
 import React from "react";
-import { sozinho } from "../../../assets";
 
 
 // STYLES
@@ -75,8 +74,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="desenho" 
-            value="12"
-            checked={data.step3 === "12"}
+            value="13"
+            checked={data.step3 === "13"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Desenho animado</span>
@@ -108,8 +107,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="desporto" 
-            value="28"
-            checked={data.step3 === "28"}
+            value="29"
+            checked={data.step3 === "29"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Desporto</span>
@@ -130,8 +129,8 @@ function Step3({ data, updateFieldHandler }) {
             type="radio" 
             name="genero" 
             id="documentario" 
-            value="99"
-            checked={data.step3 === "99"}
+            value="100"
+            checked={data.step3 === "100"}
             onChange={(event) => updateFieldHandler("step3", event.target.value)}
             />
           <span>Documentário</span>

@@ -46,10 +46,15 @@
       width: 100%;
     }
 
+.container_skeleton {
+  display: flex;
+  gap: 1rem;
+}
+
 
     .inner_carousel {
 
-      display: inline-flex;
+      display: flex;
       
       .card {
 

@@ -1,19 +1,31 @@
 import Image from "next/image";
 import Link from "next/link";
-
-import { logo, netflix } from "../../assets";
-import styles from "./styles.module.scss";
-
-import { motion } from "framer-motion";
-import { Api } from "../../api/axios";
-
 import { useRouter } from "next/router";
 
-import SuggestGame from "../../components/suggestGame";
+// REACT JS
 import { useState, useEffect } from "react";
+
+
+// ASSETS
+import { logo } from "../../assets";
+
+// STYLES
+import styles from "./styles.module.scss";
+
+// MOTION
+import { motion } from "framer-motion";
+
+// API
+import { Api } from "../../api/axios";
+
+// COMPONENTS
+import SuggestGame from "../../components/suggestGame";
+import { Loader } from "../../components/Loader";
+import { CarouselMyServices } from "../../components/CarouselMyServices";
 
 // Modal
 import Modal from "react-modal";
+import ModalBuyService from "./ModalBuyService";
 
 // ICONS
 import { IoMdNotifications, IoIosNotifications } from "react-icons/io";
@@ -21,14 +33,10 @@ import { IoMdNotifications, IoIosNotifications } from "react-icons/io";
 // Skeleton
 import Skeleton from "../../components/Skeleton";
 
-import { Loader } from "../../components/Loader";
-import ModalBuyService from "./ModalBuyService";
-import { CarouselMyServices } from "../../components/CarouselMyServices";
 
 export default function Dashboard() {
   const [isLoader, setIsLoader] = useState(true);
 
-  // console.log(isLoader)
 
   const [isOpen, setIsOpen] = useState(false);
   const [suggestionIsOpen, setSuggestionIsOpen] = useState(false);
@@ -93,9 +101,9 @@ export default function Dashboard() {
 
   const loadingAccountServices = async () => {
     const res = await Api.get("/account-service");
-    console.log('data : ', res.data.accountServices)
     setAccountService(res.data.accountServices);
   };
+
   function getMyAccountServices() {
     Api.get("/my-account-services")
       .then((res) => {
@@ -160,7 +168,6 @@ export default function Dashboard() {
       permission == ""
     ) {
       navigate.push("/login");
-      //window.location.reload()
     }
 
     if (permission == 1) {

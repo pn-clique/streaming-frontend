@@ -3,19 +3,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from 'next/router';
 
-
-import { motion } from 'framer-motion' 
-
+// REACT JS
 import { useState, useEffect } from "react";
+
+// MOTION
+import { motion } from 'framer-motion' 
 
 
 // CAROUSEL INFINITY
 import Framer from "../components/LoopInfinity";
 
+// STYLES
 import styles from '../styles/index.module.scss';
 
 // ASSETS
-import { banner, logo, services, giphy , allIcones, allIconesMusic, heartEmoji} from "../assets/";
+import { banner, logo, allIconesMusic, heartEmoji} from "../assets/";
 
 //icons
 import { 

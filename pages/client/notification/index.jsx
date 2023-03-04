@@ -265,7 +265,7 @@ export default function notification() {
                                         <Page pageNumber={pageNumber} />
                                       </Document>
                                       <p>
-                                        Page {pageNumber} of {numPage}{" "}
+                                        Page {pageNumber} of {numPage}
                                       </p>
                                     </div>
                                   )}

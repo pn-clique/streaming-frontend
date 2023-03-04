@@ -18,8 +18,6 @@ import { motion } from 'framer-motion'
 
 import { useRouter } from "next/router";
 
-import { logo } from "../assets";
-
 import { Loader } from "../components/Loader";
 import HeaderAuth from "../components/HeaderAuth";
 

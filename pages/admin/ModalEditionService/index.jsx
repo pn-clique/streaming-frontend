@@ -99,6 +99,7 @@ export default function ModalEditionService({
       })
       .then((res) => {
         window.location.reload();
+        setSmsError(false);
         closeModal()
         res;
       })

@@ -24,7 +24,6 @@ export function Carousel() {
 
   const [dataMovie, setDataMovie] = useState([]);
 
-
   useEffect(() => {
     axios.get(ApiMovies).then((res) => setDataMovie(res.data.results));
 
@@ -40,39 +39,37 @@ export function Carousel() {
         ref={slider_wrapper}
         whileTap={{ cursor: "grabbing" }}
       >
-        {
-          dataMovie == '' ?
-          (
-            <div className={styles.container_skeleton}>
-              <Skeleton width={"100%"} height={50} borderRadius={"0.25rem"} />
-              <Skeleton width={"100%"} height={50} borderRadius={"0.25rem"} />
-              <Skeleton width={"100%"} height={50} borderRadius={"0.25rem"} />
-              <Skeleton width={"100%"} height={50} borderRadius={"0.25rem"} />
-            </div>
-          ) 
-          : 
-          (
-            <motion.div
-          className={styles.inner_carousel}
-          drag="x"
-          dragConstraints={{ right: 0, left: -width }}
-        >
-          {dataMovie.map((movie) => (
-            <motion.div
-              className={styles.card}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ duration: 0.5 }}
-              key={movie.id}
-            >
-              <div className={styles.card_image}>
-              <img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="Image" />
-            </div>
-            </motion.div>
-          ))}
-        </motion.div>
-          )
-        }
+        {dataMovie == "" ? (
+          <div className={styles.container_skeleton}>
+            <Skeleton width={220} height={220} borderRadius={"0.25rem"} />
+            <Skeleton width={220} height={220} borderRadius={"0.25rem"} />
+            <Skeleton width={220} height={220} borderRadius={"0.25rem"} />
+            <Skeleton width={220} height={220} borderRadius={"0.25rem"} />
+          </div>
+        ) : (
+          <motion.div
+            className={styles.inner_carousel}
+            drag="x"
+            dragConstraints={{ right: 0, left: -width }}
+          >
+            {dataMovie.map((movie) => (
+              <motion.div
+                className={styles.card}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ duration: 0.5 }}
+                key={movie.id}
+              >
+                <div className={styles.card_image}>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}
+                    alt="Image"
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </motion.div>
     </div>
   );

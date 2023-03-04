@@ -1,8 +1,5 @@
 import React from "react";
 
-import Image from "next/image";
-
-import { acompanhado, familia, sozinho } from "../../../assets";
 
 // STYLES
 import styles from "../styles.module.scss";
@@ -12,7 +9,6 @@ function Step4({ data, updateFieldHandler, movie }) {
 
   function filter_data_movies(movies) {
     return movies.filter((item) => {
-      // if (  item.media_type = data.step1 ) {
 
       for (var i = 0; item.genre_ids.length > i; i++) {
         if (
@@ -25,10 +21,6 @@ function Step4({ data, updateFieldHandler, movie }) {
           return console.log("result if of the if of the for  : ", item);
         }
       }
-
-      //} else {
-      //    return console.log('result if of the first if : ', item)
-      //}
     });
   }
 
@@ -58,7 +50,7 @@ function Step4({ data, updateFieldHandler, movie }) {
                   />
                   <img
                     src={`https://image.tmdb.org/t/p/w500/${data.backdrop_path}`}
-                    alt="Image"
+                    alt={data.backdrop_path}
                   />
                   <figcaption>{data.original_title}</figcaption>
                 </label>

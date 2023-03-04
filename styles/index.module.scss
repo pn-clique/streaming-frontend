@@ -255,9 +255,14 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    gap: 10px;
     max-width: 70%;
     width: 100%;
     margin: 1rem;
+
+    p {
+      color: var(--secondary-color);
+    }
   }
 }
 
