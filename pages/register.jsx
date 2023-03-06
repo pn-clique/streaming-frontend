@@ -126,7 +126,8 @@ export default function Register() {
         Api.defaults.headers.Authorization = `Bearer ${token}`;
         Api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         navigate.push("/client/dashboard");
-        closeModal()
+        closeModal();
+        setSmsError(false);
       })
       .catch((err) => {
         console.log("erro na promise signup register : ", err)

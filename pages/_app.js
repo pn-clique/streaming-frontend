@@ -2,7 +2,9 @@ import React from "react";
 
 import { Worker } from '@react-pdf-viewer/core' ;  
 
-
+// Import the styles provided by the react-pdf-viewer packages
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 // SEO
 import { DefaultSeo } from "next-seo";

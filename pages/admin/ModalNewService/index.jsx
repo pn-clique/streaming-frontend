@@ -63,6 +63,7 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
       .then((res) => {
         closeModal();
         window.location.reload();
+        setSmsError(false);
       })
       .catch((error) => {
         console.log("Error: ", error);

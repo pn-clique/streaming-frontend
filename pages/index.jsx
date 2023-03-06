@@ -34,8 +34,18 @@ import { Carousel } from "../components/Carousel";
 import { Api, ApiMovies } from "../api/axios";
 import axios from "axios";
 
+import { Viewer, Worker } from '@react-pdf-viewer/core';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+
+
 
 export default function HomePage() {
+
+const defaultLayoutPluginInstance = defaultLayoutPlugin();
+
 
   const navigate = useRouter();
 
@@ -85,6 +95,7 @@ function handleSubmit(e) {
         Api.defaults.headers.Authorization = `Bearer ${token}`;
         Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         navigate.push('/client/dashboard');
+        setError(false);
 
       })
       .catch((err) => { console.log('erro na promise signin login : ', err) })
@@ -101,6 +112,8 @@ if(isLoader) {
 
   return (
     <div className="home_page">
+
+
       
 
       {/* HERO */}

@@ -101,7 +101,6 @@ export default function ModalEditionService({
         window.location.reload();
         setSmsError(false);
         closeModal()
-        res;
       })
       .catch((error) => {
         console.log("Error: ", error);
@@ -132,7 +131,7 @@ export default function ModalEditionService({
         {services.map((data, key) => {
           if (data._id == serviceId)
             return (
-              <>
+              <div key={key}>
                 <>
                   {smsError ? (
                     <div className={styles.message_error}>
@@ -230,7 +229,7 @@ export default function ModalEditionService({
                     Salvar
                   </button>
                 </div>
-              </>
+              </div>
             );
         })}
       </form>

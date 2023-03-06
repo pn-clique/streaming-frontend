@@ -101,10 +101,8 @@
     }
 
     img {
-      // position: absolute;
       display: block;
-      max-width: 120px;
-      // height: 100%;
+      max-width: 80px;
       border-radius: 0.25rem;
     }
 
@@ -175,6 +173,12 @@
 
   padding: 2rem;
 }
+
+.pdf_icon {
+  display: block;
+  max-width: 120px;
+}
+
 .modal {
   max-width: 520px;
   width: 100%;

@@ -66,7 +66,7 @@ const handlerSubmit = (e) => {
       Api.defaults.headers.Authorization = `Bearer ${token}`;
       Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       navigate.push('/client/dashboard');
-
+      setSmsError(false);
     })
     .catch((err) => { 
       console.log('erro na promise signin login : ', err);

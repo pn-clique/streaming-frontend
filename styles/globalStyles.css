@@ -203,7 +203,7 @@ a {
 }
 
 .btn_default:hover {
-  background: var(--main-color) !important;
+  background: var(--main-color);
   border: 1px solid var(--primary-color) !important;
 }
 .btn_default:before {

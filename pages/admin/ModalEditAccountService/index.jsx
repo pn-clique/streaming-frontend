@@ -96,6 +96,7 @@ export default function ModalEditAccountService({
         res ; 
         closeModal();
         window.location.reload()
+        setSmsError(false);
       } )
      .catch((error) => {
       console.log(error)

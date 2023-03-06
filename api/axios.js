@@ -11,10 +11,10 @@ const Api = axios.create({
     baseURL: 'https://api-streaming.onrender.com/',
    // baseURL: 'http://localhost:4000/',
     headers: {
-        "Accept": "application/json, text/plain, /",
+         "Accept": "application/json, text/plain, /",
         // 'Content-Type': 'multipart/form-data',
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         Authorization: `Bearer ${token}`
     }
 

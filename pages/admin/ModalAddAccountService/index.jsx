@@ -61,6 +61,7 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
       closeModal();
       res
       window.location.reload();
+      setSmsError(false);
     })
     .catch((error) => {
       console.log('Ola, erro: ',error);

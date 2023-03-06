@@ -9,11 +9,17 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 import { useState, useEffect, useRef } from "react";
 
+
+import { Worker, Viewer } from "@react-pdf-viewer/core";
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+import "@react-pdf-viewer/core/lib/styles/index.css";
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+
 // MOTION ANIMATIONS
 import { motion } from "framer-motion";
 
 // ASSETS
-import { logo, netflix, comprovativo01, provas } from "../../../assets";
+import { logo, netflix, comprovativo01, pdf } from "../../../assets";
 
 // ICONS
 import { IoMdNotifications, IoIosNotifications } from "react-icons/io";
@@ -258,15 +264,7 @@ export default function notification() {
                                     />
                                   ) : (
                                     <div>
-                                      <Document
-                                        file={`https://api-streaming.onrender.com/uploads/${data.pdf_purchasing}`}
-                                        onLoadSuccess={onDocumentLoadSucess}
-                                      >
-                                        <Page pageNumber={pageNumber} />
-                                      </Document>
-                                      <p>
-                                        Page {pageNumber} of {numPage}
-                                      </p>
+                                      <Image src={pdf} alt={pdf} className={styles.pdf_icon} />
                                     </div>
                                   )}
                                   <header>
@@ -316,15 +314,7 @@ export default function notification() {
                                     />
                                   ) : (
                                     <div>
-                                      <Document
-                                        file={`https://api-streaming.onrender.com/uploads/${data.pdf_purchasing}`}
-                                        onLoadSuccess={onDocumentLoadSucess}
-                                      >
-                                        <Page pageNumber={pageNumber} />
-                                      </Document>
-                                      <p>
-                                        Page {pageNumber} of {numPage}{" "}
-                                      </p>
+                                      <Image src={pdf} alt={pdf} className={styles.pdf_icon} />
                                     </div>
                                   )}
                                   <header>

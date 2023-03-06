@@ -2,30 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-// Core viewer
-import { Viewer } from '@react-pdf-viewer/core';
-
-// Plugins
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-
-// Import styles
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-
-
-
-// Create new plugin instance
-// const defaultLayoutPluginInstance = defaultLayoutPlugin();
-
-
-
 // // PDF NEW METHOD
-
-
-// PDF
-import { Document, Page, pdfjs } from "react-pdf";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 import { useState, useEffect, useRef } from "react";
 
@@ -33,7 +10,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 // ASSETS
-import { logo, netflix, comprovativo01 } from "../../../assets";
+import { logo, netflix, pdf } from "../../../assets";
 
 // ICONS
 import { IoMdNotifications, IoIosNotifications } from "react-icons/io";
@@ -42,8 +19,13 @@ import { IoMdNotifications, IoIosNotifications } from "react-icons/io";
 import { Loader } from "../../../components/Loader";
 import Skeleton from "../../../components/Skeleton";
 
-
 import ViewPDF from "../../../components/ViewPDF";
+
+// The path to `package.json` can be changed depending the path of current file
+import packageJson from "../../../package.json";
+
+import { Viewer, Worker } from "@react-pdf-viewer/core";
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 
 // MODAL
 import Modal from "react-modal";
@@ -53,22 +35,20 @@ import styles from "./styles.module.scss";
 
 // AXIOS
 import { Api } from "../../../api/axios";
+import PDF from "../../../components/ViewPDF/PDF";
 
 export default function notification() {
   const [isOpen, setIsOpen] = useState(false);
 
-  
-  const [referenceId, setReferenceId] = useState('')
-  const [value, setValue] = useState('')
-  const [description, setDescription] = useState('')
-
-
+  const [referenceId, setReferenceId] = useState("");
+  const [value, setValue] = useState("");
+  const [description, setDescription] = useState("");
 
   // Active state
-  const [color, setColor] = useState(true);
+  const [color, setColor] = useState(2);
 
   // FEEDBACK STATE
-  const [feedback, setFeedback] = useState('')
+  const [feedback, setFeedback] = useState("");
 
   function openModal() {
     setIsOpen(true);
@@ -88,7 +68,7 @@ export default function notification() {
   const [comprovativos, setComprovativos] = useState([]);
 
   const [image, setImage] = useState("");
-  const [pdfImage, setPdfImage] = useState('')
+  const [pdfImage, setPdfImage] = useState("");
   const [imageFile, setImageFile] = useState("");
 
   const [account, setAccount] = useState([]);
@@ -96,15 +76,34 @@ export default function notification() {
   const [purchasedId, setPurchasedId] = useState("");
   const [accountId, setAccountId] = useState("");
   const [serviceId, setServiceId] = useState("");
-  const [pendent, setPendent] = useState(true);
+  const [pendent, setPendent] = useState(2);
   // const [accept, setAccept] = useState(1)
 
-
-
   useEffect(() => {
+    let permission = localStorage.getItem("permission");
+
+    // PROTECT ROUTER URL
+    if (
+      permission == 0 ||
+      permission == null ||
+      permission == undefined ||
+      permission == ""
+    ) {
+      navigate.push("/login");
+      //window.location.reload()
+    }
+
+    if (permission == 2 || permission == 3) {
+      navigate.push("/client/dashboard");
+    }
 
     let token = localStorage.getItem("token");
-    if (token == 'Token inválido' || token == 'token não informado' || token == 'Token malformatado' || token == 'Erro no token') {
+    if (
+      token == "Token inválido" ||
+      token == "token não informado" ||
+      token == "Token malformatado" ||
+      token == "Erro no token"
+    ) {
       navigate.push("/login");
     }
 
@@ -114,8 +113,6 @@ export default function notification() {
         console.log(res.data.accountServicesOfTheUser);
       })
       .catch((error) => console.log("Erro: ", error));
-
-     // downloadPDF();
 
     Api.get("account-service")
       .then((res) => {
@@ -132,6 +129,10 @@ export default function notification() {
       .catch((error) => console.log("Erro: ", error));
   }, []);
 
+  const pdfjsVersion = packageJson.dependencies["pdfjs-dist"];
+
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+
   const acceptPayments = (e) => {
     console.log("params : ", e);
     console.log("message : ", feedback);
@@ -139,23 +140,27 @@ export default function notification() {
     Api.put(
       `/purchased-account-services/${purchasedId}/${accountId}/${serviceId}`,
       {
-        accept: e, message: feedback, how_many_screen: 1
+        accept: e,
+        message: feedback,
+        how_many_screen: 1,
       }
     )
       .then((res) => {
         console.log("sucess : ", res.data);
 
         Api.post(`payments/${res.data.accountServicesOfTheUser._id}`, {
-          description: description, number_reference: referenceId, value: value
-        }).then(res => {
-          console.log('Success: ', res.data);
-          closeModal();
-          window.location.reload(false);
+          description: description,
+          number_reference: referenceId,
+          value: value,
         })
-        .catch(error => {
-          console.log('Not Success: ', error)
-        })
-
+          .then((res) => {
+            console.log("Success: ", res.data);
+            closeModal();
+            window.location.reload(false);
+          })
+          .catch((error) => {
+            console.log("Not Success: ", error);
+          });
       })
       .catch((error) => {
         console.log("error : ", error);
@@ -180,26 +185,38 @@ export default function notification() {
         <button
           className={`btn_default ${color}`}
           style={{
-            backgroundColor: `${color == true ? "#D81E5B" : " "}`,
+            backgroundColor: `${color == 2 ? "#D81E5B" : "transparent"}`,
           }}
           onClick={() => {
-            setPendent(true);
-            setColor(true);
+            setPendent(2);
+            setColor(2);
           }}
         >
           Pendentes
         </button>
         <button
-          className="btn_default"
+          className={`btn_default ${color}`}
           style={{
-            backgroundColor: `${color == false ? "#D81E5B" : " "}`,
+            backgroundColor: `${color == 1 ? "#D81E5B" : "transparent"}`,
           }}
           onClick={() => {
-            setPendent(false);
-            setColor(true);
+            setPendent(1);
+            setColor(1);
           }}
         >
           Aceites
+        </button>
+        <button
+          className={`btn_default ${color}`}
+          style={{
+            backgroundColor: `${color == 3 ? "#D81E5B" : "transparent"}`,
+          }}
+          onClick={() => {
+            setPendent(3);
+            setColor(3);
+          }}
+        >
+          Recusados
         </button>
       </div>
 
@@ -221,31 +238,17 @@ export default function notification() {
                   alt={image}
                 />
               ) : (
-                // <div>
-                //   <Document
-                //     file={`https://api-streaming.onrender.com/uploads/${image}`}
-                //     onLoadSuccess={onDocumentLoadSucess}
-                //   >
-                //     <Page pageNumber={pageNumber}></Page>
-                //   </Document>
-                //   <p>
-                //     Page {pageNumber} of {numPage}{" "}
-                //   </p>
-                // </div>
-
                 <div>
-
                   <h4>PDF File</h4>
 
                   <Link
-                      href={`https://api-streaming.onrender.com/uploads/${pdfImage}`} 
-                      target={'_blank'} 
-                    >
-                    <Viewer fileUrl={`https://api-streaming.onrender.com/uploads/${pdfImage}`} />
-                    </Link>
-
-          
-              </div>
+                    className={styles.btn_download}
+                    href={`https://api-streaming.onrender.com/uploads/${pdfImage}`}
+                    target={"_blank"}
+                  >
+                    Baixar comprovativo
+                  </Link>
+                </div>
               )}
             </div>
 
@@ -253,40 +256,38 @@ export default function notification() {
               <>
                 <div className={styles.feedback}>
                   <div className={styles.form_group}>
-                  <input 
-                  type={'text'} 
-                  value={referenceId} 
-                  placeholder="Id de referência" 
-                  
-                  onChange={(e) => {
-                    setReferenceId(e.target.value)
-                  }} 
-                  />
-                  <input 
-                  type={'text'} 
-                  value={value} 
-                  placeholder="Valor do serviço" 
-                  
-                  onChange={(e) => {
-                    setValue(e.target.value)
-                  }} 
-                  />
+                    <input
+                      type={"text"}
+                      value={referenceId}
+                      placeholder="Id de referência"
+                      onChange={(e) => {
+                        setReferenceId(e.target.value);
+                      }}
+                    />
+                    <input
+                      type={"text"}
+                      value={value}
+                      placeholder="Valor do serviço"
+                      onChange={(e) => {
+                        setValue(e.target.value);
+                      }}
+                    />
                   </div>
                   <textarea
-                   placeholder="Digite uma descrição da compra"
-                   value={description}
-                   onChange={(e) => {
-                    setDescription(e.target.value)
-                   }}
-                   ></textarea>
+                    placeholder="Digite uma descrição da compra"
+                    value={description}
+                    onChange={(e) => {
+                      setDescription(e.target.value);
+                    }}
+                  ></textarea>
 
-                    <textarea
-                   placeholder="Digite um feedback para o cliente"
-                   value={feedback}
-                   onChange={(e) => {
-                    setFeedback(e.target.value)
-                   }}
-                   ></textarea>
+                  <textarea
+                    placeholder="Digite um feedback para o cliente"
+                    value={feedback}
+                    onChange={(e) => {
+                      setFeedback(e.target.value);
+                    }}
+                  ></textarea>
                 </div>
 
                 <div className={styles.button_group}>
@@ -323,7 +324,7 @@ export default function notification() {
             </div>
           ) : (
             <>
-              {pendent == true ? (
+              {pendent == 2 ? (
                 <>
                   {comprovativos.map((data, index) => {
                     if (data.accept == 2)
@@ -341,7 +342,7 @@ export default function notification() {
                                     setServiceId(account.service_id._id);
                                     setImage(data.pdf_purchasing);
                                     setImageFile(data.typeFile);
-                                    setPdfImage(data.pdf_purchasing)
+                                    setPdfImage(data.pdf_purchasing);
                                   }}
                                   key={index}
                                 >
@@ -353,20 +354,7 @@ export default function notification() {
                                       alt={data.pdf_purchasing}
                                     />
                                   ) : (
-                                    <Link
-                                      href={`https://api-streaming.onrender.com/uploads/${data.pdf_purchasing}`} 
-                                      target={'_blank'} 
-                                    >
-                                      <Document
-                                        file={`https://api-streaming.onrender.com/uploads/${data.pdf_purchasing}`}
-                                        onLoadSuccess={onDocumentLoadSucess}
-                                      >
-                                        <Page pageNumber={pageNumber} />
-                                      </Document>
-                                      <p>
-                                        Page {pageNumber} of {numPage}{" "}
-                                      </p>
-                                    </Link>
+                                    <Image src={pdf} alt={pdf} className={styles.pdf_icon} />
                                   )}
                                   <header>
                                     <h4>{client.name}</h4>
@@ -386,8 +374,10 @@ export default function notification() {
                   })}
                 </>
               ) : (
-                <>
-                  {comprovativos.map((data, index) => {
+                <>{
+                  pendent == 1 ? (
+                    <>
+                    {comprovativos.map((data, index) => {
                     if (data.accept == 1)
                       return account.map((account) => {
                         if (data.account_service_id?._id == account._id) {
@@ -415,16 +405,7 @@ export default function notification() {
                                     />
                                   ) : (
                                     <div>
-                                      {/* <Document
-                                        file={`https://api-streaming.onrender.com/uploads/${data.pdf_purchasing}`}
-                                        onLoadSuccess={onDocumentLoadSucess}
-                                      >
-                                        <Page pageNumber={pageNumber} />
-                                      </Document> */}
-                                      <h4>PDF File</h4>
-                                      <p>
-                                        Page {pageNumber} of {numPage}
-                                      </p>
+                                      <Image src={pdf} alt={pdf} className={styles.pdf_icon} />
                                     </div>
                                   )}
                                   <header>
@@ -444,6 +425,120 @@ export default function notification() {
                         }
                       });
                   })}
+                    </>
+                  ) : ('')
+                }
+
+                {
+                  pendent == 2 ? (
+                    <>
+                    {comprovativos.map((data, index) => {
+                    if (data.accept == 2)
+                      return account.map((account) => {
+                        if (data.account_service_id?._id == account._id) {
+                          return clients.map((client) => {
+                            if (data.user_id?._id == client._id) {
+                              return (
+                                <div
+                                  className={styles.comprovativo}
+                                  onClick={() => {
+                                    openModal();
+                                    setPurchasedId(data._id);
+                                    setAccountId(account._id);
+                                    setServiceId(account.service_id._id);
+                                    setImage(data.pdf_purchasing);
+                                    setImageFile(data.typeFile);
+                                  }}
+                                  key={index}
+                                >
+                                  {data.typeFile === "image/png" ||
+                                  data.typeFile === "image/jpeg" ||
+                                  data.typeFile === "image/jpg" ? (
+                                    <img
+                                      src={`https://api-streaming.onrender.com/uploads/${data.pdf_purchasing}`}
+                                      alt={data.pdf_purchasing}
+                                    />
+                                  ) : (
+                                    <div>
+                                      <Image src={pdf} alt={pdf} className={styles.pdf_icon} />
+                                    </div>
+                                  )}
+                                  <header>
+                                    <h4>{data.name}</h4>
+                                    <span>
+                                      {new Intl.DateTimeFormat("pt-BR").format(
+                                        new Date(data.createdAt)
+                                      )}
+                                    </span>
+                                    <span>{client.name}</span>
+                                    <span>{account.service_id.name}</span>
+                                  </header>
+                                </div>
+                              );
+                            }
+                          });
+                        }
+                      });
+                  })}
+                    </>
+                  ) : ('')
+                }
+
+{
+                  pendent == 3? (
+                    <>
+                    {comprovativos.map((data, index) => {
+                    if (data.accept == 3)
+                      return account.map((account) => {
+                        if (data.account_service_id?._id == account._id) {
+                          return clients.map((client) => {
+                            if (data.user_id?._id == client._id) {
+                              return (
+                                <div
+                                  className={styles.comprovativo}
+                                  onClick={() => {
+                                    openModal();
+                                    setPurchasedId(data._id);
+                                    setAccountId(account._id);
+                                    setServiceId(account.service_id._id);
+                                    setImage(data.pdf_purchasing);
+                                    setImageFile(data.typeFile);
+                                  }}
+                                  key={index}
+                                >
+                                  {data.typeFile === "image/png" ||
+                                  data.typeFile === "image/jpeg" ||
+                                  data.typeFile === "image/jpg" ? (
+                                    <img
+                                      src={`https://api-streaming.onrender.com/uploads/${data.pdf_purchasing}`}
+                                      alt={data.pdf_purchasing}
+                                    />
+                                  ) : (
+                                    <div>
+                                      <Image src={pdf} alt={pdf} className={styles.pdf_icon} />
+                                    </div>
+                                  )}
+                                  <header>
+                                    <h4>{data.name}</h4>
+                                    <span>
+                                      {new Intl.DateTimeFormat("pt-BR").format(
+                                        new Date(data.createdAt)
+                                      )}
+                                    </span>
+                                    <span>{client.name}</span>
+                                    <span>{account.service_id.name}</span>
+                                  </header>
+                                </div>
+                              );
+                            }
+                          });
+                        }
+                      });
+                  })}
+                    </>
+                  ) : ('')
+                }
+                  
                 </>
               )}
             </>

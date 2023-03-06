@@ -4,6 +4,11 @@ import Link from "next/link";
 
 import Image from "next/image";
 
+// import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+
+import { Worker, Viewer } from "@react-pdf-viewer/core";
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+
 import FormData from "form-data";
 
 // iCONS
@@ -15,6 +20,8 @@ import { useState, useRef, useEffect } from "react";
 import { Api } from "../../../api/axios";
 import axios from "axios";
 
+
+
 export default function ModalBuyService({
   ModalIsOpen,
   closeModal,
@@ -22,7 +29,7 @@ export default function ModalBuyService({
   serviceName,
   serviceImage,
   serviceDuraction,
-  servicePrice
+  servicePrice,
 }) {
   const [inputFile, setInputFile] = useState("");
   const [modalNotification, setModalNotification] = useState(false);
@@ -37,13 +44,52 @@ export default function ModalBuyService({
     setModalNotification(false);
   }
 
-  const [boleto, setBoleto] = useState("");
   const [serviceTotal, setServiceTotal] = useState("");
 
   const ref = useRef(null);
 
+
+  const [pdfFile, setPdfFile] = useState(null);
+  const [viewPdf, setViewPdf] = useState(null);
+
+  const newplugin = defaultLayoutPlugin();
+
+  const fileType = ["application/pdf"];
+  function handleChangePdf(e) {
+    let selectedFile = ref.current.files[0];
+    if (selectedFile) {
+      if (selectedFile && fileType.includes(selectedFile.type)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onload = (e) => {
+          setPdfFile(e.target.result);
+        };
+      } else {
+        setPdfFile(null);
+      }
+    } else {
+      console.log("Please select pdf");
+    }
+
+    console.log(selectedFile)
+  }
+
+  function handleSubmitPdf(e) {
+    e.preventDefault();
+
+    console.log("Hello! PDF");
+
+    if (pdfFile !== null) {
+      setViewPdf(pdfFile);
+    } else {
+      setPdfFile(pdfFile);
+    }
+  }
+
   async function handlerSubmit(e) {
     e.preventDefault();
+
+
 
     const user_id = localStorage.getItem("userId");
 
@@ -53,7 +99,7 @@ export default function ModalBuyService({
     form.append("pdf_purchasing", file);
     form.append("user_id", user_id);
     form.append("account_service_id", account_id);
-    form.append('how_many_screen', serviceTotal);
+    form.append("how_many_screen", serviceTotal);
 
     let token = "";
     if (typeof window !== "undefined") {
@@ -83,7 +129,6 @@ export default function ModalBuyService({
       });
   }
 
-
   useEffect(() => {
     // setTimeout(() => {
     //   closeModalNotification();
@@ -91,13 +136,21 @@ export default function ModalBuyService({
     // return () =>  clearTimeout(timer);
   }, []);
 
-
   const updateFieldHandler = (key, value) => {
     setServiceTotal((prev) => {
       return { ...prev, [key]: value };
     });
   };
 
+
+  const [modalCompravatiovo, setModalComprovativo] = useState(false);
+
+  function openModalComprovativo() {
+    setModalComprovativo(true);
+  }
+  function closeModalComprovativo() {
+    setModalComprovativo(false);
+  }
 
   return (
     <>
@@ -137,7 +190,6 @@ export default function ModalBuyService({
               </div>
 
               <div className={styles.form_group}>
-                
                 <span>
                   Preço:
                   {new Intl.NumberFormat("pt-AO", {
@@ -155,71 +207,71 @@ export default function ModalBuyService({
             <div className={styles.services_number}>
               <h4>Selecione quantos serviços deseja comprar:</h4>
               <div>
-              <label htmlFor="option1">
-                <input
-                  type="radio"
-                  name="genero"
-                  id="option1"
-                  value="1"
-                  checked={serviceTotal.step3 === "1"}
-                  onChange={(event) =>
-                    updateFieldHandler("step3", event.target.value)
-                  }
-                />
-                <span>1</span>
-              </label>
-              <label htmlFor="option2">
-                <input
-                  type="radio"
-                  name="genero"
-                  id="option2"
-                  value="2"
-                  checked={serviceTotal.step3 === "2"}
-                  onChange={(event) =>
-                    updateFieldHandler("step3", event.target.value)
-                  }
-                />
-                <span>2</span>
-              </label>
-              <label htmlFor="option3">
-                <input
-                  type="radio"
-                  name="genero"
-                  id="option3"
-                  value="3"
-                  checked={serviceTotal.step3 === "3"}
-                  onChange={(event) =>
-                    updateFieldHandler("step3", event.target.value)
-                  }
-                />
-                <span>3</span>
-              </label>
-              <label htmlFor="option4">
-                <input
-                  type="radio"
-                  name="genero"
-                  id="option4"
-                  value="4"
-                  checked={serviceTotal.step3 === "4"}
-                  onChange={(event) =>
-                    updateFieldHandler("step3", event.target.value)
-                  }
-                />
-                <span>4</span>
-              </label>
-              <label htmlFor="option5">
-                <input
-                  type="radio"
-                  name="genero"
-                  id="option5"
-                  value="5"
-                  checked={serviceTotal.step3 === "5"}
-                  onChange={(event) =>
-                    updateFieldHandler("step3", event.target.value)
-                  }
-                />
-                <span>5</span>
-              </label>
+                <label htmlFor="option1">
+                  <input
+                    type="radio"
+                    name="genero"
+                    id="option1"
+                    value="1"
+                    checked={serviceTotal.step3 === "1"}
+                    onChange={(event) =>
+                      updateFieldHandler("step3", event.target.value)
+                    }
+                  />
+                  <span>1</span>
+                </label>
+                <label htmlFor="option2">
+                  <input
+                    type="radio"
+                    name="genero"
+                    id="option2"
+                    value="2"
+                    checked={serviceTotal.step3 === "2"}
+                    onChange={(event) =>
+                      updateFieldHandler("step3", event.target.value)
+                    }
+                  />
+                  <span>2</span>
+                </label>
+                <label htmlFor="option3">
+                  <input
+                    type="radio"
+                    name="genero"
+                    id="option3"
+                    value="3"
+                    checked={serviceTotal.step3 === "3"}
+                    onChange={(event) =>
+                      updateFieldHandler("step3", event.target.value)
+                    }
+                  />
+                  <span>3</span>
+                </label>
+                <label htmlFor="option4">
+                  <input
+                    type="radio"
+                    name="genero"
+                    id="option4"
+                    value="4"
+                    checked={serviceTotal.step3 === "4"}
+                    onChange={(event) =>
+                      updateFieldHandler("step3", event.target.value)
+                    }
+                  />
+                  <span>4</span>
+                </label>
+                <label htmlFor="option5">
+                  <input
+                    type="radio"
+                    name="genero"
+                    id="option5"
+                    value="5"
+                    checked={serviceTotal.step3 === "5"}
+                    onChange={(event) =>
+                      updateFieldHandler("step3", event.target.value)
+                    }
+                  />
+                  <span>5</span>
+                </label>
               </div>
             </div>
 
@@ -230,6 +282,7 @@ export default function ModalBuyService({
                 type="file"
                 onChange={(e) => {
                   setInputFile(e.target.files[0].name);
+                  handleChangePdf(e)
                 }}
                 ref={ref}
               />
@@ -242,6 +295,32 @@ export default function ModalBuyService({
             <div className={styles.btn_send}>
               <button type="submit" className="btn_default">
                 Enviar
+              </button>
+              <Modal
+                isOpen={modalCompravatiovo}
+                onRequestClose={closeModalComprovativo}
+                ariaHideApp={false}
+              >
+                <div className="viewer-pdf">
+                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.3.122/build/pdf.worker.min.js">
+                    {viewPdf && (
+                      <>
+                        <Viewer fileUrl={viewPdf} plugins={[newplugin]} />
+                      </>
+                    )}
+                    {!viewPdf && <>No DPF</>}
+                  </Worker>
+                </div>
+              </Modal>
+              <button
+                type="button"
+                className="btn_default"
+                onClick={(e) => {
+                  openModalComprovativo()
+                  handleSubmitPdf(e)
+                }}
+              >
+                Ver comprovativos
               </button>
             </div>
           </div>

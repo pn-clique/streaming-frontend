@@ -20,7 +20,8 @@ import sunGlassesEmoji from './sun-glasses-emoji.gif';
 import giphy from './giphy.gif';
 import heartEmoji from './heart-emoji.png';
 
-// import provas from 'provas.pdf';
+import pdf from './pdf.png'
+
 
 import allIcones from './allicones.png'
 import allIconesMusic from './all_icones_musica.png'
@@ -32,6 +33,8 @@ export {
   logo,
   banner,
   services,
+
+  pdf,
 
   movie01,
   movie02,
