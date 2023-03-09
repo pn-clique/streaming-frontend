@@ -25,7 +25,7 @@ export function Carousel() {
   const [dataMovie, setDataMovie] = useState([]);
 
   useEffect(() => {
-    axios.get(ApiMovies).then((res) => setDataMovie(res.data.results));
+    ApiMovies.get('/').then((res) => setDataMovie(res.data.results));
 
     setWidth(
       slider_wrapper.current.scrollWidth - slider_wrapper.current.offsetWidth

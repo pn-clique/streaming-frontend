@@ -20,7 +20,7 @@ import FormData from "form-data";
 import { useRouter } from "next/router";
 
 // ASSETS
-import { logo, UserCircle } from "../assets";
+import { logo, UserCircle, loader } from "../assets";
 
 // STYLES
 import styles from "../styles/register.module.scss";
@@ -68,6 +68,9 @@ export default function Register() {
   const [toggle, setToggle] = useState(true);
 
   const [smsError, setSmsError] = useState(false);
+
+  // STATE LOADER
+  const [loader, setLoader] = useState(false);
 
   const ref = useRef(null);
   const navigate = useRouter();

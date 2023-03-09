@@ -11,10 +11,10 @@ import FormData from "form-data";
 import { motion } from "framer-motion";
 
 // ASSETS
-import { logo, netflix } from "../../assets";
+import { logo, default_image } from "../../assets";
 
 // ICONS
-import { IoMdNotifications, IoIosNotifications } from "react-icons/io";
+import { IoMdNotifications } from "react-icons/io";
 
 // COMPONENTS
 import { Loader } from "../../components/Loader";
@@ -362,6 +362,7 @@ export default function Dashboard() {
                 setServiceId={setServiceId}
               />
               <motion.h2>Nossos serviços</motion.h2>
+              <div></div>
             </motion.div>
             <ModalNewService
               ModalIsOpen={ModalIsOpen}
@@ -400,7 +401,8 @@ export default function Dashboard() {
                       setServiceId(service._id);
                     }}
                   >
-                    <img
+                    
+                        <img
                       src={`https://api-streaming.onrender.com/uploads/${service.image}`}
                       alt={service.name}
                     />
@@ -561,7 +563,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                 );
-              })}
+              }).splice(-5)}
             </div>
           )}
           <Link href={"./accountServicesFilter"} className="btn_default">

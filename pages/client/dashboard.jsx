@@ -54,13 +54,13 @@ export default function Dashboard() {
   const [serviceName, setServiceName] = useState('')
   const [servicePrice, setServicePrice] = useState('31')
   const [serviceDuraction, setServiceDuraction] = useState('')
+  const [serviceCapacity, setServiceCapacity] = useState('')
+  const [serviceDateInit, setServiceDateInit] = useState('')
+  const [serviceDateFinish, setServiceDateFinish] = useState('')
 
-  const modalServiceBuy = {
-    serviceImage,
-    serviceName,
-    servicePrice,
-    serviceDuraction
-  }
+
+
+
 
 
   const navigate = useRouter();
@@ -102,6 +102,7 @@ export default function Dashboard() {
   const loadingAccountServices = async () => {
     const res = await Api.get("/account-service");
     setAccountService(res.data.accountServices);
+    console.log(res.data.accountServices)
   };
 
   function getMyAccountServices() {
@@ -450,6 +451,9 @@ export default function Dashboard() {
                             serviceImage={serviceImage}
                             serviceDuraction={serviceDuraction}
                             servicePrice={servicePrice}
+                            serviceCapacity={serviceCapacity}
+                            serviceDateInit={serviceDateInit}
+                            serviceDateFinish={serviceDateFinish}
 
                         />
                         <img
@@ -467,6 +471,7 @@ export default function Dashboard() {
                             }).format(data.service_id.preco) || "preço invalido"}
                           </span>
                       </div>
+
                       <button
                         type="button"
                         className={"btn_default"}
@@ -475,6 +480,9 @@ export default function Dashboard() {
                           setServiceName(data.service_id.name);
                           setServicePrice(data.service_id.preco);
                           setServiceDuraction(data.service_id.duracao);
+                          setServiceCapacity(data.service_id.capacidade);
+                          setServiceDateInit(data.date_init)
+                          setServiceDateFinish(data.date_finish)
                           modalBuyServicesOpen()
                         }}
                       >

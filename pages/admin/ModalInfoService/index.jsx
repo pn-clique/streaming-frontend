@@ -10,7 +10,9 @@ import { Api } from "../../../api/axios";
 // ASSETS
 import { logo, netflix } from "../../../assets";
 
-import { MdOutlineAddToPhotos } from "react-icons/md";
+
+// ICONS
+import { AiFillCloseCircle } from "react-icons/ai";
 
 import styles from "./styles.module.scss";
 import { useState } from "react";
@@ -50,7 +52,9 @@ export default function ModalInfoService({ isOpen, closeModal, serviceId, setSer
               >
                     <section className={styles.form} >
                       <div className={styles.form_group_heading}>
-                        <button onClick={closeModal}>X</button>
+                        <button onClick={closeModal}>
+                          <AiFillCloseCircle />
+                        </button>
                       </div>
           
                       <div className={styles.image}>

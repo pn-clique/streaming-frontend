@@ -156,7 +156,7 @@ export default function AccountServicesFilter() {
             <Link
               className={"btn_default"}
               type="button"
-              href={'/'}
+              href={"./dashboard"} 
             >
               Dashboard
             </Link>

@@ -37,7 +37,7 @@ export default function CarouselClients() {
   const [myAccountServices, setMyAccountServices] = useState([]);
   const [allAccount, setAllAccount] = useState([]);
   const [ourClientId, setOurClientId] = useState("");
-  const [myAccountId, setMyAccountId] = useState('')
+  const [myAccountId, setMyAccountId] = useState("");
 
   const [isOpen, setIsOpen] = useState(false);
   const [ourAccountServices, setOurAccountServices] = useState([]);
@@ -52,20 +52,16 @@ export default function CarouselClients() {
   }
 
   function myAccount() {
-
-    
     Api.get(`my-account-services/${myAccountId}`)
-    .then((res) => {
-      res.data.accountServicesOfTheUser;
-      setMyAccountServices(res.data.accountServicesOfTheUser);
-    })
-    .catch((error) => console.log("Erro: ", error));
+      .then((res) => {
+        res.data.accountServicesOfTheUser;
+        setMyAccountServices(res.data.accountServicesOfTheUser);
+      })
+      .catch((error) => console.log("Erro: ", error));
   }
-  
-  useEffect(() => {
-    
-    myAccount();
 
+  useEffect(() => {
+    myAccount();
 
     Api.get("/clients")
       .then((res) => {
@@ -81,7 +77,7 @@ export default function CarouselClients() {
       })
       .catch((error) => console.log("Erro: ", error));
 
-      Api.get("/account-service")
+    Api.get("/account-service")
       .then((res) => {
         res.data.accountServices;
         setOurAccountServices(res.data.accountServices);
@@ -100,47 +96,46 @@ export default function CarouselClients() {
         ref={slider_wrapper}
         whileTap={{ cursor: "grabbing" }}
       >
-        {
-          ourClients == '' ? (
-            <div className={styles.container_skeleton}>
-              <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
-              <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
-              <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
-              <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
-            </div>
-          ) : (
-            <motion.div
-          className={styles.inner_carousel}
-          drag="x"
-          dragConstraints={{ right: 0, left: -width }}
-        >
-          {ourClients.map((data, key) => {
-            return (
-              <motion.div
-                className={styles.card}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ duration: 0.5 }}
-                key={key}
-                onClick={() => {
-                  setOurClientId(data._id);
-                  modalIsOpen();
-                  myAccount();
-                  setMyAccountId(data._id)
-                }}
-              >
-                <div className={styles.card_image}>
-                  <img
-                    src={`https://api-streaming.onrender.com/uploads/${data.photo_profile}`}
-                    alt={'data.name'}
-                  />
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-          )
-        }
+        {ourClients == "" ? (
+          <div className={styles.container_skeleton}>
+            <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
+            <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
+            <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
+            <Skeleton width={"160px"} height={160} borderRadius={"0.25rem"} />
+          </div>
+        ) : (
+          <motion.div
+            className={styles.inner_carousel}
+            drag="x"
+            dragConstraints={{ right: 0, left: -width }}
+          >
+            {ourClients.map((data, key) => {
+              return (
+                <motion.div
+                  className={styles.card}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ duration: 0.5 }}
+                  key={key}
+                  onClick={() => {
+                    setOurClientId(data._id);
+                    modalIsOpen();
+                    myAccount();
+                    setMyAccountId(data._id);
+                  }}
+                >
+                  <div className={styles.card_image}>
+                    <img
+                      src={`https://api-streaming.onrender.com/uploads/${data.photo_profile}`}
+                      alt={"data.name"}
+                    />
+                    <span className={styles.name_client}> {data.name} </span>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        )}
       </motion.div>
 
       {/* MODAL INFO CLIENT */}
@@ -151,76 +146,82 @@ export default function CarouselClients() {
         overlayClassName={styles.modal_overlay}
         className={styles.modal_content}
       >
-        {
-
-          ourClients.map((data, key) => {
+        {ourClients.map((data, key) => {
           if (data._id == ourClientId)
             return (
               <div key={key} className={styles.modal_clients}>
-                  <img
-                    src={`https://api-streaming.onrender.com/uploads/${data.photo_profile}`}
-                    alt={data.name} />
-                  <div className={styles.name_clients}>
-                    <h4>Nome:</h4>
-                    <span>{data.name}</span>
-                  </div>
-                  <div className={styles.email_clients}>
-                    <h4>Email:</h4>
-                    <span>{data.email}</span>
-                  </div>
+                <img
+                  src={`https://api-streaming.onrender.com/uploads/${data.photo_profile}`}
+                  alt={data.name}
+                />
+                <div className={styles.name_clients}>
+                  <h4>Nome:</h4>
+                  <span>{data.name}</span>
+                </div>
+                <div className={styles.email_clients}>
+                  <h4>Email:</h4>
+                  <span>{data.email}</span>
+                </div>
 
-                  <div className={styles.services_clients}>
-                     <h4>Serviços:</h4>
-                      <hr />
-                  
+                <div className={styles.services_clients}>
+                  <h4>Serviços:</h4>
+                  <hr />
+
                   <div>
-                  {
-                    myAccountServices == "" ? (
+                    {myAccountServices == "" ? (
                       <div className={styles.container_skeleton}>
-              <Skeleton width={220} height={200} borderRadius={"0.25rem"} />
-              <Skeleton width={220} height={200} borderRadius={"0.25rem"} />
-              <Skeleton width={220} height={200} borderRadius={"0.25rem"} />
-              <Skeleton width={220} height={200} borderRadius={"0.25rem"} />
-            </div>
+                        <Skeleton
+                          width={220}
+                          height={200}
+                          borderRadius={"0.25rem"}
+                        />
+                        <Skeleton
+                          width={220}
+                          height={200}
+                          borderRadius={"0.25rem"}
+                        />
+                        <Skeleton
+                          width={220}
+                          height={200}
+                          borderRadius={"0.25rem"}
+                        />
+                        <Skeleton
+                          width={220}
+                          height={200}
+                          borderRadius={"0.25rem"}
+                        />
+                      </div>
                     ) : (
                       <>
-                      {
-                    myAccountServices.map((i, keyValue) => {
-
-                      if (i.user_id._id == data._id) {
-                        return ourAccountServices.map((item) => {
-                          if (i.account_service_id?._id == item._id)
-                          return allAccount.map((service) => {
-                            if (service._id == i.account_service_id?.service_id) {
-                              return (
-                                <div>
-                                    <img
-                                      src={`https://api-streaming.onrender.com/uploads/${service.image}`}
-                                      alt={service.name} />
-                                </div>
-                              )
-                            }
-                            
-                          })
-
-                        })
-
-                      } 
-
-                    })
-                  }</>
-                    )
-                  }
+                        {myAccountServices.map((i, keyValue) => {
+                          if (i.user_id._id == data._id) {
+                            return ourAccountServices.map((item) => {
+                              if (i.account_service_id?._id == item._id)
+                                return allAccount.map((service) => {
+                                  if (
+                                    service._id ==
+                                    i.account_service_id?.service_id
+                                  ) {
+                                    return (
+                                      <div>
+                                        <img
+                                          src={`https://api-streaming.onrender.com/uploads/${service.image}`}
+                                          alt={service.name}
+                                        />
+                                      </div>
+                                    );
+                                  }
+                                });
+                            });
+                          }
+                        })}
+                      </>
+                    )}
                   </div>
                 </div>
-      
-            </div>
-          )
-              
-
-            })
-        }
-        
+              </div>
+            );
+        })}
       </Modal>
     </div>
   );

@@ -41,6 +41,24 @@
   }
 }
 
+.loader_animations {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba($color: #000000, $alpha: 0.6);
+  z-index: 111;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    display: block;
+  }
+}
+
 .login {
   width: 100%;
 
@@ -113,6 +131,10 @@
         }
 
         &>button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
           width: 100%;
           padding: 0.8rem 1.5rem;
           border-radius: 0.25rem;
@@ -120,6 +142,12 @@
           font-weight: 700;
           border: none;
           color: var(--secondary-color);
+
+          &> img {
+            display: block;
+            max-width: 20px;
+            height: 20px;
+          }
         }
       }
 

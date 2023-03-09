@@ -143,7 +143,7 @@ export default function ServicesFilter() {
               type="button"
               href={"./dashboard"}
             >
-              Dashboard
+              Dashboards
             </Link>
           </nav>
         </div>

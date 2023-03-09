@@ -1,0 +1,50 @@
+
+
+.contacts {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+}
+
+  .container {
+    max-width: 820px;
+    width: 100%;
+    border-radius: 0.25rem;
+    background-color: var(--bg-color);
+    padding: 2rem;
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      h2 {
+        color: var(--secondary-color);
+      }
+      p {
+        color: var(--gray-700);
+        margin-bottom: 1rem;
+      }
+      hr {
+        border-color: var(--primary-color);
+        border-radius: 0.25rem;
+      }
+    }
+
+  }
+  
+  .datas {
+    padding: 2rem 0;
+    
+    .email {
+      padding: 0.8rem 1.5rem;    
+      width: 100%;
+          background-color: var(--main-color);
+          border: none;
+          color: var(--secondary-color);
+          outline: none;
+          border-radius: 0.25rem;
+    }
+  }

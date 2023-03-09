@@ -21,9 +21,13 @@ const Api = axios.create({
     
 })
 
+const ApiMovies = axios.create({
+  baseURL: 'https://api.themoviedb.org/3/trending/all/day?api_key=8c55f9e819a9e2f5b48651b3b39ca6f1&fbclid=IwAR0c8hgWqhdrxy1cooPtTi8Pursp03Rw-CjvcJYMaBKaLS4CcvBAxKytRQw',
+})
 
 
-const ApiMovies = 'https://api.themoviedb.org/3/trending/all/day?api_key=8c55f9e819a9e2f5b48651b3b39ca6f1&fbclid=IwAR0c8hgWqhdrxy1cooPtTi8Pursp03Rw-CjvcJYMaBKaLS4CcvBAxKytRQw'
+
+// const ApiMovies = 'https://api.themoviedb.org/3/trending/all/day?api_key=8c55f9e819a9e2f5b48651b3b39ca6f1&fbclid=IwAR0c8hgWqhdrxy1cooPtTi8Pursp03Rw-CjvcJYMaBKaLS4CcvBAxKytRQw'
 
 
 export {

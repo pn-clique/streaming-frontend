@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 
@@ -6,7 +7,11 @@ import Modal from "react-modal";
 // AXIOS API
 import { Api } from "../../../api/axios";
 
-import { MdOutlineAddToPhotos } from "react-icons/md";
+// ASSETS
+import { loadingIcon } from "../../../assets";
+
+// ICONS
+import { AiFillCloseCircle } from 'react-icons/ai'
 
 import styles from "./styles.module.scss";
 import { useState } from "react";
@@ -27,6 +32,9 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
   const refPrice = useRef(null);
   
   const [smsError, setSmsError] = useState(false);
+
+  // STATE LOADER
+  const [loader, setLoader] = useState(false);
 
   const [service, setService] = useState([]);
 
@@ -66,7 +74,10 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
     .catch((error) => {
       console.log('Ola, erro: ',error);
       setSmsError(true);
-    });
+    })
+    .finally(() => {
+      setLoader(false)
+    })
 
     
   }
@@ -94,7 +105,9 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
             <h2>Adicionar conta de serviço</h2>
             <span>Adicionar nova conta de serviços</span>
           </div>
-          <button onClick={closeModal}>X</button>
+          <button onClick={closeModal}>
+            <AiFillCloseCircle />
+          </button>
         </div>
 
         <div className={styles.form_group_email}>
@@ -194,6 +207,7 @@ export default function ModalAddAccountService({ ModalIsOpen, closeModal }) {
         <div className={styles.btn_add_account}>
           <button type="submit" className="btn_default" onClick={handlerSubmit}>
             Adicionar
+            {loader ? <Image src={loadingIcon} alt={loadingIcon} /> : ""}
           </button>
         </div>
       </form>

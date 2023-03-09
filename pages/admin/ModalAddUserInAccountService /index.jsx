@@ -6,7 +6,8 @@ import Modal from "react-modal";
 // AXIOS API
 import { Api } from "../../../api/axios";
 
-import { MdOutlineAddToPhotos } from "react-icons/md";
+// ICONS
+import { AiFillCloseCircle } from 'react-icons/ai'
 
 import styles from "./styles.module.scss";
 import { useState } from "react";
@@ -60,7 +61,9 @@ export default function ModalAddUserInAccountService({ ModalIsOpenClient, closeM
           <header>
             Adicione uma conta de serviço ao cliente
 
-            <button className={styles.btn_close} onClick={closeModalClient}>X</button>
+            <button className={styles.btn_close} onClick={closeModalClient}>
+              <AiFillCloseCircle />
+            </button>
           </header>
 
         <div className={styles.form_group_password}>

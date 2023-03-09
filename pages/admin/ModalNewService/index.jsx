@@ -1,15 +1,21 @@
 import { useState, useRef } from "react";
 
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 // OTHERS
 import FormData from "form-data";
 
+// ASSETS
+import { loadingIcon } from "../../../assets";
+
 // MODAL
 import Modal from "react-modal";
 
-// iCONS
+
+// ICONS
 import { MdOutlineAddToPhotos } from "react-icons/md";
+import { AiFillCloseCircle } from 'react-icons/ai'
 
 // AXIOS API
 import { Api } from "../../../api/axios";
@@ -22,6 +28,9 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
   const refImage = useRef(null);
 
   const navigate = useRouter();
+
+  // STATE LOADER
+  const [loader, setLoader] = useState(false);
 
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
@@ -68,6 +77,9 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
       .catch((error) => {
         console.log("Error: ", error);
         setSmsError(true);
+      })
+      .finally(() => {
+        setLoader(false);
       });
   }
 
@@ -98,7 +110,9 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
             <h2>Adicionar serviço</h2>
             <span>Adicionar novo serviços</span>
           </div>
-          <button onClick={closeModal}>X</button>
+          <button onClick={closeModal}>
+            <AiFillCloseCircle />
+          </button>
         </header>
 
         <div className={styles.image_service}>
@@ -179,8 +193,15 @@ export default function ModalNewService({ ModalIsOpen, closeModal }) {
         </div>
 
         <div className={styles.btn_service}>
-          <button type="submit" onClick={handlerSubmit}>
+          <button
+            type="submit"
+            onClick={(e) => {
+              handlerSubmit(e);
+              setLoader(true);
+            }}
+          >
             Adicionar
+            {loader ? <Image src={loadingIcon} alt={loadingIcon} /> : ""}
           </button>
         </div>
       </form>

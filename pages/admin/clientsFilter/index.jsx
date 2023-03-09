@@ -266,7 +266,7 @@ export default function clientsFilter() {
           </Link>
           <nav>
             <Link href={"./dashboard"} className="btn_default">
-              Dashboard
+              Dashboards
             </Link>
           </nav>
         </div>

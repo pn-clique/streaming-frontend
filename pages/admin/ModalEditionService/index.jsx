@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 // OTHERS
 import FormData from "form-data";
@@ -14,6 +15,11 @@ import { MdOutlineAddToPhotos } from "react-icons/md";
 // AXIOS API
 import { Api } from "../../../api/axios";
 import axios from "axios";
+
+// ASSETS
+import {
+  loadingIcon,
+} from "../../../assets";
 
 // STYLES
 import styles from "./styles.module.scss";
@@ -31,6 +37,9 @@ export default function ModalEditionService({
   const navigate = useRouter();
 
   const [smsError, setSmsError] = useState(false);
+
+    // STATE LOADER
+    const [loader, setLoader] = useState(false);
 
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
@@ -64,8 +73,12 @@ export default function ModalEditionService({
       .then((res) => {
         res.data.services;
         setServices(res.data.services);
+        setSmsError(false);
       })
-      .catch((error) => console.log("Erro: ", error));
+      .catch((error) => {
+        console.log("Erro: ", error)
+        setSmsError(true);
+      });
   };
 
   function handlerSubmit(e, data) {
@@ -86,7 +99,7 @@ export default function ModalEditionService({
     console.log("files : ", file == undefined ? file : data.image);
     console.log("name : ", name == '' ? data.name : name);
 
-    console.log(data.name);
+ 
 
     const token = localStorage.getItem("token");
     const url = `https://api-streaming.onrender.com/services/${serviceId}`;
@@ -100,12 +113,16 @@ export default function ModalEditionService({
       .then((res) => {
         window.location.reload();
         setSmsError(false);
+        
         closeModal()
       })
       .catch((error) => {
         console.log("Error: ", error);
         setSmsError(true);
-      });
+      })
+      .finally(() => {
+        setLoader(false)
+      })
   }
 
   useEffect(() => {
@@ -131,7 +148,7 @@ export default function ModalEditionService({
         {services.map((data, key) => {
           if (data._id == serviceId)
             return (
-              <div key={key}>
+              <div key={data._id}>
                 <>
                   {smsError ? (
                     <div className={styles.message_error}>
@@ -225,8 +242,16 @@ export default function ModalEditionService({
                 </div>
 
                 <div className={styles.btn_service}>
-                  <button type="submit" onClick={(e) => handlerSubmit(e, data)}>
+                  <button className="btn_default" type="submit" onClick={(e) => {
+                    handlerSubmit(e, data)
+                    setLoader(true);
+                    }}>
                     Salvar
+                    {loader ? (
+                      <Image src={loadingIcon} alt={loadingIcon} />
+                    ) : (
+                      ""
+                    )}
                   </button>
                 </div>
               </div>

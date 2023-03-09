@@ -205,7 +205,7 @@
           line-height: 40px;
         }
     
-        &>div {
+        &>div:last-child {
           background-color: var(--primary-color);
           height: 2px;
           border-radius: 0.25rem;

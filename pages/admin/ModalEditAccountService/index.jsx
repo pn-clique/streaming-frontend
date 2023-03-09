@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import Image from "next/image";
 import { useRef } from "react";
 
 import Modal from "react-modal";
@@ -6,7 +7,13 @@ import Modal from "react-modal";
 // AXIOS API
 import { Api } from "../../../api/axios";
 
-import { MdOutlineAddToPhotos } from "react-icons/md";
+// ASSETS
+import {
+  loadingIcon,
+} from "../../../assets";
+
+// ICONS
+import { AiFillCloseCircle } from 'react-icons/ai'
 
 import styles from "./styles.module.scss";
 import { useState } from "react";
@@ -27,6 +34,9 @@ export default function ModalEditAccountService({
   const [points, setPoints] = useState("");
   const [password, setPassword] = useState("");
   const [serviceId, setServiceId] = useState("");
+
+     // STATE LOADER
+     const [loader, setLoader] = useState(false);
 
   const refCapacity = useRef(null);
   const refPoints = useRef(null);
@@ -101,7 +111,10 @@ export default function ModalEditAccountService({
      .catch((error) => {
       console.log(error)
       setSmsError(true);
-     });
+     })
+     .finally(() => {
+      setLoader(false)
+     })
   }
 
   return (
@@ -127,7 +140,9 @@ export default function ModalEditAccountService({
             <h2>Editar conta de serviço</h2>
             <span>Edite a conta de serviços</span>
           </div>
-          <button onClick={closeModal}>X</button>
+          <button onClick={closeModal}>
+            <AiFillCloseCircle />
+          </button>
         </div>
 
         {accountService.map((item) => {
@@ -233,8 +248,16 @@ export default function ModalEditAccountService({
               </div>
 
               <div className={styles.button}>
-                <button type="submit" onClick={(e) => handlerSubmit(e, item)}>
+                <button type="submit" onClick={(e) => {
+                  handlerSubmit(e, item);
+                  setLoader(true)
+                }}>
                   Salvar
+                  {loader ? (
+                      <Image src={loadingIcon} alt={loadingIcon} />
+                    ) : (
+                      ""
+                    )}
                 </button>
               </div>
             </>

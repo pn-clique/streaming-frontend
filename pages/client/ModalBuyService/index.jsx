@@ -11,7 +11,8 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 
 import FormData from "form-data";
 
-// iCONS
+// ICONS
+import { AiFillCloseCircle } from "react-icons/ai";
 import { MdOutlineAddToPhotos } from "react-icons/md";
 
 import styles from "./styles.module.scss";
@@ -20,8 +21,6 @@ import { useState, useRef, useEffect } from "react";
 import { Api } from "../../../api/axios";
 import axios from "axios";
 
-
-
 export default function ModalBuyService({
   ModalIsOpen,
   closeModal,
@@ -29,12 +28,18 @@ export default function ModalBuyService({
   serviceName,
   serviceImage,
   serviceDuraction,
+  serviceDateInit,
+  serviceDateFinish,
   servicePrice,
+  serviceCapacity,
 }) {
   const [inputFile, setInputFile] = useState("");
   const [modalNotification, setModalNotification] = useState(false);
 
+
   const [smsError, setSmsError] = useState(false);
+
+  const [viewerPDF, setViewerPDF] = useState(false);
 
   // MODAL NOTIFICATION SEND AFTER BUY SERVICE
   function openModalNotification() {
@@ -47,7 +52,6 @@ export default function ModalBuyService({
   const [serviceTotal, setServiceTotal] = useState("");
 
   const ref = useRef(null);
-
 
   const [pdfFile, setPdfFile] = useState(null);
   const [viewPdf, setViewPdf] = useState(null);
@@ -71,7 +75,7 @@ export default function ModalBuyService({
       console.log("Please select pdf");
     }
 
-    console.log(selectedFile)
+    console.log(selectedFile);
   }
 
   function handleSubmitPdf(e) {
@@ -86,10 +90,9 @@ export default function ModalBuyService({
     }
   }
 
+
   async function handlerSubmit(e) {
     e.preventDefault();
-
-
 
     const user_id = localStorage.getItem("userId");
 
@@ -142,7 +145,6 @@ export default function ModalBuyService({
     });
   };
 
-
   const [modalCompravatiovo, setModalComprovativo] = useState(false);
 
   function openModalComprovativo() {
@@ -166,7 +168,9 @@ export default function ModalBuyService({
           encType="multipart/form-data"
           onSubmit={handlerSubmit}
         >
-          <button onClick={closeModal}>X</button>
+          <button onClick={closeModal}>
+            <AiFillCloseCircle />
+          </button>
 
           <div className={styles.movie_info}>
             {smsError ? (
@@ -184,105 +188,98 @@ export default function ModalBuyService({
               />
             </div>
 
-            <div className={styles.service_info}>
-              <div className={styles.form_group}>
-                <span>Serviço: {serviceName}</span>
+            <div className={styles.info_01}>
+              <div className={styles.profile}>
+                <h4>Perfis:</h4>
+                <span>{serviceCapacity}</span>
               </div>
-
-              <div className={styles.form_group}>
+              <div className={styles.price}>
+                <h4>Preço total:</h4>
                 <span>
-                  Preço:
                   {new Intl.NumberFormat("pt-AO", {
                     style: "currency",
                     currency: "AOA",
                   }).format(servicePrice)}
                 </span>
               </div>
-
-              <div className={styles.form_group}>
-                <span>Duração: {serviceDuraction} dias</span>
-              </div>
             </div>
 
-            <div className={styles.services_number}>
-              <h4>Selecione quantos serviços deseja comprar:</h4>
+            <div className={styles.data_bank}>
+              <header>
+                <h3>Dados bancários</h3>
+              </header>
               <div>
-                <label htmlFor="option1">
-                  <input
-                    type="radio"
-                    name="genero"
-                    id="option1"
-                    value="1"
-                    checked={serviceTotal.step3 === "1"}
-                    onChange={(event) =>
-                      updateFieldHandler("step3", event.target.value)
-                    }
-                  />
-                  <span>1</span>
-                </label>
-                <label htmlFor="option2">
-                  <input
-                    type="radio"
-                    name="genero"
-                    id="option2"
-                    value="2"
-                    checked={serviceTotal.step3 === "2"}
-                    onChange={(event) =>
-                      updateFieldHandler("step3", event.target.value)
-                    }
-                  />
-                  <span>2</span>
-                </label>
-                <label htmlFor="option3">
-                  <input
-                    type="radio"
-                    name="genero"
-                    id="option3"
-                    value="3"
-                    checked={serviceTotal.step3 === "3"}
-                    onChange={(event) =>
-                      updateFieldHandler("step3", event.target.value)
-                    }
-                  />
-                  <span>3</span>
-                </label>
-                <label htmlFor="option4">
-                  <input
-                    type="radio"
-                    name="genero"
-                    id="option4"
-                    value="4"
-                    checked={serviceTotal.step3 === "4"}
-                    onChange={(event) =>
-                      updateFieldHandler("step3", event.target.value)
-                    }
-                  />
-                  <span>4</span>
-                </label>
-                <label htmlFor="option5">
-                  <input
-                    type="radio"
-                    name="genero"
-                    id="option5"
-                    value="5"
-                    checked={serviceTotal.step3 === "5"}
-                    onChange={(event) =>
-                      updateFieldHandler("step3", event.target.value)
-                    }
-                  />
-                  <span>5</span>
-                </label>
+                <div className={styles.data_bank_first}>
+                  <div>
+                    <h4>Nº de conta:</h4>
+                    <span>Banco BAI</span>
+                  </div>
+
+                  <div>
+                    <h4>Banco:</h4>
+                    <span>Banco BAI</span>
+                  </div>
+                </div>
+
+                <div>
+                  <h4>IBAN:</h4>
+                  <span>Banco BAI</span>
+                </div>
               </div>
             </div>
 
-            <label className={styles.label_image}>
+            <div className={styles.data_payments}>
+              <header>
+                <h3>Dados de pagamentos</h3>
+              </header>
+              <div className={styles.data_payments_1}>
+                <div>
+                  <h4>Valor à pagar:</h4>
+                  <span>
+                    {new Intl.NumberFormat("pt-AO", {
+                      style: "currency",
+                      currency: "AOA",
+                    }).format(servicePrice)}
+                  </span>
+                </div>
+                <div>
+                  <h4>Periódo:</h4>
+                  <span>
+                    {serviceDuraction} dias
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <h4>Data de inicio:</h4>
+                  <span>
+                  {serviceDateInit}
+                  </span>
+                </div>
+                <div>
+                  <h4>Data de termino:</h4>
+                  <span>
+                    {serviceDateFinish}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+           <div className={styles.btn_view}>
+
+            <label 
+            className={`${styles.label_image}`}
+            style={{ width: `${viewerPDF ? '90%' : '100%'}` }}
+            >
               <MdOutlineAddToPhotos />
               <input
-                style={{ display: "none" }}
+
+                style={{ display: "none", width: `${viewerPDF ? '90%' : '100%'}` }}
                 type="file"
                 onChange={(e) => {
                   setInputFile(e.target.files[0].name);
-                  handleChangePdf(e)
+                  handleChangePdf(e);
+                  setViewerPDF(true);
                 }}
                 ref={ref}
               />
@@ -291,6 +288,21 @@ export default function ModalBuyService({
                 {inputFile === "" ? "Adicione um comprovativo" : inputFile}
               </span>
             </label>
+            {viewerPDF ? (
+                <button
+                  type="button"
+                  className="btn_default"
+                  onClick={(e) => {
+                    openModalComprovativo();
+                    handleSubmitPdf(e);
+                  }}
+                >
+                  Visualizar
+                </button>
+              ) : (
+                ""
+              )}
+           </div>
 
             <div className={styles.btn_send}>
               <button type="submit" className="btn_default">
@@ -300,8 +312,10 @@ export default function ModalBuyService({
                 isOpen={modalCompravatiovo}
                 onRequestClose={closeModalComprovativo}
                 ariaHideApp={false}
+                overlayClassName={styles.overlay_modal_comprovativo}
+                className={styles.modal_comprovativo}
               >
-                <div className="viewer-pdf">
+                <div className={styles.viewer_pdf}>
                   <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.3.122/build/pdf.worker.min.js">
                     {viewPdf && (
                       <>
@@ -312,16 +326,8 @@ export default function ModalBuyService({
                   </Worker>
                 </div>
               </Modal>
-              <button
-                type="button"
-                className="btn_default"
-                onClick={(e) => {
-                  openModalComprovativo()
-                  handleSubmitPdf(e)
-                }}
-              >
-                Ver comprovativos
-              </button>
+
+             
             </div>
           </div>
         </form>
