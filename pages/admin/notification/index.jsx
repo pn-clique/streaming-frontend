@@ -13,7 +13,10 @@ import { motion } from "framer-motion";
 import { logo, netflix, pdf } from "../../../assets";
 
 // ICONS
-import { IoMdNotifications, IoIosNotifications } from "react-icons/io";
+import { IoMdNotifications, IoIosWarning } from "react-icons/io";
+import { RiErrorWarningFill } from "react-icons/ri";
+import { AiFillCloseCircle } from 'react-icons/ai'
+
 
 // COMPONENTS
 import { Loader } from "../../../components/Loader";
@@ -66,6 +69,15 @@ export default function notification() {
   }
 
   const [comprovativos, setComprovativos] = useState([]);
+
+  const [modalComprovativoAlreadyExists, setModalComprovativoAlreadyExists] = useState(false);
+
+  function openModalComprovativoAlreadyExists(){
+    setModalComprovativoAlreadyExists(true)
+  }
+  function closeModalComprovativoAlreadyExists(){
+    setModalComprovativoAlreadyExists(false)
+  }
 
   const [image, setImage] = useState("");
   const [pdfImage, setPdfImage] = useState("");
@@ -137,6 +149,8 @@ export default function notification() {
     console.log("params : ", e);
     console.log("message : ", feedback);
 
+    
+
     Api.put(
       `/purchased-account-services/${purchasedId}/${accountId}/${serviceId}`,
       {
@@ -146,7 +160,11 @@ export default function notification() {
       }
     )
       .then((res) => {
-        console.log("sucess : ", res.data);
+        console.log("sucess Ola: ", res.data);
+
+        if(referenceId == '123456') {
+          return setModalComprovativoAlreadyExists(true);
+        }
 
         Api.post(`payments/${res.data.accountServicesOfTheUser._id}`, {
           description: description,
@@ -160,6 +178,7 @@ export default function notification() {
           })
           .catch((error) => {
             console.log("Not Success: ", error);
+            setModalComprovativoAlreadyExists(true);
           });
       })
       .catch((error) => {
@@ -295,6 +314,7 @@ export default function notification() {
                     className={`btn_default`}
                     onClick={() => {
                       acceptPayments(1);
+                      // setModalComprovativoAlreadyExists(true)
                     }}
                   >
                     Aceitar
@@ -545,6 +565,23 @@ export default function notification() {
           )}
         </div>
       </section>
+
+      <Modal
+        isOpen={modalComprovativoAlreadyExists}
+        onRequestClose={closeModalComprovativoAlreadyExists}
+        ariaHideApp={false}
+        className={styles.modalComprovativoAlreadyExists}
+        overlayClassName={styles.modalComprovativoAlreadyExists_overlay}
+      > 
+        <button 
+          className={styles.btnClose}
+          onClick={closeModalComprovativoAlreadyExists}
+            >
+                <AiFillCloseCircle />
+        </button>
+        <RiErrorWarningFill />
+        <h2>Codigo de referência já existe!</h2>
+      </Modal>
     </>
   );
 }

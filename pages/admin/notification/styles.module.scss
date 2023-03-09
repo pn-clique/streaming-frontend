@@ -56,7 +56,62 @@
   }
   }
 }
+.modalComprovativoAlreadyExists_overlay {
 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba($color: #000000, $alpha: 0.8);
+  padding: 2rem;
+}
+
+.modalComprovativoAlreadyExists {
+  position: relative;
+  max-width: 460px;
+  width: 100%;
+  background-color: var(--bg-color);
+  border-radius: 0.25rem;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  outline: none;
+
+
+  button.btnClose {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: transparent;
+    border: 0;
+    
+    svg {
+      font-size: 1rem;
+      width: 25px;
+      height: 25px;
+    }
+  }
+
+  svg {
+    color: var(--primary-color);
+    max-width: 120px;
+    width: 100%;
+    height: 120px;
+  }
+
+  h2 {
+    color: var(--primary-color);
+    text-align: center;
+  }
+}
 
 .comprovativos {
   display: flex;

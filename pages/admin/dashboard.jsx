@@ -42,7 +42,7 @@ export default function Dashboard() {
   function handlerDeleteService(id) {
     Api.delete(`services/${id}`)
       .then((res) => {
-        console.log(res.data.message);
+        // console.log(res.data.message);
 
         window.location.reload();
         closeModal();
@@ -71,7 +71,7 @@ export default function Dashboard() {
   function handlerDeleteAccountService(id) {
     Api.delete(`account-service/${id}`)
       .then((res) => {
-        console.log("delete account services : ", res.data.message);
+        // console.log("delete account services : ", res.data.message);
 
         window.location.reload();
       })
@@ -102,13 +102,13 @@ export default function Dashboard() {
       var arr = [];
       res.data.accountServicesOfTheUser.forEach(element => {
         if (element.newPayments != 0) {
-          console.log('news payments into if : ', element.length)
+          // console.log('news payments into if : ', element.length)
           arr.push(element);
         }
       });
       setNewPayments(arr.length);
-      console.log('Data: ', res.data.accountServicesOfTheUser);
-      console.log('Data Array : ', arr);
+      // console.log('Data: ', res.data.accountServicesOfTheUser);
+      // console.log('Data Array : ', arr);
     })
     .catch(error => console.log('Erro: ', error));
   }
@@ -157,7 +157,7 @@ export default function Dashboard() {
 
     Api.get("/top-five-account-services")
       .then((res) => {
-        console.log("account-services : ", res.data.accountServices);
+        // console.log("account-services : ", res.data.accountServices);
         setAccountOurServices(res.data.accountServices);
         setAccountOurServicesLength(res.data.accountServices.length);
       })
@@ -165,7 +165,7 @@ export default function Dashboard() {
 
     Api.get("/clients")
       .then((res) => {
-        console.log("clients : ", res.data.user);
+        // console.log("clients : ", res.data.user);
         setOurClientsLength(res.data.user);
       })
       .catch((error) => console.log("Erro: ", error));
@@ -563,7 +563,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                 );
-              }).splice(-5)}
+              })}
             </div>
           )}
           <Link href={"./accountServicesFilter"} className="btn_default">

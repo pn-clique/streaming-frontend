@@ -7,7 +7,9 @@ import { useState, useEffect } from "react";
 
 
 // ASSETS
-import { logo } from "../../assets";
+import { logo, loadingIcon } from "../../assets";
+
+
 
 // STYLES
 import styles from "./styles.module.scss";
@@ -59,7 +61,8 @@ export default function Dashboard() {
   const [serviceDateFinish, setServiceDateFinish] = useState('')
 
 
-
+  // STATE LOADER
+  const [loader, setLoader] = useState(false);
 
 
 
@@ -109,6 +112,7 @@ export default function Dashboard() {
     Api.get("/my-account-services")
       .then((res) => {
         setMyAccounts(res.data.accountServicesOfTheUser);
+        
 
         var arr = [];
         res.data.accountServicesOfTheUser.forEach(element => {
@@ -121,13 +125,17 @@ export default function Dashboard() {
 
         setNewPayments(arr.length)
       })
-      .catch((error) => console.log("Erro: ", error));
+      .catch((error) => console.log("Erro: ", error))
+      .finally(() => {
+        setLoader(false)
+      })
   }
 
   function getServices() {
     Api.get("/services")
       .then((res) => {
         setServices(res.data.services);
+        
       })
       .catch((error) => console.log("Erro: ", error));
   }
@@ -215,10 +223,18 @@ export default function Dashboard() {
             </Link>
             <button
               type="button"
-              onClick={handlerLogout}
+              onClick={() => {
+                handlerLogout();
+                setLoader(true)
+              }}
               className={"btn_default"}
             >
               Terminar sessão
+              {loader ? (
+                      <Image src={loadingIcon} alt={loadingIcon} />
+                    ) : (
+                      ""
+                    )}
             </button>
           </motion.nav>
         </div>

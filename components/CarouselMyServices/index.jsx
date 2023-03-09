@@ -141,7 +141,7 @@ export function CarouselMyServices({myAccounts, services}) {
     >
       {accountService.map((account, index) => {
          return myAccounts.map(data => {
-          if(account._id == data.account_service_id._id && data._id == accountServiceUserId) {
+          if(account._id == data.account_service_id?._id && data._id == accountServiceUserId) {
             return (
               <section className={styles.form} key={index}>
                 <div className={styles.form_group_heading}>

@@ -14,6 +14,7 @@ import styles from './styles.module.scss';
 
 export default function HeaderAuth() {
 
+
   return (
     <header className={styles.header_nav}>
         <div>
