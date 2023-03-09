@@ -148,7 +148,7 @@ export default function ModalEditionService({
         {services.map((data, key) => {
           if (data._id == serviceId)
             return (
-              <div key={data._id}>
+              <div key={key}>
                 <>
                   {smsError ? (
                     <div className={styles.message_error}>
