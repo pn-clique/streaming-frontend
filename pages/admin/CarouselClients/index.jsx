@@ -127,7 +127,7 @@ export default function CarouselClients() {
                   <div className={styles.card_image}>
                     <img
                       src={`https://api-streaming.onrender.com/uploads/${data.photo_profile}`}
-                      alt={"data.name"}
+                      alt={data.name}
                     />
                     <span className={styles.name_client}> {data.name} </span>
                   </div>

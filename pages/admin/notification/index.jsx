@@ -70,14 +70,6 @@ export default function notification() {
 
   const [comprovativos, setComprovativos] = useState([]);
 
-  const [modalComprovativoAlreadyExists, setModalComprovativoAlreadyExists] = useState(false);
-
-  function openModalComprovativoAlreadyExists(){
-    setModalComprovativoAlreadyExists(true)
-  }
-  function closeModalComprovativoAlreadyExists(){
-    setModalComprovativoAlreadyExists(false)
-  }
 
   const [image, setImage] = useState("");
   const [pdfImage, setPdfImage] = useState("");
@@ -90,6 +82,23 @@ export default function notification() {
   const [serviceId, setServiceId] = useState("");
   const [pendent, setPendent] = useState(2);
   // const [accept, setAccept] = useState(1)
+
+  const [payments, setPayments] = useState([]);
+
+  const getPayments = () => {
+    Api.get('/payments')
+    .then((res) => {
+      console.log('payments all : ', res.data.payments);
+      setPayments(res.data.payments)
+    })
+    .catch((err) => console.log('error in get payments : ', err))
+  }
+
+  const [paymentAccetedId, setPaymentAccetedId] = useState('');
+  console.log('Code reference id: ',paymentAccetedId)
+  console.log('Code reference id 2: ',purchasedId)
+
+  
 
   useEffect(() => {
     let permission = localStorage.getItem("permission");
@@ -119,6 +128,8 @@ export default function notification() {
       navigate.push("/login");
     }
 
+    getPayments();
+
     Api.get("all-account-services-of-the-user")
       .then((res) => {
         setComprovativos(res.data.accountServicesOfTheUser);
@@ -141,15 +152,21 @@ export default function notification() {
       .catch((error) => console.log("Erro: ", error));
   }, []);
 
-  const pdfjsVersion = packageJson.dependencies["pdfjs-dist"];
 
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const dataPayments = Object.values(payments)
+  const msgExist = 'Já existe um pagamento com esse número de referencia!'
+  function filterPayments(payments) {
+    return payments.filter(item => {
+      if(
+        item.number_reference == referenceId
+      ) {
+        return item;
+      }
+    }) 
+  }
+
 
   const acceptPayments = (e) => {
-    console.log("params : ", e);
-    console.log("message : ", feedback);
-
-    
 
     Api.put(
       `/purchased-account-services/${purchasedId}/${accountId}/${serviceId}`,
@@ -160,26 +177,25 @@ export default function notification() {
       }
     )
       .then((res) => {
-        console.log("sucess Ola: ", res.data);
 
-        if(referenceId == '123456') {
-          return setModalComprovativoAlreadyExists(true);
-        }
-
-        Api.post(`payments/${res.data.accountServicesOfTheUser._id}`, {
-          description: description,
-          number_reference: referenceId,
-          value: value,
-        })
-          .then((res) => {
-            console.log("Success: ", res.data);
-            closeModal();
-            window.location.reload(false);
+        if (res.data.accountServicesOfTheUser.accept == 3) {
+          closeModal();
+          window.location.reload(false);
+        } else {
+          Api.post(`payments/${res.data.accountServicesOfTheUser._id}`, {
+            description: description,
+            number_reference: referenceId,
+            value: value,
           })
-          .catch((error) => {
-            console.log("Not Success: ", error);
-            setModalComprovativoAlreadyExists(true);
-          });
+            .then((res) => {
+              closeModal();
+              window.location.reload(false);
+            })
+            .catch((error) => {
+              console.log("Not Success: ", error);
+            });
+        }
+        
       })
       .catch((error) => {
         console.log("error : ", error);
@@ -248,6 +264,10 @@ export default function notification() {
             className={styles.modal}
             overlayClassName={styles.overlay}
           >
+            <button className={styles.closeModal} onClick={closeModal}>
+              <AiFillCloseCircle />
+            </button>
+
             <div className={styles.image}>
               {imageFile === "image/png" ||
               imageFile === "image/jpeg" ||
@@ -258,8 +278,6 @@ export default function notification() {
                 />
               ) : (
                 <div>
-                  <h4>PDF File</h4>
-
                   <Link
                     className={styles.btn_download}
                     href={`https://api-streaming.onrender.com/uploads/${pdfImage}`}
@@ -271,15 +289,27 @@ export default function notification() {
               )}
             </div>
 
-            {pendent ? (
+            {pendent == 2 ? (
               <>
                 <div className={styles.feedback}>
+                  <div>
+                    {
+                      filterPayments(dataPayments).map((data) => {
+                        return (
+                          <h2 className={styles.alert_text}>{data != ''? (msgExist) : ''}</h2>
+                        )
+                      })
+                    }
+                  </div>
                   <div className={styles.form_group}>
                     <input
                       type={"text"}
                       value={referenceId}
                       placeholder="Id de referência"
                       onChange={(e) => {
+                        setReferenceId(e.target.value);
+                      }}
+                      onKeyPress={(e) => {
                         setReferenceId(e.target.value);
                       }}
                     />
@@ -331,7 +361,38 @@ export default function notification() {
                 </div>
               </>
             ) : (
-              ""
+              <>
+                {
+                  pendent == 1 ? (
+                    <>
+                    
+                {
+                  payments.map((item, key) => {
+                    if(item.account_services_of_the_user_id._id == purchasedId) {
+                      return (
+                        <div key={key} className={styles.feedback_acceteds}>
+                      <div className={styles.form_group}>
+                        <div>
+                          <label htmlFor="">Codigo de referência</label>
+                          <span>{item.number_reference}</span>
+                        </div>
+                        <div>
+                          <label htmlFor="">Valor à pagar</label>
+                          <span>{item.value}</span>
+                        </div>
+                      </div>
+                      <p>{item.description || 'Sem descrição'}</p>
+    
+                      <p>{item.account_services_of_the_user_id.message || 'Sem feedback'}</p>
+                    </div>
+                      )
+                    }
+                  })
+                }
+                    </>
+                  ) : <p>Baixe o comprovativo clicando no botão acima.</p>
+                }
+              </>
             )}
           </Modal>
 
@@ -363,6 +424,7 @@ export default function notification() {
                                     setImage(data.pdf_purchasing);
                                     setImageFile(data.typeFile);
                                     setPdfImage(data.pdf_purchasing);
+                                    setPaymentAccetedId(data._id);
                                   }}
                                   key={index}
                                 >
@@ -371,7 +433,7 @@ export default function notification() {
                                   data.typeFile === "image/jpg" ? (
                                     <img
                                       src={`https://api-streaming.onrender.com/uploads/${data.pdf_purchasing}`}
-                                      alt={data.pdf_purchasing}
+                                      alt={'Comprovativo de compra'}
                                     />
                                   ) : (
                                     <Image src={pdf} alt={pdf} className={styles.pdf_icon} />
@@ -566,22 +628,7 @@ export default function notification() {
         </div>
       </section>
 
-      <Modal
-        isOpen={modalComprovativoAlreadyExists}
-        onRequestClose={closeModalComprovativoAlreadyExists}
-        ariaHideApp={false}
-        className={styles.modalComprovativoAlreadyExists}
-        overlayClassName={styles.modalComprovativoAlreadyExists_overlay}
-      > 
-        <button 
-          className={styles.btnClose}
-          onClick={closeModalComprovativoAlreadyExists}
-            >
-                <AiFillCloseCircle />
-        </button>
-        <RiErrorWarningFill />
-        <h2>Codigo de referência já existe!</h2>
-      </Modal>
+   
     </>
   );
 }

@@ -77,7 +77,7 @@ export default function ModalEditionService({
       })
       .catch((error) => {
         console.log("Erro: ", error)
-        setSmsError(true);
+        // setSmsError(true);
       });
   };
 
@@ -111,14 +111,14 @@ export default function ModalEditionService({
         },
       })
       .then((res) => {
-        window.location.reload();
-        setSmsError(false);
         
+        window.location.reload();
         closeModal()
+        setSmsError(false);
       })
       .catch((error) => {
         console.log("Error: ", error);
-        setSmsError(true);
+        // // setSmsError(true);
       })
       .finally(() => {
         setLoader(false)

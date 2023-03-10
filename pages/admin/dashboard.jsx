@@ -402,10 +402,12 @@ export default function Dashboard() {
                     }}
                   >
                     
-                        <img
+                       <figure>
+                       <img
                       src={`https://api-streaming.onrender.com/uploads/${service.image}`}
-                      alt={service.name}
+                      alt={''}
                     />
+                       </figure>
                     <span>{service.name}</span>
                   </div>
                   <div className={styles.button_group}>
@@ -491,10 +493,12 @@ export default function Dashboard() {
                         setAccountId(data._id);
                       }}
                     >
+                      <figure className={styles.image_accountSerive}>
                       <img
                         src={`https://api-streaming.onrender.com/uploads/${data.service_id.image}`}
-                        alt={data.service_id.name}
+                        alt={''}
                       />
+                      </figure>
                       <span>{data.service_id.name}</span>
                     </div>
                     <ModalEditAccountService
